@@ -5,11 +5,8 @@
 #include <iterator>
 #include "Point.h"
 #include "Shape.h"
-
+#include "Line.h"
 using namespace std;
-using namespace stdext;
-
-
 
 int main()
 {
@@ -45,6 +42,17 @@ int main()
 	cout << "===|Base scale test|===" << endl;
 	s.Scale(10);
 	s.Out();
+	//----------------------------
+	cout << "===|Line test|===" << endl;
+	Line l;
+	l.Rand(0, 100);
+	//----------------------------
+	l.Out();
+	cout << "===|Line rotate test|===" << endl;
+	l.RotateAroundStart(90);
+	l.Out();
+	l.RotateAroundEnd(90);
+	l.Out();
 	return 0;
 }
 
