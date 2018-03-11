@@ -1,0 +1,10 @@
+﻿  stepik_1_2_3.cpp
+c:\programming 2k!8\sem4_labs\oop\2\stepik_1_2_3\stepik_1_2_3\stepik_1_2_3.cpp(46): warning C4244: =: преобразование "double" в "int", возможна потеря данных
+c:\programming 2k!8\sem4_labs\oop\2\stepik_1_2_3\stepik_1_2_3\stepik_1_2_3.cpp(47): warning C4244: =: преобразование "double" в "int", возможна потеря данных
+c:\programming 2k!8\sem4_labs\oop\2\stepik_1_2_3\stepik_1_2_3\stepik_1_2_3.cpp(51): warning C4244: =: преобразование "double" в "int", возможна потеря данных
+c:\programming 2k!8\sem4_labs\oop\2\stepik_1_2_3\stepik_1_2_3\stepik_1_2_3.cpp(52): warning C4244: =: преобразование "double" в "int", возможна потеря данных
+c:\programming 2k!8\sem4_labs\oop\2\stepik_1_2_3\stepik_1_2_3\stepik_1_2_3.cpp(156): warning C4244: аргумент: преобразование "double" в "int", возможна потеря данных
+c:\programming 2k!8\sem4_labs\oop\2\stepik_1_2_3\stepik_1_2_3\stepik_1_2_3.cpp(157): warning C4244: аргумент: преобразование "double" в "int", возможна потеря данных
+c:\programming 2k!8\sem4_labs\oop\2\stepik_1_2_3\stepik_1_2_3\stepik_1_2_3.cpp(197): warning C4244: аргумент: преобразование "time_t" в "unsigned int", возможна потеря данных
+  stepik_1_2_3.vcxproj -> C:\PROGRAMMING 2K!8\SEM4_LABS\OOP\2\stepik_1_2_3\Debug\stepik_1_2_3.exe
+  stepik_1_2_3.vcxproj -> C:\PROGRAMMING 2K!8\SEM4_LABS\OOP\2\stepik_1_2_3\Debug\stepik_1_2_3.pdb (Full PDB)
