@@ -1,12 +1,13 @@
 #include "stdafx.h"
 #include "Rectangle.h"
-#include "Line.h"
-Rectangle::Rectangle() : Shape(4){
+
+Rectangle::Rectangle() : Shape(4)
+{
 }
 
 Rectangle::Rectangle(Point lu, Point rd): Shape(4){
-    Point ld(lu.GetX(), ru.GetY());
-    Point ru(lu.GetY(), rd.GetX());
+    Point ld(lu.GetX(), rd.GetY());
+    Point ru(rd.GetX(), lu.GetY());
     this->pts[0] = lu;
     this->pts[1] = ld;
     this->pts[2] = ru;
@@ -15,8 +16,6 @@ Rectangle::Rectangle(Point lu, Point rd): Shape(4){
 
 Rectangle::Rectangle(int lux, int luy, int rdx, int rdy) : Rectangle(Point(lux, luy), Point(rdx, rdy)){
 }
-
-
 
 Rectangle::Rectangle(Point lu, Point ld, Point ru, Point rd): Shape(4){
     this->pts[0] = lu;
@@ -39,16 +38,30 @@ void Rectangle::Enter(){
     cin >> this->pts[3];
 }
 
+void Rectangle::Rand(int min, int max)
+{
+	Point lu, rd, delta;
+	lu.Rand(min, max);
+	delta.Rand(min, max);
+	rd = lu + delta;
+	Point ld(lu.GetX(), rd.GetY());
+	Point ru(rd.GetX(), lu.GetY());
+	this->pts[0] = lu;
+	this->pts[1] = ld;
+	this->pts[2] = ru;
+	this->pts[3] = rd;
+}
+
 bool Rectangle::isValid(){
     Line a(LeftUp(), LeftDown());
     Line b(LeftUp(), RightUp());
     Line c(LeftDown(), RightDown());
     Line d(RightUp(), RightDown());
     bool res = 1;
-    res = ((a.Length() == c.Length()) && (b.Length() == d.Length());
+	res = ((a.Length() == d.Length()) && (b.Length() == c.Length()));
     res = res && (a.ScalarMult(b) == 0);
-    res = res && (b.ScalarMult(c) == 0);
+    res = res && (b.ScalarMult(d) == 0);
     res = res && (c.ScalarMult(d) == 0);
-    res = res && (d.ScalarMult(a) == 0);
+    res = res && (d.ScalarMult(b) == 0);
     return res;
 }

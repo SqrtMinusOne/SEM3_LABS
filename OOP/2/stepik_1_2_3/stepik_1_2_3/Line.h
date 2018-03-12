@@ -21,6 +21,6 @@ public:
 	void MoveAtCoords(Point newp);
 	~Line();
 	double Length();
-	int ScalarMult(Line l2);
+	int ScalarMult(Line& l2);
 };
 

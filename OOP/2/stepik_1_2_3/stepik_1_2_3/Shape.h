@@ -17,7 +17,7 @@ public:
 	virtual void Enter();
 	virtual void Out();
 	friend ostream& operator<<(ostream& os, Shape& s);
-	void Rand(int min, int max);
+	virtual void Rand(int min, int max);
 	//Geometry
 	virtual Point GetCenterPoint();
 	virtual void Rotate(int deg);

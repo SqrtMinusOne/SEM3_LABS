@@ -10,6 +10,7 @@ public:
 	Point(int xs = 0, int ys = 0) : x(xs), y(ys) {}
 	Point(const Point& p) : x(p.x), y(p.y) {}
 	~Point() = default;
+	Point& Rand(int min, int max);
 	//Copy-and-swap
 	friend void swap(Point& first, Point& second);
 	Point& operator=(Point p);

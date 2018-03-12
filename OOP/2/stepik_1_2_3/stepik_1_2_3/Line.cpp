@@ -59,8 +59,11 @@ double Line::Length(){
 	return sqrt((d.GetX()*d.GetX()) + (d.GetY()*d.GetY()));
 }
 
-int Line::ScalarMult(Line l2){
+int Line::ScalarMult(Line& l2){
 	int res = 0;
-	res = res + Delta().GetX()*l2.Delta().GetX();
-	res = res + Delta().GetY()*l2.Delta().GetY();
+	Point D = Delta();
+	Point D2 = l2.Delta();
+	res = res + D.GetX()*D2.GetX();
+	res = res + D.GetY()*D2.GetY();
+	return res;
 }

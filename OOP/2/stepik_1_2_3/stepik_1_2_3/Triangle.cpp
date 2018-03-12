@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Triangle.h"
 
-Triangle::Triangle() : Shape(3);
+Triangle::Triangle() : Shape(3) {}
 Triangle::Triangle(Point a, Point b, Point c) : Shape(3){
     pts[0] = a;
     pts[1] = b;

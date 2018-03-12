@@ -3,8 +3,10 @@
 
 Shape::~Shape()
 {
-	if (pts)
+	if (dts) {
+		dts = 0;
 		delete[] pts;
+	}
 }
 
 Point * Shape::it()
@@ -36,8 +38,7 @@ void Shape::Out() {
 
 void Shape::Rand(int min, int max) {
 	while (Point* ptr = it()) {
-		ptr->SetX(min + rand() % (max - min));
-		ptr->SetY(min + rand() % (max - min));
+		ptr->Rand(min, max);
 	}
 }
 

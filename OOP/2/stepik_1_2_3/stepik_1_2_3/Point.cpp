@@ -27,6 +27,13 @@ Point operator-(Point& p1, Point& p2) {
 	return Point(p1.x - p2.x, p1.y - p2.y);
 }
 
+Point& Point::Rand(int min, int max)
+{
+	this->x = (min + rand() % (max - min));
+	this->y = (min + rand() % (max - min));
+	return *this;
+}
+
 Point & Point::operator=(Point p)
 {
 	swap(*this, p);
