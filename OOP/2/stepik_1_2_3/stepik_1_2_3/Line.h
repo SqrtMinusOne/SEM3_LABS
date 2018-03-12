@@ -1,5 +1,7 @@
 #pragma once
+#include <cmath>
 #include "Shape.h"
+
 class Line :
 	public Shape
 {
@@ -12,10 +14,13 @@ public:
 	//Different points
 	Point Start();
 	Point End();
+	Point Delta();
 	//Geometry
 	void RotateAroundStart(int deg);
 	void RotateAroundEnd(int deg);
 	void MoveAtCoords(Point newp);
 	~Line();
+	double Length();
+	int ScalarMult(Line l2);
 };
 

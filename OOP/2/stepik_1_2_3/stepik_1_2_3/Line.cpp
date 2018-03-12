@@ -31,6 +31,10 @@ Point Line::End()
 	return pts[1];
 }
 
+Point Line::Delta(){
+	return End() - Start();
+}
+
 void Line::RotateAroundStart(int deg)
 {
 	Rotate(deg, Start());
@@ -48,4 +52,15 @@ void Line::MoveAtCoords(Point newp)
 
 Line::~Line()
 {
+}
+
+double Line::Length(){
+	Point d = End() - Start();
+	return sqrt((d.GetX()*d.GetX()) + (d.GetY()*d.GetY()));
+}
+
+int Line::ScalarMult(Line l2){
+	int res = 0;
+	res = res + Delta().GetX()*l2.Delta().GetX();
+	res = res + Delta().GetY()*l2.Delta().GetY();
 }

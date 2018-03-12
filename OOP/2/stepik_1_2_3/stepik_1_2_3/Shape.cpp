@@ -110,3 +110,4 @@ ostream & operator<<(ostream & os, Shape & s)
 	}
 	return os;
 }
+
