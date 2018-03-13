@@ -6,6 +6,6 @@ class Triangle :
 {
 public:
     Triangle();
-    Triangle(Point a, Point b, Point c);
-    Triangle(int x1, int y1, int x2, int y2, int x3, int y3);
+    Triangle(Point a, Point b, Point c, Color clr = Black);
+    Triangle(int x1, int y1, int x2, int y2, int x3, int y3, color clr = Black);
 };

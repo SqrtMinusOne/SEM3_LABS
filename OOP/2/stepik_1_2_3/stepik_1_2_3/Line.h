@@ -7,8 +7,8 @@ class Line :
 {
 public:
 	Line();
-	Line(Point a, Point b);
-	Line(int x1, int y1, int x2, int y2);
+	Line(Point a, Point b, Color clr = Black);
+	Line(int x1, int y1, int x2, int y2, Color clr = Black);
 	//Int-out
 	void Enter();
 	//Different points

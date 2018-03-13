@@ -6,7 +6,7 @@ Circle::Circle() : Shape(1), rad(0)
 {
 }
 
-Circle::Circle(int x, int y, int r) : Circle(Point(x,y), r)
+Circle::Circle(int x, int y, int r, Color clr = Black) : Circle(Point(x,y), int r, clr)
 {
 }
 
@@ -16,17 +16,20 @@ void Circle::Enter()
 	cin >> pts[0];
 	cout << "Enter radius: ";
 	cin >> rad;
+	cout << "Enter color: ";
+	col.Enter();
 }
 
 void Circle::Out()
 {
-	cout << pts[0] << " - " << rad << endl;
+	cout << pts[0] << " - " << rad << "; " << col << endl;
 }
 
 void Circle::Rand(int min, int max)
 {
 	pts[0].Rand(min, max);
 	rad = (min + rand() % (max - min));
+	col.Rand();
 }
 
 void Circle::Scale(int c)
@@ -43,7 +46,7 @@ void Circle::Scale(int c, Point cnt)
 	rad = rad * c;
 }
 
-Circle::Circle(Point x, int r) : Shape(1), rad(r)
+Circle::Circle(Point x, int r, Color clr) : Shape(1), rad(r) , col(clr)
 {
 	pts[0] = x;
 }

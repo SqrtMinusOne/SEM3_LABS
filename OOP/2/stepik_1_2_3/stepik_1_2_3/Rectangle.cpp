@@ -5,7 +5,7 @@ Rectangle::Rectangle() : Shape(4)
 {
 }
 
-Rectangle::Rectangle(Point lu, Point rd): Shape(4){
+Rectangle::Rectangle(Point lu, Point rd, Color clr): Shape(4), col(clr){
     Point ld(lu.GetX(), rd.GetY());
     Point ru(rd.GetX(), lu.GetY());
     this->pts[0] = lu;
@@ -14,10 +14,10 @@ Rectangle::Rectangle(Point lu, Point rd): Shape(4){
     this->pts[3] = rd;
 }
 
-Rectangle::Rectangle(int lux, int luy, int rdx, int rdy) : Rectangle(Point(lux, luy), Point(rdx, rdy)){
+Rectangle::Rectangle(int lux, int luy, int rdx, int rdy, Color clr) : Rectangle(Point(lux, luy), Point(rdx, rdy), clr){
 }
 
-Rectangle::Rectangle(Point lu, Point ld, Point ru, Point rd): Shape(4){
+Rectangle::Rectangle(Point lu, Point ld, Point ru, Point rd, Color clr): Shape(4), col(clr){
     this->pts[0] = lu;
     this->pts[1] = ld;
     this->pts[2] = ru;
@@ -25,7 +25,7 @@ Rectangle::Rectangle(Point lu, Point ld, Point ru, Point rd): Shape(4){
 }
 
 Rectangle::Rectangle(int x1, int y1, int x2, int y2, int x3, int y3, int x4, int y4)
-   : Rectangle(Point(x1, y1), Point(x2, y2), Point(x3, y3), Point(x4, y4)) {}
+   : Rectangle(Point(x1, y1), Point(x2, y2), Point(x3, y3), Point(x4, y4), clr) {}
 
 void Rectangle::Enter(){
     cout << "Enter left up point: ";

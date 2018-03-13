@@ -5,8 +5,8 @@ class Circle :
 {
 public:
 	Circle();
-	Circle(Point x, int r);
-	Circle(int x, int y, int r);
+	Circle(Point x, int r, Color clr = Black);
+	Circle(int x, int y, int r, Color clr = Black);
 	void Enter();
 	void Out();
 	friend ostream& operator<<(ostream& os, Circle& s);

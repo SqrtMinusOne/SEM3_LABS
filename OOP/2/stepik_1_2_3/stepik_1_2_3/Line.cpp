@@ -5,13 +5,13 @@ Line::Line() : Shape(2)
 {
 }
 
-Line::Line(Point a, Point b) : Shape(2)
+Line::Line(Point a, Point b, Color clr) : Shape(2), col(clr)
 {
 	this->pts[0] = a;
 	this->pts[1] = b;
 }
 
-Line::Line(int x1, int y1, int x2, int y2) : Line(Point(x1, y1), Point(x2,y2)) {}
+Line::Line(int x1, int y1, int x2, int y2, Color clr) : Line(Point(x1, y1), Point(x2,y2)), col(clr) {}
 
 void Line::Enter()
 {
@@ -19,6 +19,8 @@ void Line::Enter()
 	cin >> pts[0];
 	cout << "Enter end: ";
 	cin >> pts[1];
+	cout << "Enter color; ";
+	col.Enter();
 }
 
 Point Line::Start()

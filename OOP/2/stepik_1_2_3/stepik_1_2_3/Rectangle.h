@@ -8,10 +8,10 @@ class Rectangle :
 {
     public:
     Rectangle();
-    Rectangle(Point lu, Point rd);
-    Rectangle(Point lu, Point ld, Point ru, Point rd);
-    Rectangle(int lux, int luy, int rdx, int rdy);
-    Rectangle(int x1, int y1, int x2, int y2, int x3, int y3, int x4, int y4);
+    Rectangle(Point lu, Point rd, Color clr = Black);
+    Rectangle(Point lu, Point ld, Point ru, Point rd, Color clr = Black);
+    Rectangle(int lux, int luy, int rdx, int rdy, Color clr = Black);
+    Rectangle(int x1, int y1, int x2, int y2, int x3, int y3, int x4, int y4, Color clr = Black);
     void Enter();
 	void Rand(int min, int max);
 	Point LeftUp() {return this->pts[0]; }

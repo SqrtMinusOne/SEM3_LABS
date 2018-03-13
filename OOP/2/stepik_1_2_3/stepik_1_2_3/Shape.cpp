@@ -26,6 +26,7 @@ void Shape::Enter()
 		cout << "Enter point #" << i << ": ";
 		cin >> pts[i];
 	}
+	col.Enter();
 }
 
 void Shape::Out() {
@@ -33,13 +34,14 @@ void Shape::Out() {
 	while (ptr = it()) {
 		cout << *ptr << ", ";
 	}
-	cout << endl;
+	cout << col << endl;
 }
 
 void Shape::Rand(int min, int max) {
 	while (Point* ptr = it()) {
 		ptr->Rand(min, max);
 	}
+	col.Rand();
 }
 
 //Geometry
@@ -109,6 +111,7 @@ ostream & operator<<(ostream & os, Shape & s)
 	while (Point* ptr = s.it()) {
 		os << *ptr << ", ";
 	}
+	os << col;
 	return os;
 }
 

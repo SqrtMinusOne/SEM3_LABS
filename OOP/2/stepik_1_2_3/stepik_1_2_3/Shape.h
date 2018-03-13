@@ -3,6 +3,7 @@
 #include <iostream>
 #include <iterator>
 #include "Point.h"
+#include "Color.h"
 
 #define M_PI 3.14159265358979323846
 using namespace std;
@@ -10,8 +11,9 @@ using namespace stdext;
 
 class Shape {
 public:
-	Shape(int dots = 0) : dts(dots), pts(dots ? new Point[dots] : nullptr) {}
-	~Shape();
+	Shape(int dots = 0, Color clr = Black) : dts(dots), pts(dots ? new Point[dots] : nullptr), col(Black) {}
+	virtual ~Shape();
+	Color col;
 	Point* it(); //Passes throught every point
 	//In-out
 	virtual void Enter();
