@@ -11,7 +11,7 @@ using namespace stdext;
 
 class Shape {
 public:
-	Shape(int dots = 0, Color clr = Black) : dts(dots), pts(dots ? new Point[dots] : nullptr), col(Black) {}
+	Shape(int dots = 0, Color clr = Black) : dts(dots), pts(dots ? new Point[dots] : nullptr), col(clr) {}
 	virtual ~Shape();
 	Color col;
 	Point* it(); //Passes throught every point

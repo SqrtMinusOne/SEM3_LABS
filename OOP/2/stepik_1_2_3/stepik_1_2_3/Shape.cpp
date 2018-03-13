@@ -7,6 +7,7 @@ Shape::~Shape()
 		dts = 0;
 		delete[] pts;
 	}
+	col.~Color();
 }
 
 Point * Shape::it()
@@ -111,7 +112,7 @@ ostream & operator<<(ostream & os, Shape & s)
 	while (Point* ptr = s.it()) {
 		os << *ptr << ", ";
 	}
-	os << col;
+	os << s.col;
 	return os;
 }
 

@@ -5,6 +5,7 @@ class Circle :
 {
 public:
 	Circle();
+	~Circle() = default;
 	Circle(Point x, int r, Color clr = Black);
 	Circle(int x, int y, int r, Color clr = Black);
 	void Enter();

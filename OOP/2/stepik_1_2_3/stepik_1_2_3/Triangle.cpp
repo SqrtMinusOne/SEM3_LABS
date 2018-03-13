@@ -2,7 +2,7 @@
 #include "Triangle.h"
 
 Triangle::Triangle() : Shape(3) {}
-Triangle::Triangle(Point a, Point b, Point c, Color clr) : Shape(3), col(clr){
+Triangle::Triangle(Point a, Point b, Point c, Color clr) : Shape(3, clr){
     pts[0] = a;
     pts[1] = b;
     pts[2] = c;

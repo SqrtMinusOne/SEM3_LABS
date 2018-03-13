@@ -8,6 +8,7 @@ class Rectangle :
 {
     public:
     Rectangle();
+	~Rectangle() = default;
     Rectangle(Point lu, Point rd, Color clr = Black);
     Rectangle(Point lu, Point ld, Point ru, Point rd, Color clr = Black);
     Rectangle(int lux, int luy, int rdx, int rdy, Color clr = Black);

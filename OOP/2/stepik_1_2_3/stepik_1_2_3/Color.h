@@ -1,13 +1,17 @@
 #pragma once
+#include "stdafx.h"
 #include <iostream>
 
+using  namespace std;
 class Color{
 public:
-    Color(int rs, int gs, int bs) {} 
-    Color (const Color& c = Black) : Color(c.r, c.g, c.b) {}
+	Color() : r(255), g(255), b(255) {}
+	~Color() = default;
+	Color(int rs, int gs, int bs);
+    Color (const Color& c) : Color(c.r, c.g, c.b) {}
     void Rand();
     void Enter();
-    friend ostream& operator<<(ostream& os, Shape& s);
+	friend ostream& operator<<(ostream& os, Color& col);
     void SetR(int rs) { r = rs; }
     void SetG(int gs) { g = gs; }
     void SetB(int bs) { b = bs; }

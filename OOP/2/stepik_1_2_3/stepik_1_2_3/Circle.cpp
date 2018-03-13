@@ -6,7 +6,7 @@ Circle::Circle() : Shape(1), rad(0)
 {
 }
 
-Circle::Circle(int x, int y, int r, Color clr = Black) : Circle(Point(x,y), int r, clr)
+Circle::Circle(int x, int y, int r, Color clr) : Circle(Point(x,y), r, clr)
 {
 }
 
@@ -46,7 +46,7 @@ void Circle::Scale(int c, Point cnt)
 	rad = rad * c;
 }
 
-Circle::Circle(Point x, int r, Color clr) : Shape(1), rad(r) , col(clr)
+Circle::Circle(Point x, int r, Color clr) : Shape(1, clr), rad(r)
 {
 	pts[0] = x;
 }
@@ -54,6 +54,6 @@ Circle::Circle(Point x, int r, Color clr) : Shape(1), rad(r) , col(clr)
 
 ostream & operator<<(ostream & os, Circle & s)
 {
-	os << s.pts[0] << " - " << s.rad;
+	os << s.pts[0] << " - " << s.rad << " " << s.col;
 	return os;
 }

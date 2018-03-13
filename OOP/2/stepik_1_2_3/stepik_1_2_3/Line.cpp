@@ -5,13 +5,13 @@ Line::Line() : Shape(2)
 {
 }
 
-Line::Line(Point a, Point b, Color clr) : Shape(2), col(clr)
+Line::Line(Point a, Point b, Color clr) : Shape(2, clr)
 {
 	this->pts[0] = a;
 	this->pts[1] = b;
 }
 
-Line::Line(int x1, int y1, int x2, int y2, Color clr) : Line(Point(x1, y1), Point(x2,y2)), col(clr) {}
+Line::Line(int x1, int y1, int x2, int y2, Color clr) : Line(Point(x1, y1), Point(x2,y2), clr) {}
 
 void Line::Enter()
 {
@@ -50,10 +50,6 @@ void Line::RotateAroundEnd(int deg)
 void Line::MoveAtCoords(Point newp)
 {
 	Shape::MoveAtCoords(newp, Start());
-}
-
-Line::~Line()
-{
 }
 
 double Line::Length(){
