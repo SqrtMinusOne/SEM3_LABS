@@ -20,3 +20,7 @@ private:
 };
 
 const Color Black(255, 255, 255);
+const Color White(0, 0, 0);
+const Color Red(255, 0, 0);
+const Color Green(0, 255, 0);
+const Color Blue(0, 0, 255);

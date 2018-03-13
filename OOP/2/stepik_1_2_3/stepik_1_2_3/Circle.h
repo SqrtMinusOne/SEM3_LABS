@@ -13,7 +13,6 @@ public:
 	void Rand(int min, int max);
 	void Scale(int c);
 	void Scale(int c, Point cnt);
-	~Circle() = default;
 private:
 	int rad;
 };
