@@ -4,6 +4,7 @@
 #include <QTextStream>
 #include <QByteArray>
 #include <QInputDialog>
+#include <QFileDialog>
 
 Graph* gr1;
 
@@ -152,4 +153,17 @@ void MainWindow::on_ClearButton_clicked()
     gr1->Clear();
     on_matrButton_clicked();
     ui->NodeNameEdit->clear();
+}
+
+void MainWindow::on_open_action_triggered()
+{
+    QString fileName = QFileDialog::getOpenFileName(this, "Открыть файл");
+    gr1->ReadFile(fileName);
+    on_matrButton_clicked();
+}
+
+void MainWindow::on_save_action_triggered()
+{
+    QString fileName = QFileDialog::getSaveFileName(this, "Открыть файл");
+    gr1->SaveFile(fileName);
 }

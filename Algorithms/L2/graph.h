@@ -7,6 +7,8 @@
 #include <iostream>
 #include <cstring>
 #include <QTextStream>
+#include <QString>
+#include <QFile>
 
 using namespace std;
 
@@ -40,8 +42,13 @@ public:
     List* it(Elem* el); //Итератор через сыновей
     void ResetIts();
 
+    void ReadFile(QString fileName); //Считать из файла
+    void SaveFile(QString fileName); //Сохранить в файл
+
     void AddElem(char* name); //Добавить элемент
     void AddEdge(Elem* el1, Elem* el2); //Добавить линию
+    void AddEdge(Elem* el1, char* name); //Добавить "заготовку" для линии
+    bool Solve(); //Разрешить зависимости "заготовок" для линий
     void RemoveElem(char* name); //Удалить элемент
     void RemoveEdge(Elem* el1, Elem* el2); //Удалить линию
 

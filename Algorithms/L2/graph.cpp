@@ -70,6 +70,53 @@ void Graph::ResetIts()
     pos = nullptr;
 }
 
+void Graph::ReadFile(QString fileName)
+{
+    SAVEITS;
+    QFile file(fileName);
+    file.open(QIODevice::ReadOnly);
+    QTextStream file1s(&file);
+    QString str;
+    QString tmp;
+    QByteArray arr;
+    int i; int k = 0;
+    while (!file1s.atEnd()){
+        str = file1s.readLine();
+        QStringList strl = str.split(' ');
+        arr = strl.at(0).toLocal8Bit();
+        char* name = arr.data();
+        AddElem(name);
+        for (i=1; i < strl.size(); i++){
+            arr = strl.at(i).toLocal8Bit();
+            name = arr.data();
+            AddEdge(this->operator [](k), name);
+        }
+        k++;
+    }
+    bool res = Solve();
+    file.close();
+    RESTOREITS;
+}
+
+void Graph::SaveFile(QString fileName)
+{
+    SAVEITS;
+    QFile file(fileName);
+    file.open(QIODevice::WriteOnly);
+    QTextStream files(&file);
+    Elem* el;
+    List* ls;
+    while ((el = it())!=nullptr){
+        files << el->name << " ";
+        while ((ls = it(el))!=nullptr){
+            files << ls->name << " ";
+        }
+        files << "\r\n";
+    }
+    file.close();
+    RESTOREITS;
+}
+
 void Graph::AddElem(char *name)
 {
     SAVEITS;
@@ -123,6 +170,47 @@ void Graph::AddEdge(Elem *el1, Elem *el2)
     RESTOREITS;
 }
 
+void Graph::AddEdge(Elem *el1, char *name)
+{
+    SAVEITS;
+    List* ls;
+    if (el1){
+        if (!el1->childs){
+            el1->childs = new List;
+            strcpy_s(el1->childs->name, name);
+        }
+        else{
+            while ((ls = it(el1))->next!=nullptr);
+            ls->next = new List;
+            ls = ls->next;
+            strcpy_s(ls->name, name);
+        }
+    }
+    RESTOREITS;
+}
+
+bool Graph::Solve()
+{
+    SAVEITS;
+    bool res = 1;
+    Elem* el;
+    List* ls;
+    Elem* el2;
+    while ((el = it())!=nullptr){
+        while ((ls = it(el))!=nullptr){
+            if (ls->node == nullptr){
+                el2 = FindElem(ls->name);
+                if (el2)
+                    ls->node = el2;
+                else
+                    res = 0;
+            }
+        }
+    }
+    RESTOREITS;
+    return res;
+}
+
 void Graph::RemoveElem(char *name)
 {
     SAVEITS;
@@ -154,6 +242,7 @@ void Graph::RemoveElem(char *name)
 
 void Graph::RemoveEdge(Elem *el1, Elem *el2)
 {
+    SAVEITS;
     if (el1 && el2){
         bool res = (el1->childs->node == el2);
         if (!res){
@@ -173,6 +262,7 @@ void Graph::RemoveEdge(Elem *el1, Elem *el2)
             el1->childs = ls2;
         }
     }
+    RESTOREITS;
 }
 
 int Graph::CountChildren(Elem *el)

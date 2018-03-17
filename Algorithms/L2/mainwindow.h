@@ -35,6 +35,10 @@ private slots:
 
     void on_ClearButton_clicked();
 
+    void on_open_action_triggered();
+
+    void on_save_action_triggered();
+
 private:
     Ui::MainWindow *ui;
 };
