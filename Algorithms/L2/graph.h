@@ -67,6 +67,8 @@ private:
     List* KeepItL();
     void RestoreItE(Elem* t_pos);
     void RestoreItL(List* t_lpos);
+
+    void RemoveEdges(Elem* el);
 };
 
 #endif // GRAPH_H

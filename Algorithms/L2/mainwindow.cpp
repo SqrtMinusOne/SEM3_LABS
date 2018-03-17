@@ -2,12 +2,17 @@
 #include "ui_mainwindow.h"
 
 #include <QTextStream>
+#include <QByteArray>
+#include <QInputDialog>
+
+Graph* gr1;
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    gr1 = new Graph;
 }
 
 MainWindow::~MainWindow()
@@ -15,19 +20,136 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::on_pushButton_clicked()
+
+void MainWindow::on_exit_action_triggered()
 {
-    Graph gr1;
-    char ch[80] = "hren";
-    gr1.AddElem("lol");
-    gr1.AddElem("kek");
-    gr1.AddElem(ch);
-    QString q;
-    QTextStream str(&q);
-    gr1.AddEdge(gr1.FindElem("lol"), gr1.FindElem("kek"));
-    gr1.AddEdge(gr1[1], gr1[2]);
-    gr1.AddEdge(gr1[1], gr1[0]);
-    gr1.RemoveEdge(gr1[1], gr1[2]);
-    gr1.Inc_Matr(str);
-    ui->incEdit->setPlainText(q);
+    exit(0);
+}
+
+void MainWindow::on_matrButton_clicked()
+{
+    QString matr;
+    QTextStream ms(&matr);
+    gr1->Inc_Matr(ms);
+    ui->incEdit->setPlainText(matr);
+}
+
+void MainWindow::on_addNodeButton_clicked()
+{
+    QString name = ui->NodeNameEdit->text();
+    if (name.length() > Numb){
+        QMessageBox msg;
+        msg.setText("Слишком длинное имя");
+        msg.exec();
+        ui->NodeNameEdit->clear();
+        return;
+    }
+    QByteArray arr = name.toLocal8Bit();
+    char* cname = arr.data();
+    if (!gr1->FindElem(cname))
+        gr1->AddElem(cname);
+    else{
+        QMessageBox msg;
+        msg.setText("Элемент уже существует");
+        msg.exec();
+    }
+    ui->NodeNameEdit->clear();
+    on_matrButton_clicked();
+}
+
+void MainWindow::on_deleteNodeButton_clicked()
+{
+     QString name = ui->NodeNameEdit->text();
+     QByteArray arr = name.toLocal8Bit();
+     char* cname = arr.data();
+     if (gr1->FindElem(cname))
+         gr1->RemoveElem(cname);
+     else{
+         QMessageBox msg;
+         msg.setText("Элемент не существует");
+         msg.exec();
+     }
+     ui->NodeNameEdit->clear();
+     on_matrButton_clicked();
+}
+
+void MainWindow::on_AddEdge_clicked()
+{
+    QString name = ui->NodeNameEdit->text();
+    QByteArray arr = name.toLocal8Bit();
+    char* cname = arr.data();
+    Elem* el1 = gr1->FindElem(cname);
+    if (!el1){
+        QMessageBox msg;
+        msg.setText("Элемент 1 не существует");
+        msg.exec();
+        ui->NodeNameEdit->clear();
+        return;
+    }
+    bool ok;
+    QString name2 = QInputDialog::getText(this, "Добавить связь", "Введите имя", QLineEdit::Normal, "", &ok);
+    QByteArray arr2 = name2.toLocal8Bit();
+    char* cname2 = arr2.data();
+    Elem* el2 = gr1->FindElem(cname2);
+    if (!el2){
+        QMessageBox msg;
+        msg.setText("Элемент 2 не существует");
+        msg.exec();
+        ui->NodeNameEdit->clear();
+        return;
+    }
+    if (!gr1->Is_Egde(el1, el2)){
+        gr1->AddEdge(el1, el2);
+    }
+    else{
+        QMessageBox msg;
+        msg.setText("Связь уже есть");
+        msg.exec();
+    }
+    on_matrButton_clicked();
+    ui->NodeNameEdit->clear();
+}
+
+void MainWindow::on_DeleteEdgeButton_clicked()
+{
+    QString name = ui->NodeNameEdit->text();
+    QByteArray arr = name.toLocal8Bit();
+    char* cname = arr.data();
+    Elem* el1 = gr1->FindElem(cname);
+    if (!el1){
+        QMessageBox msg;
+        msg.setText("Элемент не существует");
+        msg.exec();
+        ui->NodeNameEdit->clear();
+        return;
+    }
+    bool ok;
+    QString name2 = QInputDialog::getText(this, "Удалить связь", "Введите имя", QLineEdit::Normal, "", &ok);
+    QByteArray arr2 = name2.toLocal8Bit();
+    char* cname2 = arr2.data();
+    Elem* el2 = gr1->FindElem(cname2);
+    if (!el2){
+        QMessageBox msg;
+        msg.setText("Элемент 2 не существует");
+        msg.exec();
+        ui->NodeNameEdit->clear();
+        return;
+    }
+    if (gr1->Is_Egde(el1, el2)){
+        gr1->RemoveEdge(el1, el2);
+    }
+    else{
+        QMessageBox msg;
+        msg.setText("Связи нет");
+        msg.exec();
+    }
+    on_matrButton_clicked();
+    ui->NodeNameEdit->clear();
+}
+
+void MainWindow::on_ClearButton_clicked()
+{
+    gr1->Clear();
+    on_matrButton_clicked();
+    ui->NodeNameEdit->clear();
 }

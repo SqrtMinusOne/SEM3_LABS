@@ -3,6 +3,8 @@
 
 #include <QMainWindow>
 #include <QDebug>
+#include <QMessageBox>
+
 #include "graph.h"
 
 namespace Ui {
@@ -18,7 +20,20 @@ public:
     ~MainWindow();
 
 private slots:
-    void on_pushButton_clicked();
+
+    void on_exit_action_triggered();
+
+    void on_matrButton_clicked();
+
+    void on_addNodeButton_clicked();
+
+    void on_deleteNodeButton_clicked();
+
+    void on_AddEdge_clicked();
+
+    void on_DeleteEdgeButton_clicked();
+
+    void on_ClearButton_clicked();
 
 private:
     Ui::MainWindow *ui;

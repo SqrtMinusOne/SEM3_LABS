@@ -14,6 +14,7 @@ Graph::~Graph()
 void Graph::Clear()
 {
     Clear(gr);
+    gr = nullptr;
 }
 
 void Graph::Clear(List *ls)
@@ -135,12 +136,14 @@ void Graph::RemoveElem(char *name)
                     break;
             }
             if (res){
+                RemoveEdges(el->next);
                 Elem* el2 = el->next->next;
                 delete el->next;
                 el->next = el2;
             }
         }
         else{
+            RemoveEdges(gr);
             Elem* el2 = gr->next;
             delete gr;
             gr = el2;
@@ -197,8 +200,8 @@ bool Graph::Is_Egde(Elem *el1, Elem *el2)
     List* t_lpos = KeepItL();
     List* curr;
     bool res = 0;
-    while ((curr = it(el2))!=nullptr){
-        if (curr->node == el1){
+    while ((curr = it(el1))!=nullptr){
+        if (curr->node == el2){
             res = 1;
             break;
         }
@@ -238,7 +241,7 @@ void Graph::Inc_Matr(QTextStream &os)
     for (i=0; i<z; i++){
         os << this->operator [](i)->name;
         for (k=0; k<z; k++)
-            os << Is_Egde(this->operator [](k), this->operator [](i));
+            os << Is_Egde(this->operator [](i), this->operator [](k));
         os << endl;
     }
     RESTOREITS;
@@ -282,5 +285,16 @@ void Graph::RestoreItE(Elem *t_pos)
 void Graph::RestoreItL(List *t_lpos)
 {
     lpos = t_lpos;
+}
+
+void Graph::RemoveEdges(Elem *el)
+{
+    SAVEITS;
+    Elem* el1;
+    while ((el1 = it())!=nullptr){
+        if (Is_Egde(el1, el))
+            RemoveEdge(el1, el);
+    }
+    RESTOREITS;
 }
 
