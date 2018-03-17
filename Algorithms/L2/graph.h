@@ -13,12 +13,17 @@ using namespace std;
 typedef struct List List;
 
 typedef struct Elem{ //Элементы графа
+    Elem() = default;
+    /*Elem(char* Iname): next(nullptr), childs(nullptr){
+        strcpy_s(name, Iname);
+    } */
     char name[Numb];
-    Elem* next = nullptr;
-    List* childs = nullptr; //Дети элемента
+    Elem* next=nullptr;
+    List* childs=nullptr; //Дети элемента
 }Elem;
 
 typedef struct List{
+    List() = default;
     char name[Numb];
     Elem* node = nullptr; //Сам элемент
     List* next = nullptr;
@@ -36,9 +41,11 @@ public:
     void ResetIts();
 
     void AddElem(char* name); //Добавить элемент
-    Elem* FindElem(char* name); //Найти элемент
-    //void AddEdge(Elem* el1, Elem* el2);
+    void AddEdge(Elem* el1, Elem* el2); //Добавить линию
+    void RemoveElem(char* name); //Удалить элемент
+    void RemoveEdge(Elem* el1, Elem* el2); //Удалить линию
 
+    Elem* FindElem(char* name); //Найти элемент
     int CountChildren(Elem* el); //Сколько детей
     int CountElems(); //Сколько элементов
 

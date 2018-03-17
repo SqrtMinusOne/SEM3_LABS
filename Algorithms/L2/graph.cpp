@@ -92,27 +92,104 @@ Elem *Graph::FindElem(char *name)
     SAVEITS;
     Elem* el;
     bool res = 0;
-    while (((el = it())!=nullptr) && (res == 0)){
-        res = strncmp(name, el->name, Numb);
+    while ((el = it())!=nullptr){
+        res = (strncmp(name, el->name, Numb))==0;
+        if (res)
+            break;
     }
     RESTOREITS;
     return el;
 }
 
+void Graph::AddEdge(Elem *el1, Elem *el2)
+{
+    SAVEITS;
+    List* ls;
+    if (el1 && el2){
+        if (!el1->childs){
+            el1->childs = new List;
+            strcpy_s(el1->childs->name, el2->name);
+            el1->childs->node = el2;
+        }
+        else{
+            while ((ls = it(el1))->next!=nullptr);
+            ls->next = new List;
+            ls = ls->next;
+            strcpy_s(ls->name, el2->name);
+            ls->node = el2;
+        }
+    }
+    RESTOREITS;
+}
+
+void Graph::RemoveElem(char *name)
+{
+    SAVEITS;
+    if (gr){
+        Elem* el = gr;
+        bool res = strncmp(name, el->name, Numb) == 0;
+        if (!res){
+            while (((el = it())->next)!=nullptr){
+                res = strncmp(el->next->name, name, Numb) == 0;
+                if (res)
+                    break;
+            }
+            if (res){
+                Elem* el2 = el->next->next;
+                delete el->next;
+                el->next = el2;
+            }
+        }
+        else{
+            Elem* el2 = gr->next;
+            delete gr;
+            gr = el2;
+        }
+    }
+    RESTOREITS;
+}
+
+void Graph::RemoveEdge(Elem *el1, Elem *el2)
+{
+    if (el1 && el2){
+        bool res = (el1->childs->node == el2);
+        if (!res){
+            List* ls;
+            while ((ls = it(el1))->next != nullptr){
+                res = (ls->next->node == el2);
+                if (res)
+                    break;
+            }
+            List* ls2 = ls->next->next;
+            delete ls->next;
+            ls->next = ls2;
+        }
+        else{
+            List* ls2 = el1->childs->next;
+            delete el1->childs;
+            el1->childs = ls2;
+        }
+    }
+}
+
 int Graph::CountChildren(Elem *el)
 {
+    SAVEITS;
     int i;
     while (it(el)!=nullptr)
         i++;
     return i;
+    RESTOREITS;
 }
 
 int Graph::CountElems()
 {
+    SAVEITS;
     int i = 0;
     while (it()!=nullptr)
         i++;
     return i;
+    RESTOREITS;
 }
 
 bool Graph::Is_Egde(Elem *el1, Elem *el2)
@@ -150,7 +227,6 @@ void Graph::Inc_Matr(QTextStream &os)
     SAVEITS;
     int len = Max_Width();
     Elem* el;
-    List* ls;
     int z = CountElems();
     int i; int k;
     os.setFieldWidth(len + 1);
@@ -162,7 +238,7 @@ void Graph::Inc_Matr(QTextStream &os)
     for (i=0; i<z; i++){
         os << this->operator [](i)->name;
         for (k=0; k<z; k++)
-            os << Is_Egde(this->operator [](i), this->operator [](k));
+            os << Is_Egde(this->operator [](k), this->operator [](i));
         os << endl;
     }
     RESTOREITS;
