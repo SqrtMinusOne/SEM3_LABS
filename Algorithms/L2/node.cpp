@@ -285,6 +285,7 @@ void Node::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
     update();
     QGraphicsItem::mousePressEvent(event);
+    qDebug() << event->pos().x() << " " << event->pos().y();
 //    QGraphicsItem::setSelected(1);
 }
 

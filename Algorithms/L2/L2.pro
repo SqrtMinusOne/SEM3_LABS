@@ -28,15 +28,17 @@ SOURCES += \
         mainwindow.cpp \
     graph.cpp \
     edge.cpp \
+    node.cpp \
     graphwidget.cpp \
-    node.cpp
+    scene.cpp
 
 HEADERS += \
         mainwindow.h \
     graph.h \
     edge.h \
     graphwidget.h \
-    node.h
+    node.h \
+    scene.h
 
 FORMS += \
         mainwindow.ui

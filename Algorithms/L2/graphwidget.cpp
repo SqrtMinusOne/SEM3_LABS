@@ -53,22 +53,21 @@
 #include "graphwidget.h"
 #include "edge.h"
 #include "node.h"
-
+#include "scene.h"
 #include <math.h>
 
 #include <qDebug>
 #include <QKeyEvent>
 #include <QRandomGenerator>
 #include <QRect>
-#include <QRubberBand>
-#include <QGraphicsSceneMouseEvent>
+
 
 //! [0]
 GraphWidget::GraphWidget(QWidget *parent, Graph *graph)
     : QGraphicsView(parent), timerId(0)
 {
     gr = graph;
-    QGraphicsScene *scene = new QGraphicsScene(this);
+    GraphicsScene *scene = new GraphicsScene(this, this);
     scene->setItemIndexMethod(QGraphicsScene::NoIndex);
     scene->setSceneRect(-400, -300, Wid, Hei);
     setScene(scene);
@@ -118,18 +117,18 @@ void GraphWidget::keyPressEvent(QKeyEvent *event)
         QGraphicsView::keyPressEvent(event);
     }
 }
-
+/*
 void GraphWidget::mouseDoubleClickEvent(QMouseEvent *event)
 {
 
     QPointF pos = event->pos();
-    QPointF delta(380, 250);
+    QPointF d-elta(380, 250);
     pos = pos - delta;
     pos = pos/0.8;
     gr->AddElem(gr->GetMinStupidName());
     gr->FindElem(gr->GetLastStupidName())->node->setPos(pos);
 }
-
+*/
 //! [3]
 
 //! [4]

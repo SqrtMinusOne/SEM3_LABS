@@ -48,49 +48,22 @@
 **
 ****************************************************************************/
 
-#ifndef GRAPHWIDGET_H
-#define GRAPHWIDGET_H
+#include "scene.h"
 
-#include <QGraphicsView>
-#include <QContextMenuEvent>
-#include <cstdlib>
-#include <QRubberBand>
-#include <QMouseEvent>
-#include "node.h"
-#include "edge.h"
-#include "graph.h"
+#include <QGraphicsSceneMouseEvent>
+#include <qDebug>
+#include <QPointF>
 
-class Node;
-class Graph;
 //! [0]
-class GraphWidget : public QGraphicsView
+GraphicsScene::GraphicsScene(QObject *parent, GraphWidget* widg)
+    : QGraphicsScene(parent), widget(widg)
 {
-    Q_OBJECT
-public:
-    GraphWidget(QWidget *parent = 0, Graph* graph = 0);
-    Node *centerNode;
-    void itemMoved();
-    Graph* gr;
-public slots:
-    void shuffle();
-    void zoomIn();
-    void zoomOut();
-    void SetGravity(bool grav);
-    void RandomColors();
-    void keyPressEvent(QKeyEvent *event) override;
-protected:  
-//    void mouseDoubleClickEvent(QMouseEvent *event) override;
-    void timerEvent(QTimerEvent *event) override;
-#if QT_CONFIG(wheelevent)
-    void wheelEvent(QWheelEvent *event) override;
-#endif
-    void drawBackground(QPainter *painter, const QRectF &rect) override;
 
-    void scaleView(qreal scaleFactor);
+}
 
-private:
-    int timerId;
-};
-//! [0]
-
-#endif // GRAPHWIDGET_H
+void GraphicsScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
+{
+    qDebug() << event->scenePos().x() << " " << event->scenePos().y();
+    widget->gr->AddElem(widget->gr->GetMinStupidName());
+    widget->gr->FindElem(widget->gr->GetLastStupidName())->node->setPos(event->scenePos());
+}

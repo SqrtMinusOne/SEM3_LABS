@@ -48,49 +48,32 @@
 **
 ****************************************************************************/
 
-#ifndef GRAPHWIDGET_H
-#define GRAPHWIDGET_H
+#ifndef SCENE_H
+#define SCENE_H
 
-#include <QGraphicsView>
-#include <QContextMenuEvent>
-#include <cstdlib>
-#include <QRubberBand>
-#include <QMouseEvent>
-#include "node.h"
-#include "edge.h"
-#include "graph.h"
+#include "graphwidget.h"
+#include <QGraphicsScene>
 
-class Node;
-class Graph;
+
+QT_BEGIN_NAMESPACE
+class QGraphicsSceneMouseEvent;
+
+QT_END_NAMESPACE
+
 //! [0]
-class GraphWidget : public QGraphicsView
+class GraphicsScene : public QGraphicsScene
 {
     Q_OBJECT
-public:
-    GraphWidget(QWidget *parent = 0, Graph* graph = 0);
-    Node *centerNode;
-    void itemMoved();
-    Graph* gr;
-public slots:
-    void shuffle();
-    void zoomIn();
-    void zoomOut();
-    void SetGravity(bool grav);
-    void RandomColors();
-    void keyPressEvent(QKeyEvent *event) override;
-protected:  
-//    void mouseDoubleClickEvent(QMouseEvent *event) override;
-    void timerEvent(QTimerEvent *event) override;
-#if QT_CONFIG(wheelevent)
-    void wheelEvent(QWheelEvent *event) override;
-#endif
-    void drawBackground(QPainter *painter, const QRectF &rect) override;
 
-    void scaleView(qreal scaleFactor);
+public:
+    explicit GraphicsScene(QObject *parent = 0, GraphWidget *widg = 0);
+
+protected:
+    void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event) override;
 
 private:
-    int timerId;
+    GraphWidget* widget;
 };
 //! [0]
 
-#endif // GRAPHWIDGET_H
+#endif // SCENE_H

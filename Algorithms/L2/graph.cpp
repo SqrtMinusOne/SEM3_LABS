@@ -16,6 +16,7 @@ void Graph::Clear()
 {
     Clear(gr);
     gr = nullptr;
+    stupidnames = 0;
 }
 
 void Graph::Clear(List *ls, Elem* el)
@@ -322,7 +323,7 @@ void Graph::RenameElem(char *oldname, char *newname)
 int Graph::CountChildren(Elem *el)
 {
     SAVEITS;
-    int i;
+    int i = 0;
     while (it(el)!=nullptr)
         i++;
     return i;
@@ -395,7 +396,7 @@ Elem *Graph::operator[](int i)
 {
     SAVEITS;
     int k=0;
-    Elem* el;
+    Elem* el = nullptr;
     while (k<=i){
         el = it();
         if (el!=nullptr)
