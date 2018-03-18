@@ -52,7 +52,11 @@
 #define GRAPHWIDGET_H
 
 #include <QGraphicsView>
+#include <QContextMenuEvent>
+#include <cstdlib>
 
+#include "node.h"
+#include "edge.h"
 class Node;
 
 //! [0]
@@ -62,7 +66,7 @@ class GraphWidget : public QGraphicsView
 
 public:
     GraphWidget(QWidget *parent = 0);
-
+    Node *centerNode;
     void itemMoved();
 
 public slots:
@@ -83,7 +87,7 @@ protected:
 
 private:
     int timerId;
-    Node *centerNode;
+
 };
 //! [0]
 

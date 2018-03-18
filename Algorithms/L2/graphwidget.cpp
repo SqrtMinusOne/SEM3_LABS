@@ -47,6 +47,8 @@
 ** $QT_END_LICENSE$
 **
 ****************************************************************************/
+#define Wid 800
+#define Hei 600
 
 #include "graphwidget.h"
 #include "edge.h"
@@ -63,7 +65,7 @@ GraphWidget::GraphWidget(QWidget *parent)
 {
     QGraphicsScene *scene = new QGraphicsScene(this);
     scene->setItemIndexMethod(QGraphicsScene::NoIndex);
-    scene->setSceneRect(-400, -300, 800, 600);
+    scene->setSceneRect(-400, -300, Wid, Hei);
     setScene(scene);
     setCacheMode(CacheBackground);
     setViewportUpdateMode(BoundingRectViewportUpdate);
@@ -71,10 +73,10 @@ GraphWidget::GraphWidget(QWidget *parent)
     setTransformationAnchor(AnchorUnderMouse);
     scale(qreal(0.8), qreal(0.8));
     setMinimumSize(400, 400);
-    setWindowTitle(tr("Elastic Nodes"));
 //! [0]
 
 //! [1]
+    /*
     Node *node1 = new Node(this);
     Node *node2 = new Node(this);
     Node *node3 = new Node(this);
@@ -114,6 +116,7 @@ GraphWidget::GraphWidget(QWidget *parent)
     node7->setPos(-50, 50);
     node8->setPos(0, 50);
     node9->setPos(50, 50);
+    */
 }
 //! [1]
 

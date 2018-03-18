@@ -3,6 +3,8 @@
 #define SAVEITS List* t_lpos = KeepItL(); Elem* t_pos = KeepItE();
 #define RESTOREITS RestoreItL(t_lpos); RestoreItE(t_pos);
 #define Numb 80
+#define Wid 800
+#define Hei 600
 
 #include <iostream>
 #include <cstring>
@@ -21,6 +23,7 @@ typedef struct Elem{ //Элементы графа
     char name[Numb];
     Elem* next=nullptr;
     List* childs=nullptr; //Дети элемента
+    Node* node;
 }Elem;
 
 typedef struct List{
@@ -28,6 +31,7 @@ typedef struct List{
     char name[Numb];
     Elem* node = nullptr; //Сам элемент
     List* next = nullptr;
+    Edge* edge;
 }List;
 
 class Graph
@@ -69,7 +73,7 @@ protected:
     Elem* pos;
     List* lpos;
 private:
-    void Clear(List* ls);
+    void Clear(List* ls, Elem *el);
     void Clear(Elem* gr);
 
     Elem* KeepItE();

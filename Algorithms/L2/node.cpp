@@ -52,11 +52,14 @@
 #include "node.h"
 #include "graphwidget.h"
 
+#include <memory>
 #include <QGraphicsScene>
 #include <QGraphicsSceneMouseEvent>
 #include <QPainter>
 #include <QStyleOption>
+#include <QColorDialog>
 #include <QDebug>
+#include <QMenu>
 
 //! [0]
 Node::Node(GraphWidget *graphWidget)
@@ -178,14 +181,14 @@ void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWid
     painter->drawEllipse(-7, -7, 20, 20);
 
     QRadialGradient gradient(-3, -3, 10);
-    if (option->state & QStyle::State_Selected) {
+    if (option->state & QStyle::State_Sunken) {
         gradient.setCenter(3, 3);
         gradient.setFocalPoint(3, 3);
         gradient.setColorAt(1, QColor(Qt::blue).light(120));
         gradient.setColorAt(0, QColor(Qt::darkBlue).light(120));
     } else {
-        gradient.setColorAt(0, Qt::yellow);
-        gradient.setColorAt(1, Qt::darkYellow);
+        gradient.setColorAt(0, grad0);
+        gradient.setColorAt(1, grad1);
     }
     painter->setBrush(gradient);
 
@@ -217,6 +220,20 @@ QVariant Node::itemChange(GraphicsItemChange change, const QVariant &value)
 
     return QGraphicsItem::itemChange(change, value);
 }
+
+void Node::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
+{
+    std::unique_ptr<QMenu> menu(new QMenu(graph));
+    QAction* colorAction = menu->addAction("Изменить цвет");
+    QAction* selectedAction = menu->exec(event->screenPos());
+    if (selectedAction == colorAction){
+        QColorDialog dia;
+        dia.exec();
+        grad0 = dia.currentColor();
+        grad1 = grad0.darker(300);
+        update();
+    }
+}
 //! [11]
 
 //! [12]
@@ -224,7 +241,7 @@ void Node::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
     update();
     QGraphicsItem::mousePressEvent(event);
-    QGraphicsItem::setSelected(1);
+//    QGraphicsItem::setSelected(1);
 }
 
 void Node::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)

@@ -17,12 +17,12 @@ void Graph::Clear()
     gr = nullptr;
 }
 
-void Graph::Clear(List *ls)
+void Graph::Clear(List *ls, Elem* el)
 {
     if (ls != nullptr) {
         if (ls->next != nullptr)
-            Clear(ls->next);
-        delete ls;
+            Clear(ls->next, el);
+        RemoveEdge(el, ls->node);
     }
 }
 
@@ -32,8 +32,8 @@ void Graph::Clear(Elem *gr)
         if (gr->next != nullptr) {
             Clear(gr->next);
         }
-        Clear(gr->childs);
-        delete gr;
+        Clear(gr->childs, gr);
+        RemoveElem(gr->name);
     }
 }
 
@@ -77,12 +77,12 @@ void Graph::ReadFile(QString fileName)
     file.open(QIODevice::ReadOnly);
     QTextStream file1s(&file);
     QString str;
-    QString tmp;
-    QByteArray arr;
+    QString tmp;   
     int i; int k = 0;
     while (!file1s.atEnd()){
         str = file1s.readLine();
         QStringList strl = str.split(' ');
+        QByteArray arr;
         arr = strl.at(0).toLocal8Bit();
         char* name = arr.data();
         AddElem(name);
@@ -93,7 +93,7 @@ void Graph::ReadFile(QString fileName)
         }
         k++;
     }
-    bool res = Solve();
+    Solve();
     file.close();
     RESTOREITS;
 }
@@ -121,15 +121,23 @@ void Graph::AddElem(char *name)
 {
     SAVEITS;
     Elem* el;
-    if (!gr){
+    if (!gr){ //Если добавляется первый элемент
         gr = new Elem;
         strcpy_s(gr->name, Numb, name);
+        gr->node = new Node(widget);
+        widget->centerNode = gr->node;
+        widget->scene()->addItem(widget->centerNode);
+        widget->centerNode->setPos(rand()%Wid - Wid/2 ,rand()%Hei - Hei/2);
+
     }
     else{
         while ((el = it())->next!=nullptr);
         el->next = new Elem;
         el = el->next;
         strcpy_s(el->name, Numb, name);
+        el->node = new Node(widget);
+        el->node->setPos(rand()%Wid - Wid/2 ,rand()%Hei - Hei/2);
+        widget->scene()->addItem(el->node);
 
     }
     RESTOREITS;
@@ -158,6 +166,8 @@ void Graph::AddEdge(Elem *el1, Elem *el2)
             el1->childs = new List;
             strcpy_s(el1->childs->name, el2->name);
             el1->childs->node = el2;
+            el1->childs->edge = new Edge(el1->node, el2->node);
+            widget->scene()->addItem(el1->childs->edge);
         }
         else{
             while ((ls = it(el1))->next!=nullptr);
@@ -165,6 +175,8 @@ void Graph::AddEdge(Elem *el1, Elem *el2)
             ls = ls->next;
             strcpy_s(ls->name, el2->name);
             ls->node = el2;
+            ls->edge = new Edge(el1->node, el2->node);
+            widget->scene()->addItem(ls->edge);
         }
     }
     RESTOREITS;
@@ -200,8 +212,11 @@ bool Graph::Solve()
         while ((ls = it(el))!=nullptr){
             if (ls->node == nullptr){
                 el2 = FindElem(ls->name);
-                if (el2)
+                if (el2){
                     ls->node = el2;
+                    ls->edge = new Edge(el->node, el2->node);
+                    widget->scene()->addItem(ls->edge);
+                }
                 else
                     res = 0;
             }
@@ -225,6 +240,8 @@ void Graph::RemoveElem(char *name)
             }
             if (res){
                 RemoveEdges(el->next);
+                widget->scene()->removeItem(el->next->node);
+                delete el->next->node;
                 Elem* el2 = el->next->next;
                 delete el->next;
                 el->next = el2;
@@ -232,6 +249,8 @@ void Graph::RemoveElem(char *name)
         }
         else{
             RemoveEdges(gr);
+            widget->scene()->removeItem(gr->node);
+            delete gr->node;
             Elem* el2 = gr->next;
             delete gr;
             gr = el2;
@@ -253,11 +272,15 @@ void Graph::RemoveEdge(Elem *el1, Elem *el2)
                     break;
             }
             List* ls2 = ls->next->next;
+            widget->scene()->removeItem(ls->next->edge);
+            delete ls->next->edge;
             delete ls->next;
             ls->next = ls2;
         }
         else{
             List* ls2 = el1->childs->next;
+            widget->scene()->removeItem(el1->childs->edge);
+            delete el1->childs->edge;
             delete el1->childs;
             el1->childs = ls2;
         }

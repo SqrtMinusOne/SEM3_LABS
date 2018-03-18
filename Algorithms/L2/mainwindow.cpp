@@ -6,6 +6,8 @@
 #include <QByteArray>
 #include <QInputDialog>
 #include <QFileDialog>
+#include <cstdlib>
+#include <ctime>
 
 #include <QGraphicsScene>
 
@@ -19,6 +21,7 @@ MainWindow::MainWindow(QWidget *parent) :
     gr1 = new Graph;
     gr1->widget = new GraphWidget;
     ui->graphicsView->setViewport(gr1->widget);
+    srand(time(nullptr));
 }
 
 MainWindow::~MainWindow()

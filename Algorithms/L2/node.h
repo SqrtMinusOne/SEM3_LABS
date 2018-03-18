@@ -53,6 +53,8 @@
 
 #include <QGraphicsItem>
 #include <QList>
+#include <QContextMenuEvent>
+#include <QColor>
 
 class Edge;
 class GraphWidget;
@@ -84,10 +86,11 @@ public:
 
 protected:
     QVariant itemChange(GraphicsItemChange change, const QVariant &value) override;
-
+    void contextMenuEvent(QGraphicsSceneContextMenuEvent* event) override;
     void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) override;
-
+    QColor grad0 = Qt::yellow;
+    QColor grad1 = Qt::darkYellow;
 private:
     QList<Edge *> edgeList;
     QPointF newPos;
