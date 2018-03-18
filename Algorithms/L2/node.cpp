@@ -113,7 +113,7 @@ void Node::calculateForces()
         QPointF vec = mapToItem(node, 0, 0);
         qreal dx = vec.x();
         qreal dy = vec.y();
-        double l = 2.0 * (dx * dx + dy * dy);
+        double l = 0.5 * (dx * dx + dy * dy);
         if (l > 0) {
             xvel += (dx * 150.0) / l;
             yvel += (dy * 150.0) / l;
