@@ -16,9 +16,6 @@ typedef struct List List;
 
 typedef struct Elem{ //Элементы графа
     Elem() = default;
-    /*Elem(char* Iname): next(nullptr), childs(nullptr){
-        strcpy_s(name, Iname);
-    } */
     char name[Numb];
     Elem* next=nullptr;
     List* childs=nullptr; //Дети элемента

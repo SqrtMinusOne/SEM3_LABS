@@ -19,6 +19,9 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
+signals:
+    void GravityChanged(bool grav);
+
 private slots:
 
     void on_exit_action_triggered();
@@ -38,6 +41,8 @@ private slots:
     void on_open_action_triggered();
 
     void on_save_action_triggered();
+
+    void on_gravityBox_stateChanged(int arg1);
 
 private:
     Ui::MainWindow *ui;

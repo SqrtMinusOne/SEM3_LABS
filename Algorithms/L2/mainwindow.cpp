@@ -1,12 +1,16 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "graphwidget.h"
 
 #include <QTextStream>
 #include <QByteArray>
 #include <QInputDialog>
 #include <QFileDialog>
 
+#include <QGraphicsScene>
+
 Graph* gr1;
+GraphWidget* widget;
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -14,6 +18,8 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     gr1 = new Graph;
+    widget = new GraphWidget;
+    ui->graphicsView->setViewport(widget);
 }
 
 MainWindow::~MainWindow()
@@ -166,4 +172,13 @@ void MainWindow::on_save_action_triggered()
 {
     QString fileName = QFileDialog::getSaveFileName(this, "Открыть файл");
     gr1->SaveFile(fileName);
+}
+
+void MainWindow::on_gravityBox_stateChanged(int arg1)
+{
+    if (arg1 == 0){
+        emit GravityChanged(0);
+    }
+    else
+        emit GravityChanged(1);
 }
