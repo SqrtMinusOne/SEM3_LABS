@@ -1,4 +1,5 @@
 #include "graph.h"
+#include <cstdio>
 
 Graph::Graph()
 {
@@ -117,6 +118,24 @@ void Graph::SaveFile(QString fileName)
     RESTOREITS;
 }
 
+char *Graph::GetMinStupidName()
+{
+    char* name = new char[80];
+    sprintf(name, "%d", stupidnames);
+    while (FindElem(name)){
+        stupidnames++;
+        sprintf(name, "%d", stupidnames);
+    }
+    return name;
+}
+
+char *Graph::GetLastStupidName()
+{
+    char* name = new char[80];
+    sprintf(name, "%d", stupidnames);
+    return name;
+}
+
 void Graph::AddElem(char *name)
 {
     SAVEITS;
@@ -125,6 +144,7 @@ void Graph::AddElem(char *name)
         gr = new Elem;
         strcpy_s(gr->name, Numb, name);
         gr->node = new Node(widget);
+        gr->node->name = (gr->name);
         widget->centerNode = gr->node;
         widget->scene()->addItem(widget->centerNode);
         widget->centerNode->setPos(rand()%Wid - Wid/2 ,rand()%Hei - Hei/2);
@@ -136,6 +156,7 @@ void Graph::AddElem(char *name)
         el = el->next;
         strcpy_s(el->name, Numb, name);
         el->node = new Node(widget);
+        el->node->name = el->name;
         el->node->setPos(rand()%Wid - Wid/2 ,rand()%Hei - Hei/2);
         widget->scene()->addItem(el->node);
 
@@ -272,6 +293,7 @@ void Graph::RemoveEdge(Elem *el1, Elem *el2)
                     break;
             }
             List* ls2 = ls->next->next;
+            ls->next->edge->clear();
             widget->scene()->removeItem(ls->next->edge);
             delete ls->next->edge;
             delete ls->next;
@@ -279,6 +301,7 @@ void Graph::RemoveEdge(Elem *el1, Elem *el2)
         }
         else{
             List* ls2 = el1->childs->next;
+            el1->childs->edge->clear();
             widget->scene()->removeItem(el1->childs->edge);
             delete el1->childs->edge;
             delete el1->childs;
@@ -286,6 +309,14 @@ void Graph::RemoveEdge(Elem *el1, Elem *el2)
         }
     }
     RESTOREITS;
+}
+
+void Graph::RenameElem(char *oldname, char *newname)
+{
+    Elem* el = FindElem(oldname);
+    if ((!FindElem(newname)) && strlen(newname)!=0){
+        strcpy_s(el->name, newname);
+    }
 }
 
 int Graph::CountChildren(Elem *el)
@@ -408,6 +439,8 @@ void Graph::RemoveEdges(Elem *el)
     while ((el1 = it())!=nullptr){
         if (Is_Egde(el1, el))
             RemoveEdge(el1, el);
+        if (Is_Egde(el, el1))
+            RemoveEdge(el, el1);
     }
     RESTOREITS;
 }

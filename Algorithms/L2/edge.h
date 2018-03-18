@@ -60,7 +60,7 @@ class Edge : public QGraphicsItem
 {
 public:
     Edge(Node *sourceNode, Node *destNode);
-
+    void clear();
     Node *sourceNode() const;
     Node *destNode() const;
 

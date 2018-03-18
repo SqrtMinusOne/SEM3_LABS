@@ -54,29 +54,33 @@
 #include <QGraphicsView>
 #include <QContextMenuEvent>
 #include <cstdlib>
-
+#include <QRubberBand>
+#include <QMouseEvent>
 #include "node.h"
 #include "edge.h"
-class Node;
+#include "graph.h"
 
+class Node;
+class Graph;
 //! [0]
 class GraphWidget : public QGraphicsView
 {
     Q_OBJECT
 
 public:
-    GraphWidget(QWidget *parent = 0);
+    GraphWidget(QWidget *parent = 0, Graph* graph = 0);
     Node *centerNode;
     void itemMoved();
-
+    Graph* gr;
 public slots:
     void shuffle();
     void zoomIn();
     void zoomOut();
     void SetGravity(bool grav);
-
-protected:  
+    void RandomColors();
     void keyPressEvent(QKeyEvent *event) override;
+protected:  
+    void mouseDoubleClickEvent(QMouseEvent *event) override;
     void timerEvent(QTimerEvent *event) override;
 #if QT_CONFIG(wheelevent)
     void wheelEvent(QWheelEvent *event) override;
@@ -87,7 +91,6 @@ protected:
 
 private:
     int timerId;
-
 };
 //! [0]
 

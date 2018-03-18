@@ -4,7 +4,7 @@
 #include <QMainWindow>
 #include <QDebug>
 #include <QMessageBox>
-
+#include <QKeyEvent>
 #include "graph.h"
 
 namespace Ui {
@@ -18,7 +18,8 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
-
+protected:
+    void keyPressEvent(QKeyEvent *event) override;
 
 private slots:
 
@@ -41,6 +42,10 @@ private slots:
     void on_save_action_triggered();
 
     void on_gravityBox_stateChanged(int arg1);
+
+    void on_colorButton_clicked();
+
+    void on_shuffleButton_clicked();
 
 private:
     Ui::MainWindow *ui;

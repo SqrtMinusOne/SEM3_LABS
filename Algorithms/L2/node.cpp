@@ -52,6 +52,7 @@
 #include "node.h"
 #include "graphwidget.h"
 
+#include <qmath.h>
 #include <memory>
 #include <QGraphicsScene>
 #include <QGraphicsSceneMouseEvent>
@@ -60,6 +61,11 @@
 #include <QColorDialog>
 #include <QDebug>
 #include <QMenu>
+#include <QInputDialog>
+#include <QMessageBox>
+#include <QByteArray>
+#include <QString>
+
 
 //! [0]
 Node::Node(GraphWidget *graphWidget)
@@ -160,7 +166,7 @@ bool Node::advance()
 QRectF Node::boundingRect() const
 {
     qreal adjust = 2;
-    return QRectF( -10 - adjust, -10 - adjust, 23 + adjust, 23 + adjust);
+    return QRectF( -15 - adjust, -15 - adjust, 33 + adjust, 33 + adjust);
 }
 //! [8]
 
@@ -168,7 +174,7 @@ QRectF Node::boundingRect() const
 QPainterPath Node::shape() const
 {
     QPainterPath path;
-    path.addEllipse(-10, -10, 20, 20);
+    path.addEllipse(-15, -15, 30, 30);
     return path;
 }
 //! [9]
@@ -178,30 +184,35 @@ void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWid
 {
     painter->setPen(Qt::NoPen);
     painter->setBrush(Qt::darkGray);
-    painter->drawEllipse(-7, -7, 20, 20);
-
-    QRadialGradient gradient(-3, -3, 10);
+    painter->drawEllipse(-12, -12, 30, 30);
+    QColor grad0t = grad0;
+    QColor grad1t = grad1;
+    QRadialGradient gradient(-5, -5, 15);
     if (option->state & QStyle::State_Sunken) {
-        gradient.setCenter(3, 3);
-        gradient.setFocalPoint(3, 3);
-        gradient.setColorAt(1, QColor(Qt::blue).light(120));
-        gradient.setColorAt(0, QColor(Qt::darkBlue).light(120));
-    } else {
-        gradient.setColorAt(0, grad0);
-        gradient.setColorAt(1, grad1);
+        grad1t = grad0.light(120);
+        grad0t = grad1.light(120);
+    } else if (option->state & QStyle::State_Selected){
+        grad0t = Qt::blue;
+        grad1t = Qt::darkBlue;
     }
+    gradient.setColorAt(0, grad0t);
+    gradient.setColorAt(1, grad1t);
     painter->setBrush(gradient);
 
     painter->setPen(QPen(Qt::black, 0));
-    painter->drawEllipse(-10, -10, 20, 20);
+    painter->drawEllipse(-15, -15, 30, 30);
+
+    QString temp(name);
+    QFont font = painter->font();
+    font.setBold(true);
+    int fs = 16 - 5.5*log(temp.length());
+    font.setPointSize(fs);
+    painter->setFont(font);
+    QColor col(255 - grad0t.red(), 255 - grad0t.green(), 255 - grad0t.blue());
+    painter->setPen(QPen(col, 0));
+    painter->drawText(0-temp.length()*fs/2.5, 0+fs/2, temp);
 }
 
-/*
-void Node::SetGravity(bool grav)
-{
-    gravity = grav;
-}
-*/
 
 //! [10]
 
@@ -225,6 +236,10 @@ void Node::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
 {
     std::unique_ptr<QMenu> menu(new QMenu(graph));
     QAction* colorAction = menu->addAction("Изменить цвет");
+    QAction* renameAction = menu->addAction("Переименовать");
+    QAction* linkAction = menu->addAction("Связать с этим");
+    QAction* freeAction = menu->addAction("Удалить связи");
+    QAction* deleteAction = menu->addAction("Удалить");
     QAction* selectedAction = menu->exec(event->screenPos());
     if (selectedAction == colorAction){
         QColorDialog dia;
@@ -233,7 +248,36 @@ void Node::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
         grad1 = grad0.darker(300);
         update();
     }
+    else if(selectedAction == renameAction){
+        bool ok;
+        QString name2 = QInputDialog::getText(graph, "Добавить связь", "Введите имя", QLineEdit::Normal, "", &ok);
+        QByteArray arr2 = name2.toLocal8Bit();
+        char* cname2 = arr2.data();
+        if (graph->gr->FindElem(cname2)){
+            QMessageBox msg;
+            msg.setText("Элемент с таким именем уже существует");
+            msg.exec();
+        }
+        else
+            graph->gr->RenameElem(name, cname2);
+        update();
+    }
+    else if (selectedAction == deleteAction){
+        graph->gr->RemoveElem(name);
+    }
+    else if (selectedAction == freeAction){
+        graph->gr->RemoveEdges(graph->gr->FindElem(name));
+    }
+    else if (selectedAction == linkAction){
+        foreach (QGraphicsItem *item, graph->scene()->items()) {
+            if (Node *node = qgraphicsitem_cast<Node *>(item)){
+                if (node->isSelected())
+                    graph->gr->AddEdge(graph->gr->FindElem(node->name), graph->gr->FindElem(name));
+            }
+        }
+    }
 }
+
 //! [11]
 
 //! [12]

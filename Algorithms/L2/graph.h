@@ -48,12 +48,17 @@ public:
     void ReadFile(QString fileName); //Считать из файла
     void SaveFile(QString fileName); //Сохранить в файл
 
+    char* GetMinStupidName();
+    char* GetLastStupidName();
+
     void AddElem(char* name); //Добавить элемент
     void AddEdge(Elem* el1, Elem* el2); //Добавить линию
     void AddEdge(Elem* el1, char* name); //Добавить "заготовку" для линии
     bool Solve(); //Разрешить зависимости "заготовок" для линий
     void RemoveElem(char* name); //Удалить элемент
     void RemoveEdge(Elem* el1, Elem* el2); //Удалить линию
+    void RemoveEdges(Elem* el); //Удалить связи элемента
+    void RenameElem(char* oldname, char* newname); //Переименовать элемент
 
     Elem* FindElem(char* name); //Найти элемент
     int CountChildren(Elem* el); //Сколько детей
@@ -67,8 +72,8 @@ public:
     Elem* operator[](int i);
 
     GraphWidget* widget;
-
 protected:
+    int stupidnames = 0;
     Elem* gr;
     Elem* pos;
     List* lpos;
@@ -81,7 +86,7 @@ private:
     void RestoreItE(Elem* t_pos);
     void RestoreItL(List* t_lpos);
 
-    void RemoveEdges(Elem* el);
+
 };
 
 #endif // GRAPH_H

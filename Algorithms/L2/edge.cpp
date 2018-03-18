@@ -65,6 +65,12 @@ Edge::Edge(Node *sourceNode, Node *destNode)
     dest->addEdge(this);
     adjust();
 }
+
+void Edge::clear()
+{
+    sourceNode()->edgeList.removeOne(this);
+    destNode()->edgeList.removeOne(this);
+}
 //! [0]
 
 //! [1]
@@ -91,7 +97,7 @@ void Edge::adjust()
     prepareGeometryChange();
 
     if (length > qreal(20.)) {
-        QPointF edgeOffset((line.dx() * 10) / length, (line.dy() * 10) / length);
+        QPointF edgeOffset((line.dx() * 15) / length, (line.dy() * 15) / length);
         sourcePoint = line.p1() + edgeOffset;
         destPoint = line.p2() - edgeOffset;
     } else {

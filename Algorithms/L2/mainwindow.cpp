@@ -19,7 +19,7 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     gr1 = new Graph;
-    gr1->widget = new GraphWidget;
+    gr1->widget = new GraphWidget(0, gr1);
     ui->graphicsView->setViewport(gr1->widget);
     srand(time(nullptr));
 }
@@ -27,6 +27,11 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::keyPressEvent(QKeyEvent *event)
+{
+    gr1->widget->keyPressEvent(event);
 }
 
 
@@ -166,6 +171,7 @@ void MainWindow::on_ClearButton_clicked()
 void MainWindow::on_open_action_triggered()
 {
     QString fileName = QFileDialog::getOpenFileName(this, "Открыть файл");
+    gr1->Clear();
     gr1->ReadFile(fileName);
     on_matrButton_clicked();
 }
@@ -183,4 +189,14 @@ void MainWindow::on_gravityBox_stateChanged(int arg1)
     }
     else
         gr1->widget->SetGravity(1);
+}
+
+void MainWindow::on_colorButton_clicked()
+{
+    gr1->widget->RandomColors();
+}
+
+void MainWindow::on_shuffleButton_clicked()
+{
+    gr1->widget->shuffle();
 }
