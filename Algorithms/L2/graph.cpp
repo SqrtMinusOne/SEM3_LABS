@@ -353,6 +353,7 @@ Elem *Graph::operator[](int i)
     return el;
 }
 
+
 Elem *Graph::KeepItE()
 {
     Elem* t_pos = pos;

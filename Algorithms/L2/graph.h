@@ -10,6 +10,8 @@
 #include <QString>
 #include <QFile>
 
+#include "graphwidget.h"
+
 using namespace std;
 
 typedef struct List List;
@@ -59,6 +61,9 @@ public:
     void Inc_Matr(QTextStream& os); //Матрица инцидентности
 
     Elem* operator[](int i);
+
+    GraphWidget* widget;
+
 protected:
     Elem* gr;
     Elem* pos;

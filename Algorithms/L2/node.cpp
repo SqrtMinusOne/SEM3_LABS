@@ -127,7 +127,10 @@ void Node::calculateForces()
 //! [4]
 
 //! [5]
-    if (qAbs(xvel) < 0.1 && qAbs(yvel) < 0.1)
+    if (!gravity){
+        xvel = yvel = 0;
+    }
+    else if (qAbs(xvel) < 0.1 && qAbs(yvel) < 0.1)
         xvel = yvel = 0;
 //! [5]
 
@@ -189,6 +192,14 @@ void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWid
     painter->setPen(QPen(Qt::black, 0));
     painter->drawEllipse(-10, -10, 20, 20);
 }
+
+/*
+void Node::SetGravity(bool grav)
+{
+    gravity = grav;
+}
+*/
+
 //! [10]
 
 //! [11]

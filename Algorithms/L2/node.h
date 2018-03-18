@@ -63,6 +63,7 @@ QT_END_NAMESPACE
 //! [0]
 class Node : public QGraphicsItem
 {
+   // Q_OBJECT
 public:
     Node(GraphWidget *graphWidget);
 
@@ -79,6 +80,8 @@ public:
     QPainterPath shape() const override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
 
+    bool gravity = false;
+
 protected:
     QVariant itemChange(GraphicsItemChange change, const QVariant &value) override;
 
@@ -89,6 +92,7 @@ private:
     QList<Edge *> edgeList;
     QPointF newPos;
     GraphWidget *graph;
+
 };
 //! [0]
 

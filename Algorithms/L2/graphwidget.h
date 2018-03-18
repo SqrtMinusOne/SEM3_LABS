@@ -69,8 +69,9 @@ public slots:
     void shuffle();
     void zoomIn();
     void zoomOut();
+    void SetGravity(bool grav);
 
-protected:
+protected:  
     void keyPressEvent(QKeyEvent *event) override;
     void timerEvent(QTimerEvent *event) override;
 #if QT_CONFIG(wheelevent)

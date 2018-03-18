@@ -63,7 +63,7 @@ GraphWidget::GraphWidget(QWidget *parent)
 {
     QGraphicsScene *scene = new QGraphicsScene(this);
     scene->setItemIndexMethod(QGraphicsScene::NoIndex);
-    scene->setSceneRect(-200, -200, 400, 400);
+    scene->setSceneRect(-400, -300, 800, 600);
     setScene(scene);
     setCacheMode(CacheBackground);
     setViewportUpdateMode(BoundingRectViewportUpdate);
@@ -214,7 +214,7 @@ void GraphWidget::drawBackground(QPainter *painter, const QRectF &rect)
     painter->fillRect(rect.intersected(sceneRect), gradient);
     painter->setBrush(Qt::NoBrush);
     painter->drawRect(sceneRect);
-
+/*
     // Text
     QRectF textRect(sceneRect.left() + 4, sceneRect.top() + 4,
                     sceneRect.width() - 4, sceneRect.height() - 4);
@@ -229,6 +229,7 @@ void GraphWidget::drawBackground(QPainter *painter, const QRectF &rect)
     painter->drawText(textRect.translated(2, 2), message);
     painter->setPen(Qt::black);
     painter->drawText(textRect, message);
+    */
 }
 //! [6]
 
@@ -259,4 +260,13 @@ void GraphWidget::zoomIn()
 void GraphWidget::zoomOut()
 {
     scaleView(1 / qreal(1.2));
+}
+
+void GraphWidget::SetGravity(bool grav)
+{
+    foreach (QGraphicsItem *item, scene()->items()) {
+        if (Node *node = qgraphicsitem_cast<Node *>(item))
+            node->gravity = grav;
+    }
+    timerEvent(0);
 }
