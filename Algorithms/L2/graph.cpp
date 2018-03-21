@@ -51,16 +51,24 @@ Elem *Graph::it()
     return pos;
 }
 
-List *Graph::it(Elem *el)
+List *Graph::it(Elem *el, bool marked)
 {
     if (el == nullptr)
         lpos = nullptr;
     else{
         if (lpos == nullptr){
             lpos = el->childs;
+            if (!marked){
+                while ((lpos!=nullptr) && (lpos->mark))
+                    lpos = lpos->next;
+            }
         }
         else{
             lpos = lpos->next;
+            if (!marked){
+                while ((lpos!=nullptr) && (lpos->mark))
+                    lpos = lpos->next;
+            }
         }
     }
     return lpos;
@@ -188,7 +196,7 @@ void Graph::AddEdge(Elem *el1, Elem *el2)
             el1->childs = new List;
             strcpy_s(el1->childs->name, el2->name);
             el1->childs->node = el2;
-            el1->childs->edge = new Edge(el1->node, el2->node);
+            el1->childs->edge = new Edge(el1->node, el2->node, el1->childs);
             widget->scene()->addItem(el1->childs->edge);
         }
         else{
@@ -197,7 +205,7 @@ void Graph::AddEdge(Elem *el1, Elem *el2)
             ls = ls->next;
             strcpy_s(ls->name, el2->name);
             ls->node = el2;
-            ls->edge = new Edge(el1->node, el2->node);
+            ls->edge = new Edge(el1->node, el2->node, ls);
             widget->scene()->addItem(ls->edge);
         }
     }
@@ -236,7 +244,7 @@ bool Graph::Solve()
                 el2 = FindElem(ls->name);
                 if (el2){
                     ls->node = el2;
-                    ls->edge = new Edge(el->node, el2->node);
+                    ls->edge = new Edge(el->node, el2->node, ls);
                     widget->scene()->addItem(ls->edge);
                 }
                 else
@@ -320,12 +328,15 @@ void Graph::RenameElem(char *oldname, char *newname)
     }
 }
 
-int Graph::CountChildren(Elem *el)
+int Graph::CountChildren(Elem *el, bool marked)
 {
     SAVEITS;
     int i = 0;
-    while (it(el)!=nullptr)
-        i++;
+    List* ls;
+    while ((ls = it(el))!=nullptr){
+        if ((marked) || !(ls->mark))
+            i++;
+    }
     return i;
     RESTOREITS;
 }
@@ -388,6 +399,66 @@ void Graph::Inc_Matr(QTextStream &os)
         for (k=0; k<z; k++)
             os << Is_Egde(this->operator [](i), this->operator [](k));
         os << endl;
+    }
+    RESTOREITS;
+}
+
+void Graph::Euler()
+{
+    SAVEITS;
+    Elem* v;
+    List* u;
+    if (Stack.isEmpty()){
+        ResetEuler();
+        Stack.push(gr);
+    }
+    while (!Stack.isEmpty()){
+        v = Stack.top();
+        v->node->update();
+        if (CountChildren(v, 0)){
+            if (!v0)
+                v0 = v;
+            u = it(v, 0);
+            Stack.push(u->node);
+            u->mark = 1;
+            u->edge->update();
+            v = u->node;
+        }
+        else{
+            if ((v0!=v) && (v0!=nullptr)){
+                QMessageBox msg;
+                msg.setText("В графе тупик. Эйлерова цикла нет");
+                msg.exec();
+                break;
+            }
+            v0 = nullptr;
+            v = Stack.pop();
+            SE.push(v);
+        }
+        if (steps){
+            break;
+        }
+    }
+    RESTOREITS;
+}
+
+void Graph::ResetEuler()
+{
+    SE.clear();
+    Stack.clear();
+    v0 = nullptr;
+}
+
+void Graph::ClearMarks()
+{
+    SAVEITS;
+    Elem* el;
+    List* ls;
+    while ((el = it())!=nullptr){
+        while ((ls = it(el))!=nullptr){
+            ls->mark = 0;
+            ls->edge->update();
+        }
     }
     RESTOREITS;
 }

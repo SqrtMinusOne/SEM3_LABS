@@ -11,6 +11,8 @@
 #include <QTextStream>
 #include <QString>
 #include <QFile>
+#include <QStack>
+#include <QMessageBox>
 
 #include "graphwidget.h"
 
@@ -29,6 +31,7 @@ typedef struct Elem{ //Элементы графа
 typedef struct List{
     List() = default;
     char name[Numb];
+    bool mark = false;
     Elem* node = nullptr; //Сам элемент
     List* next = nullptr;
     Edge* edge;
@@ -42,7 +45,7 @@ public:
     void Clear(); //Очистка
 
     Elem* it(); //Итератор через вершины
-    List* it(Elem* el); //Итератор через сыновей
+    List* it(Elem* el, bool marked = 1); //Итератор через сыновей
     void ResetIts();
 
     void ReadFile(QString fileName); //Считать из файла
@@ -61,7 +64,7 @@ public:
     void RenameElem(char* oldname, char* newname); //Переименовать элемент
 
     Elem* FindElem(char* name); //Найти элемент
-    int CountChildren(Elem* el); //Сколько детей
+    int CountChildren(Elem* el, bool marked = 1); //Сколько детей
     int CountElems(); //Сколько элементов
 
     bool Is_Egde(Elem* el1, Elem* el2); //Есть ли связь от 1 к 2
@@ -69,11 +72,20 @@ public:
     int Max_Width();
     void Inc_Matr(QTextStream& os); //Матрица инцидентности
 
+    void Euler();
+    void ResetEuler();
+    void ClearMarks();
+
     Elem* operator[](int i);
 
     GraphWidget* widget;
+    QStack<Elem*> SE;
+    QStack<Elem*> Stack;
+    Elem* v0 = nullptr;
+    bool steps = 0;
 protected:
     int stupidnames = 0;
+
     Elem* gr;
     Elem* pos;
     List* lpos;

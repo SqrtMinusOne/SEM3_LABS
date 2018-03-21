@@ -52,18 +52,19 @@
 #define EDGE_H
 
 #include <QGraphicsItem>
+#include  "graph.h"
 
 class Node;
+class List;
 
 //! [0]
 class Edge : public QGraphicsItem
 {
 public:
-    Edge(Node *sourceNode, Node *destNode);
+    Edge(Node *sourceNode, Node *destNode, List* lst);
     void clear();
     Node *sourceNode() const;
     Node *destNode() const;
-
     void adjust();
 
     enum { Type = UserType + 2 };
@@ -75,7 +76,7 @@ protected:
 
 private:
     Node *source, *dest;
-
+    List* list;
     QPointF sourcePoint;
     QPointF destPoint;
     qreal arrowSize;

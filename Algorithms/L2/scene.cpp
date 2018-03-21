@@ -63,7 +63,7 @@ GraphicsScene::GraphicsScene(QObject *parent, GraphWidget* widg)
 
 void GraphicsScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 {
-    qDebug() << event->scenePos().x() << " " << event->scenePos().y();
     widget->gr->AddElem(widget->gr->GetMinStupidName());
     widget->gr->FindElem(widget->gr->GetLastStupidName())->node->setPos(event->scenePos());
+    widget->mw->update_matr();
 }

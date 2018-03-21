@@ -195,6 +195,10 @@ void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWid
         grad0t = Qt::blue;
         grad1t = Qt::darkBlue;
     }
+    if ((!graph->gr->Stack.isEmpty()) && (graph->gr->Stack.top()->node == this)){
+        grad0t = Qt::red;
+        grad1t = Qt::darkRed;
+    }
     gradient.setColorAt(0, grad0t);
     gradient.setColorAt(1, grad1t);
     painter->setBrush(gradient);
@@ -261,6 +265,7 @@ void Node::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
         else
             graph->gr->RenameElem(name, cname2);
         update();
+
     }
     else if (selectedAction == deleteAction){
         graph->gr->RemoveElem(name);
@@ -276,6 +281,7 @@ void Node::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
             }
         }
     }
+    graph->mw->update_matr();
 }
 
 //! [11]
@@ -285,7 +291,6 @@ void Node::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
     update();
     QGraphicsItem::mousePressEvent(event);
-    qDebug() << event->pos().x() << " " << event->pos().y();
 //    QGraphicsItem::setSelected(1);
 }
 

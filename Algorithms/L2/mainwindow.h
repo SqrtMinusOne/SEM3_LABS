@@ -18,6 +18,7 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
+    void update_matr();
 protected:
     void keyPressEvent(QKeyEvent *event) override;
 
@@ -46,6 +47,12 @@ private slots:
     void on_colorButton_clicked();
 
     void on_shuffleButton_clicked();
+
+    void on_pushButton_clicked();
+
+    void on_clrMarksButton_clicked();
+
+    void on_stepBox_stateChanged(int arg1);
 
 private:
     Ui::MainWindow *ui;

@@ -19,7 +19,7 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     gr1 = new Graph;
-    gr1->widget = new GraphWidget(0, gr1);
+    gr1->widget = new GraphWidget(0, gr1, this);
     ui->graphicsView->setViewport(gr1->widget);
     srand(time(nullptr));
 }
@@ -27,6 +27,11 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::update_matr()
+{
+    on_matrButton_clicked();
 }
 
 void MainWindow::keyPressEvent(QKeyEvent *event)
@@ -199,4 +204,45 @@ void MainWindow::on_colorButton_clicked()
 void MainWindow::on_shuffleButton_clicked()
 {
     gr1->widget->shuffle();
+}
+
+void MainWindow::on_pushButton_clicked()
+{
+    if ((!ui->cycleEdit->text().isEmpty()) && (gr1->Stack.isEmpty())){
+        QMessageBox msg;
+        msg.setText("Конец");
+        msg.exec();
+        return;
+    }
+    gr1->Euler();
+    QString str;
+    QTextStream strm(&str);
+    for (auto it : gr1->SE){
+           strm << it->name << " ";
+    }
+    std::reverse(str.begin(), str.end());
+    ui->cycleEdit->setText(str);
+    str.clear();
+    strm.reset();
+    for (auto it : gr1->Stack){
+           strm << it->name << " ";
+    }
+    std::reverse(str.begin(), str.end());
+    ui->stackEdit->setText(str);
+}
+
+void MainWindow::on_clrMarksButton_clicked()
+{
+    gr1->ClearMarks();
+    gr1->ResetEuler();
+    ui->cycleEdit->clear();
+}
+
+void MainWindow::on_stepBox_stateChanged(int arg1)
+{
+    if (arg1){
+        gr1->steps = true;
+    }
+    else
+        gr1->steps = false;
 }

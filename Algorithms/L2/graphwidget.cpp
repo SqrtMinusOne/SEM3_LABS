@@ -63,10 +63,11 @@
 
 
 //! [0]
-GraphWidget::GraphWidget(QWidget *parent, Graph *graph)
+GraphWidget::GraphWidget(QWidget *parent, Graph *graph, MainWindow* main)
     : QGraphicsView(parent), timerId(0)
 {
     gr = graph;
+    mw = main;
     GraphicsScene *scene = new GraphicsScene(this, this);
     scene->setItemIndexMethod(QGraphicsScene::NoIndex);
     scene->setSceneRect(-400, -300, Wid, Hei);
@@ -113,22 +114,13 @@ void GraphWidget::keyPressEvent(QKeyEvent *event)
                     gr->RemoveElem(node->name);
             }
         }
+         mw->update_matr();
+        break;
     default:
         QGraphicsView::keyPressEvent(event);
     }
 }
-/*
-void GraphWidget::mouseDoubleClickEvent(QMouseEvent *event)
-{
 
-    QPointF pos = event->pos();
-    QPointF d-elta(380, 250);
-    pos = pos - delta;
-    pos = pos/0.8;
-    gr->AddElem(gr->GetMinStupidName());
-    gr->FindElem(gr->GetLastStupidName())->node->setPos(pos);
-}
-*/
 //! [3]
 
 //! [4]

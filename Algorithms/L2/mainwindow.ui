@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1099</width>
-    <height>579</height>
+    <height>610</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -20,7 +20,7 @@
       <x>10</x>
       <y>20</y>
       <width>301</width>
-      <height>251</height>
+      <height>211</height>
      </rect>
     </property>
     <property name="font">
@@ -54,8 +54,8 @@
    <widget class="QGroupBox" name="groupBox">
     <property name="geometry">
      <rect>
-      <x>0</x>
-      <y>280</y>
+      <x>10</x>
+      <y>320</y>
       <width>151</width>
       <height>251</height>
      </rect>
@@ -192,9 +192,9 @@
     <property name="geometry">
      <rect>
       <x>160</x>
-      <y>280</y>
+      <y>320</y>
       <width>151</width>
-      <height>251</height>
+      <height>101</height>
      </rect>
     </property>
     <property name="title">
@@ -239,6 +239,107 @@
       <string>Перетасовать</string>
      </property>
     </widget>
+   </widget>
+   <widget class="QGroupBox" name="groupBox_3">
+    <property name="geometry">
+     <rect>
+      <x>170</x>
+      <y>420</y>
+      <width>141</width>
+      <height>141</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>Поиск эйлерового цикла</string>
+    </property>
+    <widget class="QPushButton" name="pushButton">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>20</y>
+       <width>121</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Пуск</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="clrMarksButton">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>50</y>
+       <width>121</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Сброс</string>
+     </property>
+    </widget>
+    <widget class="QCheckBox" name="stepBox">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>80</y>
+       <width>121</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Пошагово</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QLabel" name="label_4">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>230</y>
+      <width>141</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Эйлеров цикл</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="cycleEdit">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>250</y>
+      <width>301</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="readOnly">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_5">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>270</y>
+      <width>81</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Стек циклов</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="stackEdit">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>290</y>
+      <width>291</width>
+      <height>20</height>
+     </rect>
+    </property>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">

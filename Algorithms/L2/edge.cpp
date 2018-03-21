@@ -55,9 +55,10 @@
 #include <QPainter>
 
 //! [0]
-Edge::Edge(Node *sourceNode, Node *destNode)
+Edge::Edge(Node *sourceNode, Node *destNode, List* lst)
     : arrowSize(10)
 {
+    list = lst;
     setAcceptedMouseButtons(0);
     source = sourceNode;
     dest = destNode;
@@ -135,7 +136,12 @@ void Edge::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 
 //! [5]
     // Draw the line itself
-    painter->setPen(QPen(Qt::black, 1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
+    QColor col;
+    if (list->mark)
+        col = Qt::red;
+    else
+        col = Qt::black;
+    painter->setPen(QPen(col, 1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
     painter->drawLine(line);
 //! [5]
 
@@ -152,7 +158,7 @@ void Edge::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
     QPointF destArrowP2 = destPoint + QPointF(sin(angle - M_PI + M_PI / 3) * arrowSize,
                                               cos(angle - M_PI + M_PI / 3) * arrowSize);
 
-    painter->setBrush(Qt::black);
+    painter->setBrush(col);
   //  painter->drawPolygon(QPolygonF() << line.p1() << sourceArrowP1 << sourceArrowP2);
     painter->drawPolygon(QPolygonF() << line.p2() << destArrowP1 << destArrowP2);
 }

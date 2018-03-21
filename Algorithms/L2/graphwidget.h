@@ -59,17 +59,20 @@
 #include "node.h"
 #include "edge.h"
 #include "graph.h"
+#include "mainwindow.h"
 
 class Node;
 class Graph;
+class MainWindow;
 //! [0]
 class GraphWidget : public QGraphicsView
 {
     Q_OBJECT
 public:
-    GraphWidget(QWidget *parent = 0, Graph* graph = 0);
+    GraphWidget(QWidget *parent = 0, Graph* graph = 0, MainWindow *Main = 0);
     Node *centerNode;
     void itemMoved();
+    MainWindow* mw;
     Graph* gr;
 public slots:
     void shuffle();
