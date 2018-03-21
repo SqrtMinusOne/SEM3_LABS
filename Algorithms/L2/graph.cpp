@@ -1,5 +1,6 @@
 #include "graph.h"
 #include <cstdio>
+#include <QThread>
 
 Graph::Graph()
 {
@@ -403,7 +404,7 @@ void Graph::Inc_Matr(QTextStream &os)
     RESTOREITS;
 }
 
-void Graph::Euler()
+bool Graph::Euler()
 {
     SAVEITS;
     Elem* v;
@@ -412,14 +413,14 @@ void Graph::Euler()
         ResetEuler();
         Stack.push(gr);
     }
-    while (!Stack.isEmpty()){
+    if (!Stack.isEmpty()){
         v = Stack.top();
-        v->node->update();
         if (CountChildren(v, 0)){
             if (!v0)
                 v0 = v;
             u = it(v, 0);
             Stack.push(u->node);
+            v->node->update();
             u->mark = 1;
             u->edge->update();
             v = u->node;
@@ -429,17 +430,21 @@ void Graph::Euler()
                 QMessageBox msg;
                 msg.setText("В графе тупик. Эйлерова цикла нет");
                 msg.exec();
-                break;
+                return 1;
             }
-            v0 = nullptr;
-            v = Stack.pop();
-            SE.push(v);
+            else{
+                v0 = nullptr;
+                v = Stack.pop();
+                if (v)
+                    v->node->update();
+                SE.push(v);
+            }
         }
-        if (steps){
-            break;
-        }
+        if (!Stack.isEmpty())
+            Stack.top()->node->update();
     }
     RESTOREITS;
+    return 0;
 }
 
 void Graph::ResetEuler()
@@ -455,6 +460,7 @@ void Graph::ClearMarks()
     Elem* el;
     List* ls;
     while ((el = it())!=nullptr){
+        el->node->update();
         while ((ls = it(el))!=nullptr){
             ls->mark = 0;
             ls->edge->update();

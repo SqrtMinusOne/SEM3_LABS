@@ -8,6 +8,7 @@
 #include <QFileDialog>
 #include <cstdlib>
 #include <ctime>
+#include <QTimer>
 
 #include <QGraphicsScene>
 
@@ -22,6 +23,7 @@ MainWindow::MainWindow(QWidget *parent) :
     gr1->widget = new GraphWidget(0, gr1, this);
     ui->graphicsView->setViewport(gr1->widget);
     srand(time(nullptr));
+    timer = nullptr;
 }
 
 MainWindow::~MainWindow()
@@ -32,6 +34,46 @@ MainWindow::~MainWindow()
 void MainWindow::update_matr()
 {
     on_matrButton_clicked();
+}
+
+int MainWindow::get_speed()
+{
+    return ui->speedSlider->value();
+}
+
+void MainWindow::One_Step()
+{
+    if ((!ui->cycleEdit->text().isEmpty()) && (gr1->Stack.isEmpty())){
+        QMessageBox msg;
+        msg.setText("Конец");
+        msg.exec();
+        if (timer){
+            timer->stop();
+            delete timer;
+            timer = nullptr;
+            return;
+        }
+    }
+    bool res = gr1->Euler();
+    QString str;
+    QTextStream strm(&str);
+    for (auto it : gr1->SE){
+           strm << it->name << " ";
+    }
+    std::reverse(str.begin(), str.end());
+    ui->cycleEdit->setText(str);
+    str.clear();
+    strm.reset();
+    for (auto it : gr1->Stack){
+           strm << it->name << " ";
+    }
+    std::reverse(str.begin(), str.end());
+    ui->stackEdit->setText(str);
+    if (res){
+        timer->stop();
+        delete timer;
+        timer = nullptr;
+    }
 }
 
 void MainWindow::keyPressEvent(QKeyEvent *event)
@@ -171,6 +213,7 @@ void MainWindow::on_ClearButton_clicked()
     gr1->Clear();
     on_matrButton_clicked();
     ui->NodeNameEdit->clear();
+    gr1->widget->update();
 }
 
 void MainWindow::on_open_action_triggered()
@@ -208,41 +251,24 @@ void MainWindow::on_shuffleButton_clicked()
 
 void MainWindow::on_pushButton_clicked()
 {
-    if ((!ui->cycleEdit->text().isEmpty()) && (gr1->Stack.isEmpty())){
-        QMessageBox msg;
-        msg.setText("Конец");
-        msg.exec();
-        return;
+    if (ui->stepBox->isChecked())
+        One_Step();
+    else if (!timer){
+        timer = new QTimer(this);
+        connect(timer, SIGNAL(timeout()), this, SLOT(One_Step()));
+        timer->start(ui->speedSlider->value());
     }
-    gr1->Euler();
-    QString str;
-    QTextStream strm(&str);
-    for (auto it : gr1->SE){
-           strm << it->name << " ";
-    }
-    std::reverse(str.begin(), str.end());
-    ui->cycleEdit->setText(str);
-    str.clear();
-    strm.reset();
-    for (auto it : gr1->Stack){
-           strm << it->name << " ";
-    }
-    std::reverse(str.begin(), str.end());
-    ui->stackEdit->setText(str);
 }
 
 void MainWindow::on_clrMarksButton_clicked()
 {
-    gr1->ClearMarks();
     gr1->ResetEuler();
+    gr1->ClearMarks();
+    ui->stackEdit->clear();
     ui->cycleEdit->clear();
-}
-
-void MainWindow::on_stepBox_stateChanged(int arg1)
-{
-    if (arg1){
-        gr1->steps = true;
+    if (timer){
+        timer->stop();
+        delete timer;
     }
-    else
-        gr1->steps = false;
+
 }

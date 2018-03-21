@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QDebug>
+#include <QTimer>
 #include <QMessageBox>
 #include <QKeyEvent>
 #include "graph.h"
@@ -19,6 +20,11 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
     void update_matr();
+    int get_speed();
+
+public slots:
+    void One_Step();
+
 protected:
     void keyPressEvent(QKeyEvent *event) override;
 
@@ -52,10 +58,9 @@ private slots:
 
     void on_clrMarksButton_clicked();
 
-    void on_stepBox_stateChanged(int arg1);
-
 private:
     Ui::MainWindow *ui;
+    QTimer* timer;
 };
 
 #endif // MAINWINDOW_H

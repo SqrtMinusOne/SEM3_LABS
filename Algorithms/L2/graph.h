@@ -13,6 +13,7 @@
 #include <QFile>
 #include <QStack>
 #include <QMessageBox>
+#include <QTime>
 
 #include "graphwidget.h"
 
@@ -72,7 +73,7 @@ public:
     int Max_Width();
     void Inc_Matr(QTextStream& os); //Матрица инцидентности
 
-    void Euler();
+    bool Euler();
     void ResetEuler();
     void ClearMarks();
 
@@ -82,7 +83,6 @@ public:
     QStack<Elem*> SE;
     QStack<Elem*> Stack;
     Elem* v0 = nullptr;
-    bool steps = 0;
 protected:
     int stupidnames = 0;
 
