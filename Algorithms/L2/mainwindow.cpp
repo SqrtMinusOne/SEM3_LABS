@@ -272,3 +272,10 @@ void MainWindow::on_clrMarksButton_clicked()
     }
 
 }
+
+void MainWindow::on_desButton_clicked()
+{
+    gr1->Desorientate();
+    gr1->widget->update();
+    on_matrButton_clicked();
+}

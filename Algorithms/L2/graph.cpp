@@ -329,6 +329,20 @@ void Graph::RenameElem(char *oldname, char *newname)
     }
 }
 
+void Graph::Desorientate()
+{
+    SAVEITS;
+    Elem* el;
+    List* ls;
+    while ((el = it())!=nullptr){
+        while ((ls = it(el))!=nullptr){
+            if (!Is_Egde(ls->node, el))
+                AddEdge(ls->node, el);
+        }
+    }
+    RESTOREITS;
+}
+
 int Graph::CountChildren(Elem *el, bool marked)
 {
     SAVEITS;
@@ -367,6 +381,24 @@ bool Graph::Is_Egde(Elem *el1, Elem *el2)
     RestoreItL(t_lpos);
     return res;
 }
+
+List *Graph::GetEdge(Elem *el1, Elem *el2)
+{
+    if (Is_Egde(el1, el2)){
+        SAVEITS;
+        List* curr;
+        while ((curr = it(el1))!=nullptr){
+            if (curr->node == el2){
+                break;
+            }
+        }
+        RESTOREITS;
+        return curr;
+    }
+    return nullptr;
+}
+
+
 
 int Graph::Max_Width()
 {
@@ -422,6 +454,8 @@ bool Graph::Euler()
             Stack.push(u->node);
             v->node->update();
             u->mark = 1;
+            if (Is_Egde(u->node, v))
+                GetEdge(u->node, v)->mark = 1;
             u->edge->update();
             v = u->node;
         }

@@ -52,8 +52,8 @@ public:
     void ReadFile(QString fileName); //Считать из файла
     void SaveFile(QString fileName); //Сохранить в файл
 
-    char* GetMinStupidName();
-    char* GetLastStupidName();
+    char* GetMinStupidName(); //Получение минимального числового имени
+    char* GetLastStupidName(); //Получение последнего такого
 
     void AddElem(char* name); //Добавить элемент
     void AddEdge(Elem* el1, Elem* el2); //Добавить линию
@@ -64,20 +64,23 @@ public:
     void RemoveEdges(Elem* el); //Удалить связи элемента
     void RenameElem(char* oldname, char* newname); //Переименовать элемент
 
+    void Desorientate(); //Снять ориентацию графа
+
     Elem* FindElem(char* name); //Найти элемент
     int CountChildren(Elem* el, bool marked = 1); //Сколько детей
     int CountElems(); //Сколько элементов
 
     bool Is_Egde(Elem* el1, Elem* el2); //Есть ли связь от 1 к 2
+    List* GetEdge(Elem* el1, Elem* el2); //Обратить связь
 
-    int Max_Width();
+    int Max_Width(); //Максимальная длина имени в графе
     void Inc_Matr(QTextStream& os); //Матрица инцидентности
 
-    bool Euler();
-    void ResetEuler();
-    void ClearMarks();
+    bool Euler(); //Один шаг поиска эйлерового цикла
+    void ResetEuler(); //Сброс эйлеровых циклов
+    void ClearMarks(); //Очистка меток исключений на графе
 
-    Elem* operator[](int i);
+    Elem* operator[](int i); //Доступ к элементам по индексу
 
     GraphWidget* widget;
     QStack<Elem*> SE;

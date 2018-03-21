@@ -58,6 +58,8 @@ private slots:
 
     void on_clrMarksButton_clicked();
 
+    void on_desButton_clicked();
+
 private:
     Ui::MainWindow *ui;
     QTimer* timer;
