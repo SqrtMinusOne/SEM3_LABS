@@ -6,6 +6,8 @@
 #include <QQueue>
 #include <QList>
 #include <QtDebug>
+#include <QFile>
+#include <QByteArray>
 #include <item.h>
 
 class try_parm{

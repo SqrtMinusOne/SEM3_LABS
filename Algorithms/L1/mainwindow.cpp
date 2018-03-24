@@ -4,6 +4,7 @@
 #include <QMessageBox>
 #include <QString>
 #include <QTextStream>
+#include <QFileDialog>
 #include <qDebug>
 #include <ctime>
 #include <item.h>
@@ -91,7 +92,8 @@ void MainWindow::on_solveButton_clicked()
 {
     op.steps = 0;
     op.setlimw(ui->limwEdit->text());
-    op.try_item();
+    op.clrzeros();
+    op.try_item();  
     out_sol(op.opts);
     ui->stepNum->display(op.g_nums());
 }
@@ -140,4 +142,30 @@ void MainWindow::on_stepButton_clicked()
 void MainWindow::on_pushButton_2_clicked()
 {
     out_sol(op.opts);
+}
+
+void MainWindow::on_pushButton_3_clicked()
+{
+    on_clearButton_clicked();
+    QString fileName = QFileDialog::getOpenFileName(this, "Открыть файл");
+    QFile file(fileName);
+    file.open(QIODevice::ReadOnly);
+    QTextStream file1s(&file);
+    QString str;
+    int w; int v;
+    str = file1s.readLine();
+    ui->limwEdit->setText(str);
+    while (!file1s.atEnd()){
+        str = file1s.readLine();
+        QStringList strl = str.split(' ');
+        v = strl.at(0).toInt();
+        w = strl.at(1).toInt();
+        Item it;
+        it.set(w, v);
+        if (it.ok()){
+            ui->listWidget->addItem(it.wItem);
+        }
+        op.all.push_back(it);
+        ui->listNum->display(ui->listWidget->count());
+    }
 }

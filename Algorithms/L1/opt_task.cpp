@@ -14,6 +14,8 @@ int Opt_task::totv_all(){
     return res;
 }
 
+
+
 void Opt_task::try_item()
 {
  //   make_arr();
