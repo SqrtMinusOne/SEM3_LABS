@@ -58,7 +58,7 @@
 
 #include <qDebug>
 #include <QKeyEvent>
-#include <QRandomGenerator>
+
 #include <QRect>
 
 
@@ -150,14 +150,14 @@ void GraphWidget::timerEvent(QTimerEvent *event)
 }
 //! [4]
 
-#if QT_CONFIG(wheelevent)
+//#if QT_CONFIG(wheelevent)
 //! [5]
 void GraphWidget::wheelEvent(QWheelEvent *event)
 {
     scaleView(pow((double)2, -event->delta() / 240.0));
 }
 //! [5]
-#endif
+//#endif
 
 //! [6]
 void GraphWidget::drawBackground(QPainter *painter, const QRectF &rect)
@@ -215,7 +215,7 @@ void GraphWidget::shuffle()
 {
     foreach (QGraphicsItem *item, scene()->items()) {
         if (qgraphicsitem_cast<Node *>(item))
-            item->setPos(-300 + QRandomGenerator::global()->bounded(600), -400 + QRandomGenerator::global()->bounded(800));
+            item->setPos(-300 + rand()%600, -400 + rand()%800);
     }
 }
 

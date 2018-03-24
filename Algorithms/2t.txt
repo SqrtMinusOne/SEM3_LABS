@@ -1,0 +1,9 @@
+A C E F G H I J K 
+C E F G H I J K 
+E F G H I J K 
+F G H I J K 
+G H I J K 
+H I J K 
+I J K 
+J K 
+K 

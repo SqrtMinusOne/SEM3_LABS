@@ -84,9 +84,9 @@ public slots:
 protected:  
 //    void mouseDoubleClickEvent(QMouseEvent *event) override;
     void timerEvent(QTimerEvent *event) override;
-#if QT_CONFIG(wheelevent)
+//#if QT_CONFIG(wheelevent)
     void wheelEvent(QWheelEvent *event) override;
-#endif
+//#endif
     void drawBackground(QPainter *painter, const QRectF &rect) override;
 
     void scaleView(qreal scaleFactor);
