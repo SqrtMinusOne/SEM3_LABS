@@ -93,7 +93,9 @@ void MainWindow::on_solveButton_clicked()
     op.steps = 0;
     op.setlimw(ui->limwEdit->text());
     op.clrzeros();
+    this->SetEn(0);
     op.try_item();  
+    this->SetEn(1);
     out_sol(op.opts);
     ui->stepNum->display(op.g_nums());
 }
@@ -169,3 +171,11 @@ void MainWindow::on_pushButton_3_clicked()
         ui->listNum->display(ui->listWidget->count());
     }
 }
+
+void MainWindow::SetEn(bool b)
+{
+    foreach (QAbstractButton* button, ui->buttonGroup->buttons()){
+        button->setEnabled(b);
+    }
+}
+

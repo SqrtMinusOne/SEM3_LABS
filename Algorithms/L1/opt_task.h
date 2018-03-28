@@ -43,6 +43,7 @@ public:
     void make_arr();
     bool steps = 0;
     bool go = 1;
+    QCoreApplication* app;
 private:  
     void try_incl(int i, int tw, int av);
     void try_unincl(int i, int tw, int av);
@@ -51,7 +52,6 @@ private:
     int totw = 0; //Вес текущей выборки
     int maxv = 0; //Максимальная ценость оптимальной выборки
     int nums = 0; //Количество решений
-
 };
 
 

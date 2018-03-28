@@ -5,6 +5,7 @@
 #include <QString>
 #include <QTextStream>
 #include <QListWidget>
+#include <QApplication>
 #include <qDebug>
 
 class Item{

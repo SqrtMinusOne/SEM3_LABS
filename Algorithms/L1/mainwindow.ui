@@ -110,6 +110,9 @@
     <property name="text">
      <string>Добавить</string>
     </property>
+    <attribute name="buttonGroup">
+     <string notr="true">buttonGroup</string>
+    </attribute>
    </widget>
    <widget class="QPushButton" name="solveButton">
     <property name="geometry">
@@ -123,6 +126,9 @@
     <property name="text">
      <string>Решить</string>
     </property>
+    <attribute name="buttonGroup">
+     <string notr="true">buttonGroup</string>
+    </attribute>
    </widget>
    <widget class="QLabel" name="label_4">
     <property name="geometry">
@@ -165,6 +171,9 @@
     <property name="text">
      <string>Случайный</string>
     </property>
+    <attribute name="buttonGroup">
+     <string notr="true">buttonGroup</string>
+    </attribute>
    </widget>
    <widget class="QPushButton" name="delButton">
     <property name="geometry">
@@ -178,6 +187,9 @@
     <property name="text">
      <string>Удалить</string>
     </property>
+    <attribute name="buttonGroup">
+     <string notr="true">buttonGroup</string>
+    </attribute>
    </widget>
    <widget class="QPushButton" name="clearButton">
     <property name="geometry">
@@ -191,6 +203,9 @@
     <property name="text">
      <string>Очистить ввод</string>
     </property>
+    <attribute name="buttonGroup">
+     <string notr="true">buttonGroup</string>
+    </attribute>
    </widget>
    <widget class="QLCDNumber" name="listNum">
     <property name="geometry">
@@ -321,6 +336,9 @@
     <property name="text">
      <string>Шаг решения</string>
     </property>
+    <attribute name="buttonGroup">
+     <string notr="true">buttonGroup</string>
+    </attribute>
    </widget>
    <widget class="QLCDNumber" name="stepNum">
     <property name="geometry">
@@ -380,6 +398,9 @@
     <property name="text">
      <string>Оптимальное</string>
     </property>
+    <attribute name="buttonGroup">
+     <string notr="true">buttonGroup</string>
+    </attribute>
    </widget>
    <widget class="QPushButton" name="pushButton_3">
     <property name="geometry">
@@ -393,10 +414,45 @@
     <property name="text">
      <string> Открыть из файла</string>
     </property>
+    <attribute name="buttonGroup">
+     <string notr="true">buttonGroup</string>
+    </attribute>
    </widget>
+   <zorder>solveButton</zorder>
+   <zorder>listWidget</zorder>
+   <zorder>label</zorder>
+   <zorder>label_2</zorder>
+   <zorder>valueEdit</zorder>
+   <zorder>label_3</zorder>
+   <zorder>weightEdit</zorder>
+   <zorder>pushButton</zorder>
+   <zorder>label_4</zorder>
+   <zorder>limwEdit</zorder>
+   <zorder>randButton</zorder>
+   <zorder>delButton</zorder>
+   <zorder>clearButton</zorder>
+   <zorder>listNum</zorder>
+   <zorder>solWidget</zorder>
+   <zorder>clearButton_2</zorder>
+   <zorder>label_5</zorder>
+   <zorder>label_6</zorder>
+   <zorder>weightNum</zorder>
+   <zorder>valueNum</zorder>
+   <zorder>label_7</zorder>
+   <zorder>label_8</zorder>
+   <zorder>stepButton</zorder>
+   <zorder>stepNum</zorder>
+   <zorder>qList</zorder>
+   <zorder>label_9</zorder>
+   <zorder>label_10</zorder>
+   <zorder>pushButton_2</zorder>
+   <zorder>pushButton_3</zorder>
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources/>
  <connections/>
+ <buttongroups>
+  <buttongroup name="buttonGroup"/>
+ </buttongroups>
 </ui>

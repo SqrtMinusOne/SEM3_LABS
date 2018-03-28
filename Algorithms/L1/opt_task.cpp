@@ -14,8 +14,6 @@ int Opt_task::totv_all(){
     return res;
 }
 
-
-
 void Opt_task::try_item()
 {
  //   make_arr();
@@ -63,6 +61,7 @@ void Opt_task::try_item(int i, int tw, int av){
     Item it;
     it.set(all[i]);
     if (!steps){
+        app->processEvents();
         try_incl(i, tw, av);
         try_unincl(i, tw, av);
     }
