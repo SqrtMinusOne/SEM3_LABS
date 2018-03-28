@@ -198,6 +198,7 @@ void Graph::AddEdge(Elem *el1, Elem *el2)
             strcpy_s(el1->childs->name, el2->name);
             el1->childs->node = el2;
             el1->childs->edge = new Edge(el1->node, el2->node, el1->childs);
+            el1->childs->next = nullptr;
             widget->scene()->addItem(el1->childs->edge);
         }
         else{
@@ -207,6 +208,7 @@ void Graph::AddEdge(Elem *el1, Elem *el2)
             strcpy_s(ls->name, el2->name);
             ls->node = el2;
             ls->edge = new Edge(el1->node, el2->node, ls);
+            ls->next = nullptr;
             widget->scene()->addItem(ls->edge);
         }
     }
@@ -217,7 +219,7 @@ void Graph::AddEdge(Elem *el1, char *name)
 {
     SAVEITS;
     List* ls;
-    if (el1){
+    if (el1 && (strlen(name)!=0)){
         if (!el1->childs){
             el1->childs = new List;
             strcpy_s(el1->childs->name, name);

@@ -12,7 +12,7 @@
 
 #include <QGraphicsScene>
 
-Graph* gr1;
+
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -45,7 +45,7 @@ void MainWindow::One_Step()
 {
     if ((!ui->cycleEdit->text().isEmpty()) && (gr1->Stack.isEmpty())){
         QMessageBox msg;
-        msg.setText("Конец");
+        msg.setText("Цикл найден");
         msg.exec();
         if (timer){
             timer->stop();
@@ -278,4 +278,63 @@ void MainWindow::on_desButton_clicked()
     gr1->Desorientate();
     gr1->widget->update();
     on_matrButton_clicked();
+}
+
+void MainWindow::on_speedSlider_sliderMoved(int position)
+{
+    if (timer){
+        timer->setInterval(position);
+    }
+}
+
+
+
+void MainWindow::on_guessButoon_clicked()
+{
+    if (!timer)
+        on_pushButton_clicked();
+    QPalette p1 = ui->cycleEdit->palette();
+    QPalette* p2 = new QPalette(p1);
+    p2->setColor(QPalette::Text, Qt::white);
+    ui->cycleEdit->setPalette(*p2);
+    while (timer){
+        app->processEvents();
+    }
+    if (!(ui->stackEdit->text().isEmpty()) || (ui->cycleEdit->text().isEmpty())){
+        ui->cycleEdit->setPalette(p1);
+        delete p2;
+        return;
+    }
+    QString txt; int g = gr1->SE.count()-1; bool alright = 0;
+    do{
+        alright = 1;
+        QInputDialog* dia = new QInputDialog;
+        dia->setInputMode(QInputDialog::TextInput);
+        dia->setWindowTitle("Угадать цикл");
+        dia->setLabelText("Введите следующую вершину цикла");
+        dia->setCancelButtonText("Всё");
+        dia->exec();
+        txt = dia->textValue();
+        if (txt.isSimpleText()){
+            bool res = !(QString::compare(txt, gr1->SE[g]->name));
+            if (!res){
+                QMessageBox box;
+                box.setText("Неверно!");
+                box.exec();
+                break;
+            }
+        }
+        g--;
+        delete dia;
+    } while (!txt.isEmpty() && (g>=0));
+    ui->cycleEdit->setPalette(p1);
+    delete p2;
+    if (alright){
+        QString final;
+        QTextStream finals(&final);
+        finals << "Correct: " << gr1->SE.count() - g - 1 << " of " << gr1->SE.count() << endl;;
+        QMessageBox box;
+        box.setText(final);
+        box.exec();
+    }
 }

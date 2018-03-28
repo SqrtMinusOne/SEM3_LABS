@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QApplication>
 #include <QDebug>
 #include <QTimer>
 #include <QMessageBox>
@@ -12,12 +13,15 @@ namespace Ui {
 class MainWindow;
 }
 
+class Graph;
+
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
 public:
     explicit MainWindow(QWidget *parent = 0);
+    QCoreApplication* app;
     ~MainWindow();
     void update_matr();
     int get_speed();
@@ -60,7 +64,13 @@ private slots:
 
     void on_desButton_clicked();
 
+    void on_speedSlider_sliderMoved(int position);
+
+
+    void on_guessButoon_clicked();
+
 private:
+    Graph* gr1;
     Ui::MainWindow *ui;
     QTimer* timer;
 };
