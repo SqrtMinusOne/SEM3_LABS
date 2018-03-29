@@ -1,6 +1,5 @@
 #include "graph.h"
 #include <cstdio>
-#include <QThread>
 
 Graph::Graph()
 {
@@ -192,6 +191,8 @@ void Graph::AddEdge(Elem *el1, Elem *el2)
 {
     SAVEITS;
     List* ls;
+    if (Is_Egde(el1, el2))
+        return;
     if (el1 && el2){
         if (!el1->childs){
             el1->childs = new List;
@@ -440,10 +441,10 @@ void Graph::Inc_Matr(QTextStream &os)
 
 bool Graph::Euler()
 {
-    SAVEITS;
+    SAVEITS; //Сохранение и сброс итераторов
     Elem* v;
     List* u;
-    if (Stack.isEmpty()){
+    if (Stack.isEmpty()){ //Первый запуск
         ResetEuler();
         Stack.push(gr);
     }
@@ -452,18 +453,18 @@ bool Graph::Euler()
         if (CountChildren(v, 0)){
             if (!v0)
                 v0 = v;
-            u = it(v, 0);
+            u = it(v, 0); //Итератор через непомеченные ребра вершины
             Stack.push(u->node);
-            v->node->update();
-            u->mark = 1;
+            v->node->update(); //Обновление картинки в графе
+            u->mark = 1; //Пометка ребра в одну сторону
             if (Is_Egde(u->node, v))
-                GetEdge(u->node, v)->mark = 1;
-            u->edge->update();
+                GetEdge(u->node, v)->mark = 1; //Пометка ребра в другую сторону
+            u->edge->update(); //Обновление картинки
             v = u->node;
         }
         else{
             if ((v0!=v) && (v0!=nullptr)){
-                QMessageBox msg;
+                QMessageBox msg; //Если зашли в тупик
                 msg.setText("В графе тупик. Эйлерова цикла нет");
                 msg.exec();
                 return 1;
@@ -472,14 +473,14 @@ bool Graph::Euler()
                 v0 = nullptr;
                 v = Stack.pop();
                 if (v)
-                    v->node->update();
+                    v->node->update(); //Обновление картинки
                 SE.push(v);
             }
         }
         if (!Stack.isEmpty())
             Stack.top()->node->update();
     }
-    RESTOREITS;
+    RESTOREITS; //Восстановление итераторов
     return 0;
 }
 

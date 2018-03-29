@@ -86,22 +86,18 @@ public:
     QStack<Elem*> SE;
     QStack<Elem*> Stack;
     Elem* v0 = nullptr;
-protected:
-    int stupidnames = 0;
 
+private:
+    int stupidnames = 0;
     Elem* gr;
     Elem* pos;
     List* lpos;
-private:
     void Clear(List* ls, Elem *el);
     void Clear(Elem* gr);
-
     Elem* KeepItE();
     List* KeepItL();
     void RestoreItE(Elem* t_pos);
     void RestoreItL(List* t_lpos);
-
-
 };
 
 #endif // GRAPH_H

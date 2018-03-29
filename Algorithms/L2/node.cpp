@@ -291,7 +291,6 @@ void Node::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
     update();
     QGraphicsItem::mousePressEvent(event);
-//    QGraphicsItem::setSelected(1);
 }
 
 void Node::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
