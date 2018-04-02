@@ -2,6 +2,7 @@
 //
 
 #include "stdafx.h"
+#include <iostream>
 #include <assert.h>
 #include <algorithm> // std::copy, std::rotate
 #include <cstddef> // size_t
@@ -24,35 +25,46 @@ namespace stepik
 
 		typedef std::ptrdiff_t difference_type;
 
-		explicit vector(size_t count = 0)
+		explicit vector(size_t count = 0) //Инициализация с числом
 		{
-			// implement this
+			m_first = new Type[count];
+			m_last = m_first + count;
 		}
 
 		template <typename InputIterator>
-		vector(InputIterator first, InputIterator last)
+		vector(InputIterator first, InputIterator last) //Инициализация с содержимым диапазона [first, last)
 		{
-			// implement this
+			size_t count = last - first;
+			m_first = new Type[count];
+			for (int i = 0; i < count; i++) {
+				m_first[i] = *first;
+				first++;
+			}
+			m_last = m_first + count;
 		}
 
-		vector(std::initializer_list<Type> init)
+		vector(std::initializer_list<Type> init) : vector(init.begin(), init.end()) //Инициализация с помощью списка инициализации
 		{
-			// implement this
 		}
 
-		vector(const vector& other)
+		vector(const vector& other) : vector(other.begin(), other.end()) //Копирование
 		{
-			// implement this
+		}
+
+		friend void swap(vector& first, vector& second) {
+			std::swap(first.m_first, second.m_first);
+			std::swap(first.m_last, second.m_last);
 		}
 
 		vector(vector&& other)
 		{
-			// implement this
+			swap(*this, other);
 		}
 
 		~vector()
 		{
-			// implement this
+			delete[] m_first;
+			m_first = nullptr;
 		}
 
 		//at methods
@@ -111,6 +123,24 @@ namespace stepik
 			return m_first == m_last;
 		}
 
+		void fill(Type T) {
+			for (size_t i = 0; i < size(); i++) {
+				this->operator[](i) = T;
+			}
+		}
+
+		void out() {
+			if (m_first) {
+				for (size_t i = 0; i < size(); i++) {
+					std::cout << this->operator[](i) << " ";
+				}
+				std::cout << endl;
+			}
+			else {
+				std::cout << "Container has been destroyed" << endl;
+			}
+		}
+
 	private:
 		reference checkIndexAndGet(size_t pos) const
 		{
@@ -130,6 +160,38 @@ namespace stepik
 	};
 }// namespace stepik
 
+using namespace std;
+
 int main() {
+	//Инициализация с числом
+	stepik::vector<int> a(10);
+	a.fill(10);
+	a.out();
+	cout << "---------------" << endl;
+	//Инициализация с содержимым диапазона [first, last)
+	stepik::vector<int> b(a.begin(), a.end());
+	a[5] = 2;
+	a.out();
+	b.out();
+	cout << "---------------" << endl;
+	//Инициализация с помощью списка инициализации
+	stepik::vector<int> c{ 1, 2, 3, 4, 5 };
+	c.out();
+	cout << "---------------" << endl;
+	//Копирование
+	stepik::vector<int> d(c);
+	c[3] = 0;
+	c.out();
+	d.out();
+	cout << "---------------" << endl;
+	//Перемещение
+	stepik::vector<int> e(std::move(d));
+	d.out();
+	e.out();
+	cout << "---------------" << endl;
+	//Разрушение
+	e.~vector();
+	e.out();
+
 	return 0;
 }
