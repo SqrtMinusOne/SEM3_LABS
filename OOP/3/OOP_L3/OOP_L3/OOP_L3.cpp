@@ -6,6 +6,7 @@
 #include <assert.h>
 #include <algorithm> // std::copy, std::rotate
 #include <cstddef> // size_t
+#include <iterator>
 #include <initializer_list>
 #include <stdexcept>
 
@@ -27,44 +28,55 @@ namespace stepik
 
 		explicit vector(size_t count = 0) //Инициализация с числом
 		{
-			m_first = new Type[count];
-			m_last = m_first + count;
+			if (count) {
+				m_first = new Type[count];
+				m_last = m_first + count;
+			}
+			else {
+				m_first = nullptr;
+				m_last = nullptr;
+			}
 		}
 
 		template <typename InputIterator>
 		vector(InputIterator first, InputIterator last) //Инициализация с содержимым диапазона [first, last)
 		{
 			size_t count = last - first;
-			m_first = new Type[count];
-			for (int i = 0; i < count; i++) {
-				m_first[i] = *first;
-				first++;
+			if (count) {
+				m_first = new Type[count];
+				copy(first, last, stdext::checked_array_iterator<Type*>(m_first, count));
+				m_last = m_first + count;
 			}
-			m_last = m_first + count;
+			else {
+				m_first = nullptr;
+				m_last = nullptr;
+			}
 		}
 
-		vector(std::initializer_list<Type> init) : vector(init.begin(), init.end()) //Инициализация с помощью списка инициализации
+		vector(std::initializer_list<Type> init) : vector (init.begin(), init.end()) //Инициализация с помощью списка инициализации
 		{
+			
 		}
 
-		vector(const vector& other) : vector(other.begin(), other.end()) //Копирование
+		vector(const vector& other) : vector (other.begin(), other.end())//Копирование
 		{
-		}
-
-		friend void swap(vector& first, vector& second) {
-			std::swap(first.m_first, second.m_first);
-			std::swap(first.m_last, second.m_last);
+			
 		}
 
 		vector(vector&& other)
 		{
-			swap(*this, other);
+			m_first = other.m_first;
+			m_last = other.m_last;
+			other.m_first = nullptr;
+			other.m_last = nullptr;
 		}
 
 		~vector()
 		{
-			delete[] m_first;
-			m_first = nullptr;
+			if (!empty()) {
+				delete[] m_first;
+				m_first = nullptr;
+			}
 		}
 
 		//at methods
