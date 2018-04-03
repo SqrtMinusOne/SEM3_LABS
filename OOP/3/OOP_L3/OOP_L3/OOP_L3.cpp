@@ -63,12 +63,17 @@ namespace stepik
 			
 		}
 
-		vector(vector&& other)
+		void swap(vector& first, vector& second)
 		{
-			m_first = other.m_first;
-			m_last = other.m_last;
-			other.m_first = nullptr;
-			other.m_last = nullptr;
+			using std::swap;
+			swap(first.m_first, second.m_first);
+			swap(first.m_last, second.m_last);
+		}
+
+
+		vector(vector&& other) : vector()
+		{
+			swap(*this, other);
 		}
 
 		~vector()
@@ -77,6 +82,40 @@ namespace stepik
 				delete[] m_first;
 				m_first = nullptr;
 			}
+		}
+
+		//assignment operators
+		vector& operator=(const vector& other)
+		{
+			swap(*this, arr);
+			return *this;
+		}
+
+		vector& operator=(vector&& other)
+		{
+			swap(*this, other);
+			return *this;
+		}
+
+		// assign method
+		template <typename InputIterator>
+		void assign(InputIterator first, InputIterator last)
+		{
+			if (!empty()) {
+				delete[] m_first;
+				m_first = nullptr;
+				m_last = nullptr;
+			}
+			size_t count = last - first;
+			if (count) {
+				m_first = new Type[count];
+				copy(first, last, stdext::checked_array_iterator<Type*>(m_first, count));
+				m_last = m_first + count;
+			}
+			else {
+				m_first = nullptr;
+				m_last = nullptr;
+			} 
 		}
 
 		//at methods
@@ -204,6 +243,20 @@ int main() {
 	//Разрушение
 	e.~vector();
 	e.out();
-
+	//Присваивание
+	cout << "---------------" << endl;
+	stepik::vector<int> f = a;
+	a.out();
+	f.out();
+	//Присваивание с перемещением
+	cout << "---------------" << endl;
+	stepik::vector<int> g = std::move(f);
+	f.out();
+	g.out();
+	//Назначение
+	cout << "---------------" << endl;
+	stepik::vector<int> h(d);
+	h.assign(c.begin(), c.end());
+	h.out();
 	return 0;
 }
