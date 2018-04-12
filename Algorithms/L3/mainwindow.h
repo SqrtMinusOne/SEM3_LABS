@@ -66,6 +66,8 @@ private slots:
 
     void on_speedSlider_sliderMoved(int position);
 
+    void on_checkBox_stateChanged(int arg1);
+
 private:
     Graph* gr1;
     Ui::MainWindow *ui;

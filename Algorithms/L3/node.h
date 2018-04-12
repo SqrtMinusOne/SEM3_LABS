@@ -84,6 +84,7 @@ public:
 
     bool gravity = false;
     char* name;
+    GraphWidget *graph;
     QColor grad0 = Qt::white;
     QColor grad1 = Qt::gray;
     QList<Edge *> edgeList;
@@ -96,7 +97,7 @@ protected:
 private:
 
     QPointF newPos;
-    GraphWidget *graph;
+
 
 };
 //! [0]

@@ -59,6 +59,7 @@ Edge::Edge(Node *sourceNode, Node *destNode, List* lst)
     : arrowSize(10)
 {
     list = lst;
+    graph = sourceNode->graph;
     setAcceptedMouseButtons(0);
     source = sourceNode;
     dest = destNode;
@@ -143,9 +144,17 @@ void Edge::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
         col = Qt::black;
     painter->setPen(QPen(col, 1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
     painter->drawLine(line);
-//! [5]
 
-//! [6]
+    if (graph->gr->weights){
+        //Draw text
+        QString temp = QString::number(list->weight);
+        QFont font = painter->font();
+        font.setPointSize(14);
+        painter->setFont(font);
+        painter->setPen(QPen(Qt::black, 0));
+        QPointF centerPoint = (sourcePoint + destPoint)/2;
+        painter->drawText(centerPoint, temp);
+    }
     // Draw the arrows
     double angle = std::atan2(-line.dy(), line.dx());
 /*

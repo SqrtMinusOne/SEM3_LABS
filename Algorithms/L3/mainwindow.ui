@@ -183,6 +183,13 @@
             </property>
             <layout class="QVBoxLayout" name="verticalLayout_2">
              <item>
+              <widget class="QCheckBox" name="checkBox">
+               <property name="text">
+                <string>Показать веса</string>
+               </property>
+              </widget>
+             </item>
+             <item>
               <widget class="QCheckBox" name="gravityBox">
                <property name="text">
                 <string>Гравитация</string>

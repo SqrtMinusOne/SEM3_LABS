@@ -121,6 +121,14 @@ void GraphWidget::keyPressEvent(QKeyEvent *event)
     }
 }
 
+void GraphWidget::updateEdges()
+{
+    foreach (QGraphicsItem *item, scene()->items()) {
+        if (Edge *edge = qgraphicsitem_cast<Edge*>(item))
+            edge->update();
+    }
+}
+
 //! [3]
 
 //! [4]

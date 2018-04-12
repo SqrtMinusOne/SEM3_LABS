@@ -507,6 +507,14 @@ void Graph::ClearMarks()
     RESTOREITS;
 }
 
+void Graph::WeightsOn(bool state)
+{
+    if (state!=weights){
+        weights = state;
+        widget->updateEdges();
+    }
+}
+
 Elem *Graph::operator[](int i)
 {
     SAVEITS;

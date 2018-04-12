@@ -33,6 +33,7 @@ typedef struct List{
     List() = default;
     char name[Numb];
     bool mark = false;
+    int weight = 1;
     Elem* node = nullptr; //Сам элемент
     List* next = nullptr;
     Edge* edge;
@@ -80,6 +81,8 @@ public:
 //    void ResetEuler(); //Сброс эйлеровых циклов
     void ClearMarks(); //Очистка меток исключений на графе
 
+    void WeightsOn(bool state);
+
     Elem* operator[](int i); //Доступ к элементам по индексу
 
     GraphWidget* widget;
@@ -88,11 +91,14 @@ public:
     QStack<Elem*> Stack; //Стек, в котором вершины выделяются
     Elem* v0 = nullptr;
 
+    bool weights = false;
+
 private:
     int stupidnames = 0;
     Elem* gr;
-    Elem* pos;
-    List* lpos;
+
+    Elem* pos; //Iterator
+    List* lpos; //Iterator
     void Clear(List* ls, Elem *el);
     void Clear(Elem* gr);
     Elem* KeepItE();

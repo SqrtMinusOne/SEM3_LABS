@@ -263,3 +263,8 @@ void MainWindow::on_speedSlider_sliderMoved(int position) //Изменение �
     }
 }
 
+
+void MainWindow::on_checkBox_stateChanged(int arg1)
+{
+    gr1->WeightsOn(arg1);
+}

@@ -77,6 +77,7 @@ protected:
 private:
     Node *source, *dest;
     List* list;
+    GraphWidget* graph;
     QPointF sourcePoint;
     QPointF destPoint;
     qreal arrowSize;

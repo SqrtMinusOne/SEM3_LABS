@@ -81,6 +81,7 @@ public slots:
     void SetGravity(bool grav);
     void RandomColors();
     void keyPressEvent(QKeyEvent *event) override;
+    void updateEdges();
 protected:  
 //    void mouseDoubleClickEvent(QMouseEvent *event) override;
     void timerEvent(QTimerEvent *event) override;
