@@ -57,8 +57,8 @@ public:
     char* GetLastStupidName(); //Получение последнего такого
 
     void AddElem(char* name); //Добавить элемент
-    void AddEdge(Elem* el1, Elem* el2); //Добавить линию
-    void AddEdge(Elem* el1, char* name); //Добавить "заготовку" для линии
+    void AddEdge(Elem* el1, Elem* el2, int weight = 1); //Добавить линию
+    void AddEdge(Elem* el1, char* name, int weight = 1); //Добавить "заготовку" для линии
     bool Solve(); //Разрешить зависимости "заготовок" для линий
     void RemoveElem(char* name); //Удалить элемент
     void RemoveEdge(Elem* el1, Elem* el2); //Удалить линию
@@ -71,7 +71,7 @@ public:
     int CountChildren(Elem* el, bool marked = 1); //Сколько детей
     int CountElems(); //Сколько элементов
 
-    bool Is_Egde(Elem* el1, Elem* el2); //Есть ли связь от 1 к 2
+    int Is_Egde(Elem* el1, Elem* el2, bool noabs = 0); //Есть ли связь от 1 к 2
     List* GetEdge(Elem* el1, Elem* el2); //Обратить связь
 
     int Max_Width(); //Максимальная длина имени в графе
@@ -81,7 +81,10 @@ public:
 //    void ResetEuler(); //Сброс эйлеровых циклов
     void ClearMarks(); //Очистка меток исключений на графе
 
-    void WeightsOn(bool state);
+    void WeightsOn(bool state); //Изменение взвешенности
+    void ChangeWeight(Elem* el1, Elem* el2, int weight); //Изменение веса
+    double AverageWeight(); //Средний вес
+    void ClearWeights();
 
     Elem* operator[](int i); //Доступ к элементам по индексу
 

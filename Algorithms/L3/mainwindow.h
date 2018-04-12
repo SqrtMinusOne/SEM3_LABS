@@ -66,7 +66,7 @@ private slots:
 
     void on_speedSlider_sliderMoved(int position);
 
-    void on_checkBox_stateChanged(int arg1);
+    void on_weighBox_stateChanged(int arg1);
 
 private:
     Graph* gr1;

@@ -183,9 +183,9 @@
             </property>
             <layout class="QVBoxLayout" name="verticalLayout_2">
              <item>
-              <widget class="QCheckBox" name="checkBox">
+              <widget class="QCheckBox" name="weighBox">
                <property name="text">
-                <string>Показать веса</string>
+                <string>Взвешенный граф</string>
                </property>
               </widget>
              </item>

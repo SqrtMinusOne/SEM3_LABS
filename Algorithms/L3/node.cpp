@@ -102,6 +102,7 @@ void Node::calculateForces()
 //! [2]
 
 //! [3]
+    double av = graph->gr->AverageWeight();
     // Sum up all forces pushing this item away
     qreal xvel = 0;
     qreal yvel = 0;
@@ -123,15 +124,15 @@ void Node::calculateForces()
 
 //! [4]
     // Now subtract all forces pulling items together
-    double weight = (edgeList.size() + 1) * 10;
+    double weight = (edgeList.size() + 1) * 20;
     foreach (Edge *edge, edgeList) {
         QPointF vec;
         if (edge->sourceNode() == this)
             vec = mapToItem(edge->destNode(), 0, 0);
         else
             vec = mapToItem(edge->sourceNode(), 0, 0);
-        xvel -= vec.x() / weight;
-        yvel -= vec.y() / weight;
+        xvel -= (vec.x() / weight) / sqrt(edge->weight_temp / av);
+        yvel -= (vec.y() / weight) / sqrt(edge->weight_temp / av);
     }
 //! [4]
 
@@ -242,8 +243,10 @@ void Node::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
     QAction* colorAction = menu->addAction("Изменить цвет");
     QAction* renameAction = menu->addAction("Переименовать");
     QAction* linkAction = menu->addAction("Связать с этим");
+    QAction* weightAction = menu->addAction("Изменить вес (от этого эл-та)");
     QAction* freeAction = menu->addAction("Удалить связи");
     QAction* deleteAction = menu->addAction("Удалить");
+    weightAction->setEnabled(graph->gr->weights);
     QAction* selectedAction = menu->exec(event->screenPos());
     if (selectedAction == colorAction){
         QColorDialog dia;
@@ -274,10 +277,31 @@ void Node::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
         graph->gr->RemoveEdges(graph->gr->FindElem(name));
     }
     else if (selectedAction == linkAction){
+        int weight = 0;
         foreach (QGraphicsItem *item, graph->scene()->items()) {
             if (Node *node = qgraphicsitem_cast<Node *>(item)){
-                if (node->isSelected())
-                    graph->gr->AddEdge(graph->gr->FindElem(node->name), graph->gr->FindElem(name));
+                if (node->isSelected()){
+                    if (weight == 0){
+                        if (graph->gr->weights)
+                            weight = QInputDialog::getInt(graph, "Добавить связь", "Введите вес", 1);
+                        else
+                            weight = 1;
+                    }
+                    graph->gr->AddEdge(graph->gr->FindElem(node->name), graph->gr->FindElem(name), weight);
+                }
+            }
+        }
+    }
+    else if (selectedAction == weightAction){
+        int weight = 0;
+        foreach (QGraphicsItem *item, graph->scene()->items()) {
+            if (Node *node = qgraphicsitem_cast<Node *>(item)){
+                if (node->isSelected()){
+                    if (weight == 0){
+                        weight = QInputDialog::getInt(graph, "Добавить связь", "Введите вес", 1);
+                    }
+                    graph->gr->ChangeWeight(graph->gr->FindElem(name), graph->gr->FindElem(node->name), weight);
+                }
             }
         }
     }

@@ -55,6 +55,7 @@
 #include <QList>
 #include <QContextMenuEvent>
 #include <QColor>
+#include <QInputDialog>
 
 class Edge;
 class GraphWidget;

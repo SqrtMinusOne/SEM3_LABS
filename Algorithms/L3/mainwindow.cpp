@@ -134,8 +134,11 @@ void MainWindow::on_AddEdge_clicked()
         ui->NodeNameEdit->clear();
         return;
     }
+    int weight = 1;
+    if (ui->weighBox->isChecked())
+        weight = QInputDialog::getInt(this, "Добавить связь", "Введите вес", 1);
     if (!gr1->Is_Egde(el1, el2)){
-        gr1->AddEdge(el1, el2);
+        gr1->AddEdge(el1, el2, weight);
     }
     else{
         QMessageBox msg;
@@ -197,6 +200,7 @@ void MainWindow::on_open_action_triggered() //Открытие из файла
     gr1->Clear();
     gr1->ReadFile(fileName);
     on_matrButton_clicked();
+    ui->weighBox->setChecked(gr1->weights);
 }
 
 void MainWindow::on_save_action_triggered() //Сохранение в файл
@@ -263,8 +267,8 @@ void MainWindow::on_speedSlider_sliderMoved(int position) //Изменение �
     }
 }
 
-
-void MainWindow::on_checkBox_stateChanged(int arg1)
+void MainWindow::on_weighBox_stateChanged(int arg1)
 {
     gr1->WeightsOn(arg1);
+    on_matrButton_clicked();
 }

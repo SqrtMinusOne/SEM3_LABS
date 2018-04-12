@@ -88,7 +88,8 @@ void Graph::ReadFile(QString fileName)
     QTextStream file1s(&file);
     QString str;
     QString tmp;   
-    int i; int k = 0;
+    int i; int k = 0; int weight;
+    weights = file1s.readLine().toInt();
     while (!file1s.atEnd()){
         str = file1s.readLine();
         QStringList strl = str.split(' ');
@@ -96,10 +97,20 @@ void Graph::ReadFile(QString fileName)
         arr = strl.at(0).toLocal8Bit();
         char* name = arr.data();
         AddElem(name);
-        for (i=1; i < strl.size(); i++){
-            arr = strl.at(i).toLocal8Bit();
-            name = arr.data();
-            AddEdge(this->operator [](k), name);
+        if (!weights){
+            for (i=1; i < strl.size(); i++){
+                arr = strl.at(i).toLocal8Bit();
+                name = arr.data();
+                AddEdge(this->operator [](k), name);
+            }
+        }
+        else{
+            for (i = 1; i<strl.size() - 1; i = i + 2){
+                arr = strl.at(i).toLocal8Bit();
+                name= arr.data();
+                weight = strl.at(i+1).toInt();
+                AddEdge(this->operator [](k), name, weight);
+            }
         }
         k++;
     }
@@ -116,10 +127,15 @@ void Graph::SaveFile(QString fileName)
     QTextStream files(&file);
     Elem* el;
     List* ls;
+    files << weights << "\r\n";
     while ((el = it())!=nullptr){
         files << el->name << " ";
         while ((ls = it(el))!=nullptr){
             files << ls->name << " ";
+            if (weights){
+                files << ls->weight << " ";
+            }
+
         }
         files << "\r\n";
     }
@@ -187,16 +203,21 @@ Elem *Graph::FindElem(char *name)
     return el;
 }
 
-void Graph::AddEdge(Elem *el1, Elem *el2)
+void Graph::AddEdge(Elem *el1, Elem *el2, int weight)
 {
     SAVEITS;
     List* ls;
-    if (Is_Egde(el1, el2))
+    if (Is_Egde(el1, el2)){
         return;
+    }
+    int ow;
+    if (abs(ow = Is_Egde(el2, el1, 1)))
+        weight = ow;
     if (el1 && el2){
         if (!el1->childs){
             el1->childs = new List;
             strcpy_s(el1->childs->name, el2->name);
+            el1->childs->weight = weight;
             el1->childs->node = el2;
             el1->childs->edge = new Edge(el1->node, el2->node, el1->childs);
             el1->childs->next = nullptr;
@@ -207,6 +228,7 @@ void Graph::AddEdge(Elem *el1, Elem *el2)
             ls->next = new List;
             ls = ls->next;
             strcpy_s(ls->name, el2->name);
+            ls->weight = weight;
             ls->node = el2;
             ls->edge = new Edge(el1->node, el2->node, ls);
             ls->next = nullptr;
@@ -216,7 +238,7 @@ void Graph::AddEdge(Elem *el1, Elem *el2)
     RESTOREITS;
 }
 
-void Graph::AddEdge(Elem *el1, char *name)
+void Graph::AddEdge(Elem *el1, char *name, int weight)
 {
     SAVEITS;
     List* ls;
@@ -224,12 +246,14 @@ void Graph::AddEdge(Elem *el1, char *name)
         if (!el1->childs){
             el1->childs = new List;
             strcpy_s(el1->childs->name, name);
+            el1->childs->weight = weight;
         }
         else{
             while ((ls = it(el1))->next!=nullptr);
             ls->next = new List;
             ls = ls->next;
             strcpy_s(ls->name, name);
+            ls->weight = weight;
         }
     }
     RESTOREITS;
@@ -369,19 +393,20 @@ int Graph::CountElems()
     RESTOREITS;
 }
 
-bool Graph::Is_Egde(Elem *el1, Elem *el2)
+int Graph::Is_Egde(Elem *el1, Elem *el2, bool noabs)
 {
     List* t_lpos = KeepItL();
     List* curr;
-    bool res = 0;
+    int res = 0;
     while ((curr = it(el1))!=nullptr){
         if (curr->node == el2){
-            res = 1;
+            res = curr->weight;
             break;
         }
-
     }
     RestoreItL(t_lpos);
+    if (!noabs)
+        res = abs(res);
     return res;
 }
 
@@ -409,9 +434,17 @@ int Graph::Max_Width()
     int i = 0;
     int l;
     Elem* el;
+    List* ls;
     while ((el = it())!=nullptr){
         if ((l=strlen(el->name)) > i)
             i = l;
+        while ((ls = it(el))!=nullptr){
+            l = log10(abs(ls->weight)) + 1;
+            if (ls->weight < 0)
+                l++;
+            if (l > i)
+                i = l;
+        }
     }
     RESTOREITS;
     return i;
@@ -433,7 +466,7 @@ void Graph::Inc_Matr(QTextStream &os)
     for (i=0; i<z; i++){
         os << this->operator [](i)->name;
         for (k=0; k<z; k++)
-            os << Is_Egde(this->operator [](i), this->operator [](k));
+            os << Is_Egde(this->operator [](i), this->operator [](k), 1);
         os << endl;
     }
     RESTOREITS;
@@ -512,7 +545,65 @@ void Graph::WeightsOn(bool state)
     if (state!=weights){
         weights = state;
         widget->updateEdges();
+        if (state == 0)
+            ClearWeights();
     }
+}
+
+void Graph::ChangeWeight(Elem *el1, Elem *el2, int weight)
+{
+    SAVEITS;
+    if (!Is_Egde(el1, el2))
+        return;
+    if (el1 && el2){
+        bool res = (el1->childs->node == el2);
+        if (!res){
+            List* ls;
+            while ((ls = it(el1))->next != nullptr){
+                res = (ls->next->node == el2);
+                if (res)
+                    break;
+            }
+           ls->weight = weight;
+        }
+        else{
+            el1->childs->weight = weight;
+        }
+    }
+    RESTOREITS;
+}
+
+double Graph::AverageWeight()
+{
+    SAVEITS;
+    Elem* el;
+    List* ls;
+    double w = 0; int k = 0;
+    while ((el = it())!=nullptr){
+        while ((ls = it(el))!=nullptr){
+            w = w + ls->weight;
+            k++;
+        }
+    }
+    if (k!=0)
+        w = w / k;
+    return w;
+    RESTOREITS;
+}
+
+void Graph::ClearWeights()
+{
+    SAVEITS;
+    Elem* el;
+    List* ls;
+    while ((el = it())!=nullptr){
+        el->node->update();
+        while ((ls = it(el))!=nullptr){
+            ls->weight = 1;
+            ls->edge->update();
+        }
+    }
+    RESTOREITS;
 }
 
 Elem *Graph::operator[](int i)

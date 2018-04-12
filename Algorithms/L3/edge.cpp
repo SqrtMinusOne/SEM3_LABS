@@ -115,6 +115,8 @@ QRectF Edge::boundingRect() const
         return QRectF();
 
     qreal penWidth = 1;
+    if (list->node->node->graph->gr->weights)
+        penWidth = (log10(abs(this->list->weight)) + 1)*16;
     qreal extra = (penWidth + arrowSize) / 2.0;
 
     return QRectF(sourcePoint, QSizeF(destPoint.x() - sourcePoint.x(),
@@ -144,10 +146,11 @@ void Edge::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
         col = Qt::black;
     painter->setPen(QPen(col, 1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
     painter->drawLine(line);
-
+    weight_temp = 1;
     if (graph->gr->weights){
         //Draw text
         QString temp = QString::number(list->weight);
+        weight_temp = list->weight;
         QFont font = painter->font();
         font.setPointSize(14);
         painter->setFont(font);

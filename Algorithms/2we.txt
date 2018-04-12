@@ -1,0 +1,12 @@
+1
+A B 1 C 1 D 1 E 1 F 1 G 1 H 1 I 1 J 1 K 1 
+B C 1 D 1 E 1 F 1 G 1 H 1 I 1 J 1 K 1 
+C D 1 E 1 F 1 G 1 H 1 I 1 J 1 K 1 
+D E 1 F 1 G 1 H 1 I 1 J 1 K 1 
+E F 1 G 1 H 1 I 1 J 1 K 1 
+F G 1 H 1 I 1 J 1 K 1 
+G H 1 I 1 J 1 K 1 
+H I 1 J 1 K 1 
+I J 1 K 1 
+J K 1 
+K 
