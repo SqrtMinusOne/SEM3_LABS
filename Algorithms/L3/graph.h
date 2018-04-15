@@ -8,11 +8,13 @@
 
 #include <iostream>
 #include <cstring>
+#include <climits>
 #include <QTextStream>
 #include <QString>
 #include <QFile>
 #include <QStack>
 #include <QMessageBox>
+#include <QInputDialog>
 #include <QTime>
 
 #include "graphwidget.h"
@@ -81,20 +83,28 @@ public:
 //    void ResetEuler(); //Сброс эйлеровых циклов
     void ClearMarks(); //Очистка меток исключений на графе
 
+    int FordBellman(); //Один шаг алгоритма Форда-Беллмана
+    void FordBellmanInit(Elem *v0i = nullptr); //Инициализация алгоритма
+    void FordBellmanReset();
+
     void WeightsOn(bool state); //Изменение взвешенности
     void ChangeWeight(Elem* el1, Elem* el2, int weight); //Изменение веса
     double AverageWeight(); //Средний вес
     void ClearWeights();
 
     Elem* operator[](int i); //Доступ к элементам по индексу
+    int number(Elem* el); //Получить номер элемента
 
     GraphWidget* widget;
 
-    QStack<Elem*> SE;
     QStack<Elem*> Stack; //Стек, в котором вершины выделяются
-    Elem* v0 = nullptr;
 
     bool weights = false;
+    //Переменные алгоритма Ф-Б
+    Elem* v0 = nullptr;
+    int* arr = nullptr;
+    int ib = 0;
+    int vm = 0;
 
 private:
     int stupidnames = 0;

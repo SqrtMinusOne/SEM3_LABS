@@ -43,12 +43,18 @@ int MainWindow::get_speed()
 
 void MainWindow::One_Step() //Один шаг алгоритма
 {
-    if (timer){
-        timer->stop();
-        delete timer;
-        timer = nullptr;
-        return;
+    bool end = gr1->FordBellman();
+    if (end){
+        if (timer){
+            timer->stop();
+            delete timer;
+            timer = nullptr;
+        }
+        QMessageBox box;
+        box.setText("Конец");
+        box.exec();
     }
+    FordBellmanRes();
 }
 
 void MainWindow::keyPressEvent(QKeyEvent *event)
@@ -197,7 +203,7 @@ void MainWindow::on_ClearButton_clicked() //Сброс графа
 void MainWindow::on_open_action_triggered() //Открытие из файла
 {
     QString fileName = QFileDialog::getOpenFileName(this, "Открыть файл");
-    gr1->Clear();
+    on_ClearButton_clicked();
     gr1->ReadFile(fileName);
     on_matrButton_clicked();
     ui->weighBox->setChecked(gr1->weights);
@@ -241,7 +247,7 @@ void MainWindow::on_pushButton_clicked() //Запуск алгоритма
 
 void MainWindow::on_clrMarksButton_clicked() //Сброс алгоритма
 {
-    //gr1->ResetEuler();
+    gr1->FordBellmanReset();
     gr1->ClearMarks();
     ui->stackEdit->clear();
     ui->resEdit->clear();
@@ -271,4 +277,20 @@ void MainWindow::on_weighBox_stateChanged(int arg1)
 {
     gr1->WeightsOn(arg1);
     on_matrButton_clicked();
+}
+
+void MainWindow::FordBellmanRes()
+{
+    int n = gr1->CountElems();
+    int i;
+    QString str1;
+    QTextStream strm(&str1);
+    for (i=0; i<n; i++){
+        strm << gr1->operator [](i)->name << ": " << gr1->arr[i] << " ";
+    }
+    ui->resEdit->setText(str1);
+    str1.clear();
+    strm << "Iteration: " << gr1->ib;
+    ui->stackEdit->setText(str1);
+
 }

@@ -68,6 +68,8 @@ private slots:
 
     void on_weighBox_stateChanged(int arg1);
 
+    void FordBellmanRes();
+
 private:
     Graph* gr1;
     Ui::MainWindow *ui;

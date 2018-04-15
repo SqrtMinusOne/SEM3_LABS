@@ -540,6 +540,73 @@ void Graph::ClearMarks()
     RESTOREITS;
 }
 
+int Graph::FordBellman()
+{
+    SAVEITS;
+    if (v0 == nullptr)
+        FordBellmanInit();
+
+    Elem* el; List* ls;
+    int u; int v;
+    if (ib < vm){
+        while ((el = it())!=nullptr){
+            while ((ls = it(el))!=nullptr){
+                u = number(el);
+                v = number(ls->node);
+                if (arr[v] > arr[u] + ls->weight){
+                    arr[v] = arr[u] + ls->weight;
+                    ls->mark = 1;
+                    ls->edge->update();
+                }
+            }
+        }
+        ib++;
+    }
+    RESTOREITS;
+    return (ib == vm);
+}
+
+void Graph::FordBellmanInit(Elem* v0i)
+{
+    if (v0i!=nullptr)
+        v0 = v0i;
+    else{
+        bool ok;
+        QString namev0 = QInputDialog::getText(widget, "Алгоритм Форда-Беллмана", "Введите имя первого элемента", QLineEdit::Normal, "", &ok);
+        QByteArray arr = namev0.toLocal8Bit();
+        char* cnamev0 = arr.data();
+        v0 = FindElem(cnamev0);
+    }
+    if (v0 == nullptr){
+        QMessageBox msg;
+        msg.setText("Начальный элемент не найден");
+        msg.exec();
+        return;
+    }
+    if (arr!=nullptr){
+        delete[] arr;
+        arr = nullptr;
+    }
+    vm = CountElems();
+    arr = new int[vm];
+    for (int i =0; i<vm; i++){
+        arr[i] = INT_MAX/2;
+    }
+    arr[number(v0)] = 0;
+    ib = 0;
+}
+
+void Graph::FordBellmanReset()
+{
+    v0 = nullptr;
+    if (arr){
+        delete[] arr;
+        arr = nullptr;
+    }
+    ib = 0;
+    vm = 0;
+}
+
 void Graph::WeightsOn(bool state)
 {
     if (state!=weights){
@@ -620,6 +687,22 @@ Elem *Graph::operator[](int i)
     }
     RESTOREITS;
     return el;
+}
+
+int Graph::number(Elem *el)
+{
+    SAVEITS;
+    int k = CountElems();
+    int i;
+    for (i = 0; i < k; i++){
+        Elem* t = this->operator [](i);
+        if (t == el)
+            break;
+    }
+    RESTOREITS;
+    if (i == k)
+        i = 0;
+    return i;
 }
 
 
