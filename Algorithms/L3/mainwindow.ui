@@ -7,11 +7,26 @@
     <x>0</x>
     <y>0</y>
     <width>1099</width>
-    <height>610</height>
+    <height>641</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Лабораторная работа 2</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">QPushButton
+{
+	background:qlineargradient(spread:reflect, x1:0.506, y1:0.506136, x2:0.505682, y2:1, stop:0 rgba(144, 194, 255, 255), stop:1 rgba(255, 255, 255, 255));
+    border-style: outset;
+    border-width: 1px;
+    border-radius: 10px;
+    border-color: gray;
+    padding: 5px;
+}
+QPushButton:pressed
+{
+	background: qlineargradient(spread:reflect, x1:0.506, y1:0.506136, x2:0.511364, y2:0.989, stop:0 rgba(85, 85, 255, 255), stop:1 rgba(144, 194, 255, 255));
+}</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="2,5">
@@ -122,6 +137,9 @@
              </property>
              <item>
               <widget class="QPushButton" name="addNodeButton">
+               <property name="styleSheet">
+                <string notr="true"/>
+               </property>
                <property name="text">
                 <string>Добавить</string>
                </property>
@@ -224,6 +242,17 @@
              </property>
              <item>
               <widget class="QPushButton" name="pushButton">
+               <property name="styleSheet">
+                <string notr="true">QPushButton
+{
+background: qlineargradient(spread:reflect, x1:0.506, y1:0.506136, x2:0.505682, y2:1, stop:0 rgba(255, 157, 97, 255), stop:1 rgba(255, 255, 255, 255));
+}
+QPushButton:pressed
+{
+background: qlineargradient(spread:reflect, x1:0.506, y1:0.506136, x2:0.505682, y2:1, stop:0 rgba(255, 85, 0, 255), stop:1 rgba(255, 157, 97, 255));
+}
+</string>
+               </property>
                <property name="text">
                 <string>Пуск</string>
                </property>
@@ -303,6 +332,7 @@
     </property>
     <addaction name="open_action"/>
     <addaction name="save_action"/>
+    <addaction name="save_pos_action"/>
     <addaction name="separator"/>
     <addaction name="exit_action"/>
    </widget>
@@ -329,6 +359,11 @@
   <action name="save_action">
    <property name="text">
     <string>Сохранить граф</string>
+   </property>
+  </action>
+  <action name="save_pos_action">
+   <property name="text">
+    <string>Сохранить с позициями</string>
    </property>
   </action>
  </widget>

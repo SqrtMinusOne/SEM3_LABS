@@ -53,6 +53,7 @@ void MainWindow::One_Step() //Один шаг алгоритма
         QMessageBox box;
         box.setText("Конец");
         box.exec();
+        return;
     }
     FordBellmanRes();
 }
@@ -293,4 +294,10 @@ void MainWindow::FordBellmanRes()
     strm << "Iteration: " << gr1->ib;
     ui->stackEdit->setText(str1);
 
+}
+
+void MainWindow::on_save_pos_action_triggered()
+{
+    QString fileName = QFileDialog::getSaveFileName(this, "Открыть файл");
+    gr1->SaveFile(fileName, 1);
 }

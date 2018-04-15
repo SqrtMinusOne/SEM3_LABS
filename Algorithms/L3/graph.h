@@ -53,12 +53,12 @@ public:
     void ResetIts();
 
     void ReadFile(QString fileName); //Считать из файла
-    void SaveFile(QString fileName); //Сохранить в файл
+    void SaveFile(QString fileName, bool pos = 0); //Сохранить в файл
 
     char* GetMinStupidName(); //Получение минимального числового имени
     char* GetLastStupidName(); //Получение последнего такого
 
-    void AddElem(char* name); //Добавить элемент
+    void AddElem(char* name, double X = -100, double Y = -100); //Добавить элемент
     void AddEdge(Elem* el1, Elem* el2, int weight = 1); //Добавить линию
     void AddEdge(Elem* el1, char* name, int weight = 1); //Добавить "заготовку" для линии
     bool Solve(); //Разрешить зависимости "заготовок" для линий
@@ -97,7 +97,7 @@ public:
 
     GraphWidget* widget;
 
-    QStack<Elem*> Stack; //Стек, в котором вершины выделяются
+    Elem* marked = nullptr; //Выделенная вершина
 
     bool weights = false;
     //Переменные алгоритма Ф-Б

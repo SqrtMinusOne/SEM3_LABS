@@ -196,9 +196,10 @@ void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWid
         grad0t = Qt::blue;
         grad1t = Qt::darkBlue;
     }
-    if ((!graph->gr->Stack.isEmpty()) && (graph->gr->Stack.top()->node == this)){
-        grad0t = Qt::red;
-        grad1t = Qt::darkRed;
+    if (graph->gr->marked)
+        if (graph->gr->marked->node == this){
+            grad0t = Qt::red;
+            grad1t = Qt::darkRed;
     }
     gradient.setColorAt(0, grad0t);
     gradient.setColorAt(1, grad1t);

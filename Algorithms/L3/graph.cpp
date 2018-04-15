@@ -87,25 +87,30 @@ void Graph::ReadFile(QString fileName)
     file.open(QIODevice::ReadOnly);
     QTextStream file1s(&file);
     QString str;
-    QString tmp;   
-    int i; int k = 0; int weight;
+    int i; int k = 0;
+    int weight = 1; double x = -100; double y = -100;
     weights = file1s.readLine().toInt();
+    bool pos = file1s.readLine().toInt();
     while (!file1s.atEnd()){
         str = file1s.readLine();
         QStringList strl = str.split(' ');
         QByteArray arr;
         arr = strl.at(0).toLocal8Bit();
         char* name = arr.data();
-        AddElem(name);
+        if (pos){
+            x = strl.at(1).toDouble();
+            y = strl.at(2).toDouble();
+        }
+        AddElem(name, x, y);
         if (!weights){
-            for (i=1; i < strl.size(); i++){
+            for (i = 1 + pos*2; i < strl.size(); i++){
                 arr = strl.at(i).toLocal8Bit();
                 name = arr.data();
                 AddEdge(this->operator [](k), name);
             }
         }
         else{
-            for (i = 1; i<strl.size() - 1; i = i + 2){
+            for (i = 1 + pos*2; i<strl.size() - 1; i = i + 2){
                 arr = strl.at(i).toLocal8Bit();
                 name= arr.data();
                 weight = strl.at(i+1).toInt();
@@ -119,7 +124,7 @@ void Graph::ReadFile(QString fileName)
     RESTOREITS;
 }
 
-void Graph::SaveFile(QString fileName)
+void Graph::SaveFile(QString fileName, bool pos)
 {
     SAVEITS;
     QFile file(fileName);
@@ -128,14 +133,17 @@ void Graph::SaveFile(QString fileName)
     Elem* el;
     List* ls;
     files << weights << "\r\n";
+    files << pos << "\r\n";
     while ((el = it())!=nullptr){
         files << el->name << " ";
+        if (pos){
+            files << el->node->scenePos().x() << " " << el->node->scenePos().y() << " ";
+        }
         while ((ls = it(el))!=nullptr){
             files << ls->name << " ";
             if (weights){
                 files << ls->weight << " ";
             }
-
         }
         files << "\r\n";
     }
@@ -161,9 +169,13 @@ char *Graph::GetLastStupidName()
     return name;
 }
 
-void Graph::AddElem(char *name)
+void Graph::AddElem(char *name, double X, double Y)
 {
     SAVEITS;
+    if (X == -100)
+        X = rand()%Wid - Wid/2;
+    if (Y == -100)
+        Y = rand()%Hei - Hei/2;
     Elem* el;
     if (!gr){ //Если добавляется первый элемент
         gr = new Elem;
@@ -172,7 +184,7 @@ void Graph::AddElem(char *name)
         gr->node->name = (gr->name);
         widget->centerNode = gr->node;
         widget->scene()->addItem(widget->centerNode);
-        widget->centerNode->setPos(rand()%Wid - Wid/2 ,rand()%Hei - Hei/2);
+        widget->centerNode->setPos(X, Y);
 
     }
     else{
@@ -182,7 +194,7 @@ void Graph::AddElem(char *name)
         strcpy_s(el->name, Numb, name);
         el->node = new Node(widget);
         el->node->name = el->name;
-        el->node->setPos(rand()%Wid - Wid/2 ,rand()%Hei - Hei/2);
+        el->node->setPos(X, Y);
         widget->scene()->addItem(el->node);
 
     }
@@ -389,8 +401,8 @@ int Graph::CountElems()
     int i = 0;
     while (it()!=nullptr)
         i++;
-    return i;
     RESTOREITS;
+    return i;
 }
 
 int Graph::Is_Egde(Elem *el1, Elem *el2, bool noabs)
@@ -538,18 +550,20 @@ void Graph::ClearMarks()
         }
     }
     RESTOREITS;
+
 }
 
 int Graph::FordBellman()
 {
-    SAVEITS;
+//    SAVEITS;
     if (v0 == nullptr)
         FordBellmanInit();
-
+    if (v0 == nullptr)
+        return 1;
     Elem* el; List* ls;
     int u; int v;
     if (ib < vm){
-        while ((el = it())!=nullptr){
+        if ((el = it())!=nullptr){
             while ((ls = it(el))!=nullptr){
                 u = number(el);
                 v = number(ls->node);
@@ -560,9 +574,10 @@ int Graph::FordBellman()
                 }
             }
         }
-        ib++;
+        else
+            ib++;
     }
-    RESTOREITS;
+//    RESTOREITS;
     return (ib == vm);
 }
 
@@ -594,6 +609,7 @@ void Graph::FordBellmanInit(Elem* v0i)
     }
     arr[number(v0)] = 0;
     ib = 0;
+    ResetIts();
 }
 
 void Graph::FordBellmanReset()

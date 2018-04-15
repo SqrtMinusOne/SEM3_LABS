@@ -70,6 +70,8 @@ private slots:
 
     void FordBellmanRes();
 
+    void on_save_pos_action_triggered();
+
 private:
     Graph* gr1;
     Ui::MainWindow *ui;
