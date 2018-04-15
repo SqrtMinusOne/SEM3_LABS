@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Лабораторная работа 2</string>
+   <string>Лабораторная работа №3</string>
   </property>
   <property name="styleSheet">
    <string notr="true">QPushButton
@@ -359,7 +359,15 @@ background: qlineargradient(spread:reflect, x1:0.506, y1:0.506136, x2:0.505682, 
     <addaction name="separator"/>
     <addaction name="exit_action"/>
    </widget>
+   <widget class="QMenu" name="menu_2">
+    <property name="title">
+     <string>Справка</string>
+    </property>
+    <addaction name="help_action"/>
+    <addaction name="about_action"/>
+   </widget>
    <addaction name="menu"/>
+   <addaction name="menu_2"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <attribute name="toolBarArea">
@@ -387,6 +395,19 @@ background: qlineargradient(spread:reflect, x1:0.506, y1:0.506136, x2:0.505682, 
   <action name="save_pos_action">
    <property name="text">
     <string>Сохранить с позициями</string>
+   </property>
+  </action>
+  <action name="about_action">
+   <property name="text">
+    <string>О программе</string>
+   </property>
+  </action>
+  <action name="help_action">
+   <property name="text">
+    <string>Справка</string>
+   </property>
+   <property name="shortcut">
+    <string>F1</string>
    </property>
   </action>
  </widget>

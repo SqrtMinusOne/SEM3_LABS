@@ -30,7 +30,8 @@ SOURCES += \
     edge.cpp \
     node.cpp \
     graphwidget.cpp \
-    scene.cpp
+    scene.cpp \
+    aboutwindow.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -38,7 +39,15 @@ HEADERS += \
     edge.h \
     graphwidget.h \
     node.h \
-    scene.h
+    scene.h \
+    aboutwindow.h
 
 FORMS += \
-        mainwindow.ui
+        mainwindow.ui \
+    aboutwindow.ui
+
+DISTFILES += \
+    myself.jpg
+
+RESOURCES += \
+    myself.qrc

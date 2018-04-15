@@ -1,6 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include "aboutwindow.h"
 #include <QMainWindow>
 #include <QApplication>
 #include <QDebug>
@@ -73,6 +74,8 @@ private slots:
     void on_save_pos_action_triggered();
 
     void on_checkBox_stateChanged(int arg1);
+
+    void on_about_action_triggered();
 
 private:
     Graph* gr1;

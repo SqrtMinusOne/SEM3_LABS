@@ -310,3 +310,9 @@ void MainWindow::on_checkBox_stateChanged(int arg1)
 {
     gr1->itermarks = arg1;
 }
+
+void MainWindow::on_about_action_triggered()
+{
+    AboutWindow* ab = new AboutWindow;
+    ab->show();
+}
