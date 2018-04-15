@@ -241,6 +241,7 @@ QVariant Node::itemChange(GraphicsItemChange change, const QVariant &value)
 void Node::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
 {
     std::unique_ptr<QMenu> menu(new QMenu(graph));
+    QAction* startAction = menu->addAction("Установить старт алгоритма");
     QAction* colorAction = menu->addAction("Изменить цвет");
     QAction* renameAction = menu->addAction("Переименовать");
     QAction* linkAction = menu->addAction("Связать с этим");
@@ -249,7 +250,11 @@ void Node::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
     QAction* deleteAction = menu->addAction("Удалить");
     weightAction->setEnabled(graph->gr->weights);
     QAction* selectedAction = menu->exec(event->screenPos());
-    if (selectedAction == colorAction){
+    if (selectedAction == startAction){
+        graph->gr->marked = graph->gr->FindElem(name);
+        this->update();
+    }
+    else if (selectedAction == colorAction){
         QColorDialog dia;
         dia.exec();
         grad0 = dia.currentColor();

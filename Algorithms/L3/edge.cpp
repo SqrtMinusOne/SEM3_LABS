@@ -140,11 +140,14 @@ void Edge::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 //! [5]
     // Draw the line itself
     QColor col;
-    if (list->mark)
+    int w = 1;
+    if (list->mark){
         col = Qt::red;
+        w = 2;
+    }
     else
         col = Qt::black;
-    painter->setPen(QPen(col, 1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
+    painter->setPen(QPen(col, w, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
     painter->drawLine(line);
     weight_temp = 1;
     if (graph->gr->weights){

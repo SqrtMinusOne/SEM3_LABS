@@ -16,6 +16,7 @@ void Graph::Clear()
 {
     Clear(gr);
     gr = nullptr;
+    marked = nullptr;
     stupidnames = 0;
 }
 
@@ -540,6 +541,7 @@ void Graph::ResetEuler()
 void Graph::ClearMarks()
 {
     SAVEITS;
+    marked = nullptr;
     Elem* el;
     List* ls;
     while ((el = it())!=nullptr){
@@ -557,10 +559,10 @@ int Graph::FordBellman()
 {
 //    SAVEITS;
     if (v0 == nullptr)
-        FordBellmanInit();
+        FordBellmanInit(marked);
     if (v0 == nullptr)
         return 1;
-    Elem* el; List* ls;
+    Elem* el; List* ls; List* ls2;
     int u; int v;
     if (ib < vm){
         if ((el = it())!=nullptr){
@@ -568,14 +570,26 @@ int Graph::FordBellman()
                 u = number(el);
                 v = number(ls->node);
                 if (arr[v] > arr[u] + ls->weight){
+                    changes++;
                     arr[v] = arr[u] + ls->weight;
                     ls->mark = 1;
                     ls->edge->update();
+                    if (ls2 = GetEdge(ls->node, el))
+                        ls2->mark = 1;
                 }
             }
         }
-        else
-            ib++;
+        else{
+            if (changes == 0)
+                ib = vm;
+            else{
+                if (ib!=vm){
+                    ib++;
+                }
+                changes = 0;
+            }
+
+        }
     }
 //    RESTOREITS;
     return (ib == vm);

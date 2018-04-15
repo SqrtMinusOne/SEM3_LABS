@@ -105,6 +105,7 @@ public:
     int* arr = nullptr;
     int ib = 0;
     int vm = 0;
+    int changes = 0;
 
 private:
     int stupidnames = 0;

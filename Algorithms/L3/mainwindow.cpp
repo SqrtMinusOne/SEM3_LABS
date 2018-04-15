@@ -250,8 +250,9 @@ void MainWindow::on_clrMarksButton_clicked() //Сброс алгоритма
 {
     gr1->FordBellmanReset();
     gr1->ClearMarks();
-    ui->stackEdit->clear();
-    ui->resEdit->clear();
+    //ui->stackEdit->clear();
+//    ui->resEdit->clear();
+    ui->resTableWidget->clear();
     if (timer){
         timer->stop();
         delete timer;
@@ -284,16 +285,19 @@ void MainWindow::FordBellmanRes()
 {
     int n = gr1->CountElems();
     int i;
-    QString str1;
-    QTextStream strm(&str1);
+    ui->resTableWidget->clear();
+    ui->resTableWidget->setRowCount(2);
+    ui->resTableWidget->setColumnCount(n);
     for (i=0; i<n; i++){
-        strm << gr1->operator [](i)->name << ": " << gr1->arr[i] << " ";
+        QTableWidgetItem *item = new QTableWidgetItem;
+        item->setText(gr1->operator [](i)->name);
+        ui->resTableWidget->setItem(0, i, item);
+        QTableWidgetItem *item2 = new QTableWidgetItem;
+        QString str = QString::number(gr1->arr[i]);
+        item2->setText(str);
+        ui->resTableWidget->setItem(1, i, item2);
+        ui->resTableWidget->setColumnWidth(i, str.length()*15);
     }
-    ui->resEdit->setText(str1);
-    str1.clear();
-    strm << "Iteration: " << gr1->ib;
-    ui->stackEdit->setText(str1);
-
 }
 
 void MainWindow::on_save_pos_action_triggered()
