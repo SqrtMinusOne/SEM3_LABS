@@ -75,10 +75,29 @@ List *Graph::it(Elem *el, bool marked)
     return lpos;
 }
 
+List *Graph::itin(Elem *el)
+{
+    SAVEITS;
+    int k = CountElems();
+    List* res = nullptr;
+    if (linpos == k){
+        linpos = 0;
+        return nullptr;
+    }
+    else{
+        while ((res == nullptr) && (linpos < k)){
+            res = GetEdge(this->operator [](linpos++), el);
+        }
+    }
+    return res;
+    RESTOREITS;
+}
+
 void Graph::ResetIts()
 {
     lpos = nullptr;
     pos = nullptr;
+    linpos = 0;
 }
 
 void Graph::ReadFile(QString fileName)
@@ -484,6 +503,29 @@ void Graph::Inc_Matr(QTextStream &os)
     }
     RESTOREITS;
 }
+
+void Graph::Mark(List *ls, int mark)
+{
+    SAVEITS;
+    if (mark!=0){
+        ls->mark = mark;
+        RESTOREITS;
+        return;
+    }
+    if (itermarks){
+        ls->mark = ib + 1;
+    }
+    else{
+        int maxmark = 0;
+        List* ls1;
+        while ((ls1=itin(ls->node))!=nullptr){
+            if (ls1->mark > maxmark)
+                maxmark = ls1->mark;
+        }
+        ls->mark = maxmark + 1;
+    }
+    RESTOREITS;
+}
 /*
 bool Graph::Euler()
 {
@@ -557,14 +599,15 @@ void Graph::ClearMarks()
 
 int Graph::FordBellman()
 {
-//    SAVEITS;
     if (v0 == nullptr)
         FordBellmanInit(marked);
     if (v0 == nullptr)
         return 1;
     Elem* el; List* ls; List* ls2;
     int u; int v;
-    if (ib < vm){
+    if (ib <= vm){
+        if (pos == nullptr)
+            changes = 0;
         if ((el = it())!=nullptr){
             while ((ls = it(el))!=nullptr){
                 u = number(el);
@@ -572,26 +615,26 @@ int Graph::FordBellman()
                 if (arr[v] > arr[u] + ls->weight){
                     changes++;
                     arr[v] = arr[u] + ls->weight;
-                    ls->mark = 1;
+                    Mark(ls);
                     ls->edge->update();
                     if (ls2 = GetEdge(ls->node, el))
-                        ls2->mark = 1;
+                        Mark(ls2, ls->mark);
                 }
             }
         }
-        else{
+        else {
             if (changes == 0)
                 ib = vm;
             else{
-                if (ib!=vm){
-                    ib++;
-                }
-                changes = 0;
+                ib++;
             }
-
         }
     }
-//    RESTOREITS;
+    if ((ib >= vm) && (changes >= 1)){
+        QMessageBox box;
+        box.setText("В графе есть отрицательный цикл. Вычисления некорректны");
+        box.exec();
+    }
     return (ib == vm);
 }
 
@@ -653,19 +696,11 @@ void Graph::ChangeWeight(Elem *el1, Elem *el2, int weight)
     if (!Is_Egde(el1, el2))
         return;
     if (el1 && el2){
-        bool res = (el1->childs->node == el2);
-        if (!res){
-            List* ls;
-            while ((ls = it(el1))->next != nullptr){
-                res = (ls->next->node == el2);
-                if (res)
-                    break;
-            }
+       List* ls = GetEdge(el1, el2);
+       ls->weight = weight;
+       if (ls = GetEdge(el2, el1)){
            ls->weight = weight;
-        }
-        else{
-            el1->childs->weight = weight;
-        }
+       }
     }
     RESTOREITS;
 }

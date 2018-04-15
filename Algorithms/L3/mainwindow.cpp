@@ -43,7 +43,7 @@ int MainWindow::get_speed()
 
 void MainWindow::One_Step() //Один шаг алгоритма
 {
-    bool end = gr1->FordBellman();
+    int end = gr1->FordBellman();
     if (end){
         if (timer){
             timer->stop();
@@ -304,4 +304,9 @@ void MainWindow::on_save_pos_action_triggered()
 {
     QString fileName = QFileDialog::getSaveFileName(this, "Открыть файл");
     gr1->SaveFile(fileName, 1);
+}
+
+void MainWindow::on_checkBox_stateChanged(int arg1)
+{
+    gr1->itermarks = arg1;
 }

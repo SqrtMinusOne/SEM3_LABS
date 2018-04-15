@@ -141,8 +141,11 @@ void Edge::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
     // Draw the line itself
     QColor col;
     int w = 1;
-    if (list->mark){
-        col = Qt::red;
+    if (list->mark!=0){
+        double hue = (list->mark - 1);
+        hue = hue*360;
+        hue = hue/(graph->gr->vm);
+        col.setHsv(hue, 255, 255);
         w = 2;
     }
     else
@@ -177,4 +180,5 @@ void Edge::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
   //  painter->drawPolygon(QPolygonF() << line.p1() << sourceArrowP1 << sourceArrowP2);
     painter->drawPolygon(QPolygonF() << line.p2() << destArrowP1 << destArrowP2);
 }
+
 //! [6]

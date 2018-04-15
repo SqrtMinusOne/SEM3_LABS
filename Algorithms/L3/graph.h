@@ -1,7 +1,7 @@
 #ifndef GRAPH_H
 #define GRAPH_H
-#define SAVEITS List* t_lpos = KeepItL(); Elem* t_pos = KeepItE();
-#define RESTOREITS RestoreItL(t_lpos); RestoreItE(t_pos);
+#define SAVEITS List* t_lpos = KeepItL(); Elem* t_pos = KeepItE(); int t_linpos = linpos;
+#define RESTOREITS RestoreItL(t_lpos); RestoreItE(t_pos); linpos = t_linpos;
 #define Numb 80
 #define Wid 800
 #define Hei 600
@@ -34,7 +34,7 @@ typedef struct Elem{ //Элементы графа
 typedef struct List{
     List() = default;
     char name[Numb];
-    bool mark = false;
+    int mark = 0;
     int weight = 1;
     Elem* node = nullptr; //Сам элемент
     List* next = nullptr;
@@ -50,6 +50,7 @@ public:
 
     Elem* it(); //Итератор через вершины
     List* it(Elem* el, bool marked = 1); //Итератор через сыновей
+    List* itin(Elem* el); //Итератор через входящие вершины
     void ResetIts();
 
     void ReadFile(QString fileName); //Считать из файла
@@ -74,18 +75,20 @@ public:
     int CountElems(); //Сколько элементов
 
     int Is_Egde(Elem* el1, Elem* el2, bool noabs = 0); //Есть ли связь от 1 к 2
-    List* GetEdge(Elem* el1, Elem* el2); //Обратить связь
+    List* GetEdge(Elem* el1, Elem* el2); //Получить связь
 
     int Max_Width(); //Максимальная длина имени в графе
     void Inc_Matr(QTextStream& os); //Матрица инцидентности
 
 //    bool Euler(); //Один шаг поиска эйлерового цикла
 //    void ResetEuler(); //Сброс эйлеровых циклов
-    void ClearMarks(); //Очистка меток исключений на графе
+
+    void Mark(List* ls, int mark = 0); //Пометка ребра
+    void ClearMarks(); //Очистка меток ребер на графе
 
     int FordBellman(); //Один шаг алгоритма Форда-Беллмана
     void FordBellmanInit(Elem *v0i = nullptr); //Инициализация алгоритма
-    void FordBellmanReset();
+    void FordBellmanReset(); //Сброс алгоритма
 
     void WeightsOn(bool state); //Изменение взвешенности
     void ChangeWeight(Elem* el1, Elem* el2, int weight); //Изменение веса
@@ -99,6 +102,7 @@ public:
 
     Elem* marked = nullptr; //Выделенная вершина
 
+    bool itermarks = false;
     bool weights = false;
     //Переменные алгоритма Ф-Б
     Elem* v0 = nullptr;
@@ -106,6 +110,7 @@ public:
     int ib = 0;
     int vm = 0;
     int changes = 0;
+    bool go = 1;
 
 private:
     int stupidnames = 0;
@@ -113,6 +118,7 @@ private:
 
     Elem* pos; //Iterator
     List* lpos; //Iterator
+    int linpos; //Iterator
     void Clear(List* ls, Elem *el);
     void Clear(Elem* gr);
     Elem* KeepItE();

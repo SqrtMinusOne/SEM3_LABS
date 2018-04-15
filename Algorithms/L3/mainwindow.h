@@ -72,6 +72,8 @@ private slots:
 
     void on_save_pos_action_triggered();
 
+    void on_checkBox_stateChanged(int arg1);
+
 private:
     Graph* gr1;
     Ui::MainWindow *ui;

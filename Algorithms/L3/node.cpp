@@ -304,9 +304,9 @@ void Node::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
             if (Node *node = qgraphicsitem_cast<Node *>(item)){
                 if (node->isSelected()){
                     if (weight == 0){
-                        weight = QInputDialog::getInt(graph, "Добавить связь", "Введите вес", 1);
+                        weight = QInputDialog::getInt(graph, "Изменить вес", "Введите вес", 1);
                     }
-                    graph->gr->ChangeWeight(graph->gr->FindElem(name), graph->gr->FindElem(node->name), weight);
+                    graph->gr->ChangeWeight(graph->gr->FindElem(node->name), graph->gr->FindElem(name), weight);
                 }
             }
         }
