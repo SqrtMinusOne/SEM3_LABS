@@ -36,7 +36,7 @@ namespace stepik
 
         }
 
-        explicit vector(size_t count = 0) //Инициализация с числомnclude <initializer_list>
+        explicit vector(size_t count = 0) //Инициализация с числом
         {
         Debug("Initializing with number");
             if (count) {
@@ -101,8 +101,7 @@ namespace stepik
         //assignment operators
         vector& operator=(const vector& other)
         {
- /*           Debug("Assignment copy operator");
-            swap(*this, other); */
+            Debug("Assignment copy operator");
             size_t new_size = other.size();
             if (!empty()){
                 delete[] m_first;
@@ -124,13 +123,8 @@ namespace stepik
         void assign(InputIterator first, InputIterator last)
         {
             Debug ("Assing method");
-            size_t new_size = last - first;
-            if (!empty()){
-                delete[] m_first;
-            }
-            m_first = new Type[new_size];
-            m_last = m_first + new_size;
-            std::copy(first, last, m_first);
+            vector temp(first, last);
+            swap(*this, temp);
         }
 
         // resize methods
