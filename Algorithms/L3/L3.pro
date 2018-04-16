@@ -40,7 +40,8 @@ HEADERS += \
     graphwidget.h \
     node.h \
     scene.h \
-    aboutwindow.h
+    aboutwindow.h \
+    HelpBrowser.h
 
 FORMS += \
         mainwindow.ui \
@@ -50,4 +51,5 @@ DISTFILES += \
     myself.jpg
 
 RESOURCES += \
-    myself.qrc
+    myself.qrc \
+    resource.qrc

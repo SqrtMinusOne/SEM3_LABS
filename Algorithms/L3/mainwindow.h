@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include "aboutwindow.h"
+#include "HelpBrowser.h"
 #include <QMainWindow>
 #include <QApplication>
 #include <QDebug>
@@ -76,6 +77,8 @@ private slots:
     void on_checkBox_stateChanged(int arg1);
 
     void on_about_action_triggered();
+
+    void on_help_action_triggered();
 
 private:
     Graph* gr1;

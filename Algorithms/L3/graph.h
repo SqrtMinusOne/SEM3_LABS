@@ -80,9 +80,6 @@ public:
     int Max_Width(); //Максимальная длина имени в графе
     void Inc_Matr(QTextStream& os); //Матрица инцидентности
 
-//    bool Euler(); //Один шаг поиска эйлерового цикла
-//    void ResetEuler(); //Сброс эйлеровых циклов
-
     void Mark(List* ls, int mark = 0); //Пометка ребра
     void ClearMarks(); //Очистка меток ребер на графе
 
@@ -104,6 +101,7 @@ public:
 
     bool itermarks = false;
     bool weights = false;
+
     //Переменные алгоритма Ф-Б
     Elem* v0 = nullptr;
     int* arr = nullptr;

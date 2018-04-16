@@ -316,3 +316,10 @@ void MainWindow::on_about_action_triggered()
     AboutWindow* ab = new AboutWindow;
     ab->show();
 }
+
+void MainWindow::on_help_action_triggered()
+{
+    HelpBrowser* helpBrowser = new HelpBrowser(":/", "index.htm");
+    helpBrowser->resize(800, 600);
+    helpBrowser->show();
+}
