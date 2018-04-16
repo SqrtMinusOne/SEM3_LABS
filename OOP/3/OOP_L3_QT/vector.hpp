@@ -4,7 +4,7 @@
 #include <cstddef> // size_t
 #include <iterator>
 
-//#define TEST
+#define TEST
 
 #ifdef TEST
 using std::cout;
@@ -138,7 +138,8 @@ namespace stepik
         {
             Debug("Resize");
             vector temp(*this);
-            delete[] m_first;
+            if (!empty())
+                delete[] m_first;
             m_first = new Type[count];
             m_last = m_first + count;
             count = temp.size() < count ? temp.size() : count;
@@ -186,10 +187,10 @@ namespace stepik
 		{
 			Debug("Inserting one element");
 			checkIterator(pos);
+            size_t keep = (size() == 0) ? 0 : pos - m_first;
 			resize(size() + 1);
 			m_first[size() - 1] = value;
-			size_t keep = pos - m_first;
-			std::rotate(m_first + keep, m_first + size() - 1, m_last);
+            std::rotate(m_first + keep, m_first + size() - 1, m_last);
 			return m_first + keep;
 		}
 
