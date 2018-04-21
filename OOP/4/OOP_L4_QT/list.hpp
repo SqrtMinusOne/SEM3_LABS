@@ -43,6 +43,50 @@ public:
         Debug("Initializing empty list");
     }
 
+    //================|Stepik 2_2_2|================
+    ~list()
+    {
+        Debug("Destructor");
+        clear();
+    }
+
+    void swap(list& first, list& second)
+    {
+        Debug("Swap");
+        using std::swap;
+        swap(first.m_head, second.m_head);
+        swap(first.m_tail, second.m_tail);
+    }
+
+    list(const list& other) : list()
+    {
+        Debug("Copy constructor");
+        for (node<Type>* otherref = other.m_head; otherref; otherref = otherref->next){
+            push_back(otherref->value);
+        }
+    }
+
+    list(list&& other) : list()
+    {
+        Debug("Move constructor");
+        swap(*this, other);
+    }
+
+    list& operator= (const list& other)
+    {
+        Debug("Assignment copy operator");
+        if (!empty())
+            clear();
+        for (node<Type>* otherref = other.m_head; otherref; otherref = otherref->next){
+            push_back(otherref->value);
+        }
+        return *this;
+    }
+
+
+    //================|Stepik 2_2_1|================
+
+
     void push_back(const value_type& value)
     {
         Debug("Push back");
@@ -139,12 +183,13 @@ public:
     {
         node<Type>* ref = m_head;
         size_t res;
-        for (res = 0; ref; res++, ref = ref->next);
+        for (res = 0; ref; res
+             ++, ref = ref->next);
         return res;
     }
 
     void out(){
-        std::cout << size() << ": ";
+        std::cout << "OUT: " << size() << ": ";
         for (node<Type>* ref = m_head; ref; ref = ref->next){
             std::cout << ref->value << " ";
         }

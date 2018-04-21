@@ -1,6 +1,6 @@
 #include <iostream>
 #include "list.hpp"
-
+#include <list>
 using namespace std;
 
 int main()
@@ -21,5 +21,24 @@ int main()
     cout << "===|Clear test|===" << endl;
     ls.clear();
     ls.out();
+    cout << "===|Copy constructor test|===" << endl;
+    stepik::list<int> lst;
+    lst.push_back(1);
+    lst.push_back(2);
+    stepik::list<int> lst2(lst);
+    lst2.out();
+    lst.out();
+    lst.clear();
+    lst2.out();
+    lst.out();
+    cout << "===|Move constructor test|===" << endl;
+    stepik::list<int> ls2 (std::move(lst2));
+    lst2.out();
+    ls2.out();
+    cout << "===|Assingment constructor test|===" << endl;
+    ls = ls2;
+    ls.out();
+    ls2.out();
+    cout << "===|End|===" << endl;
     return 0;
 }
