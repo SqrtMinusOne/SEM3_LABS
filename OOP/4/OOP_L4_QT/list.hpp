@@ -10,6 +10,13 @@
 
 namespace stepik
 {
+
+void Debug(const char* str){
+#ifdef DEBUG
+    std::cout << "#: " << str << std::endl;
+#endif //DEBUG
+}
+
 template <class Type>
 struct node
 {
@@ -24,25 +31,116 @@ struct node
 };
 
 template <class Type>
+class list; //forward declaration
+
+
+//================|Stepik 2_2_3|================
+template <class Type>
+class list_iterator
+{
+public:
+    typedef ptrdiff_t difference_type;
+    typedef Type value_type;
+    typedef Type* pointer;
+    typedef Type& reference;
+    typedef size_t size_type;
+    typedef std::forward_iterator_tag iterator_category;
+
+    list_iterator()
+        : m_node(NULL)
+    {
+        Debug("Empty list iterator constructor");
+    }
+
+    list_iterator(const list_iterator& other)
+        : m_node(other.m_node)
+    {
+        Debug("List iterator copy constructor");
+    }
+
+    list_iterator& operator = (const list_iterator& other)
+    {
+        Debug("List iterator assignment operator");
+        m_node = other.m_node;
+        return *this;
+    }
+
+    bool operator == (const list_iterator& other) const
+    {
+        Debug("List iterator comparison");
+        return m_node == other.m_node;
+    }
+
+    bool operator != (const list_iterator& other) const
+    {
+        Debug("List iterator anticomparison");
+        return m_node != other.m_node;
+    }
+
+    reference operator * ()
+    {
+        Debug("Reference operator");
+        return m_node->value;
+    }
+
+    pointer operator -> ()
+    {
+        Debug("Pointer operator");
+        return &(m_node->value);
+    }
+
+    list_iterator& operator ++ ()
+    {
+        Debug("Prefix increment operator");
+        if (m_node)
+            m_node = m_node->next;
+        return *this;
+    }
+
+    list_iterator operator ++ (int)
+    {
+        Debug("Postfix increment operator");
+        list_iterator keep = *this;
+        m_node = m_node->next;
+        return keep;
+    }
+
+private:
+    friend class list<Type>;
+
+    list_iterator(node<Type>* p)
+        : m_node(p)
+    {
+    }
+
+    node<Type>* m_node;
+};
+
+
+template <class Type>
 class list
 {
 public:
     typedef Type value_type;
     typedef value_type& reference;
     typedef const value_type& const_reference;
-
-    void Debug(const char* str){
-#ifdef DEBUG
-        std::cout << "#: " << str << std::endl;
-#endif //DEBUG
-    }
+    typedef list_iterator<Type> iterator;
 
     list()
         : m_head(nullptr), m_tail(nullptr)
     {
         Debug("Initializing empty list");
     }
+    //================|Stepik 2_2_3|================
+    list::iterator begin()
+    {
+        return iterator(m_head);
+    }
 
+    list::iterator end()
+    {
+        return iterator();
+    }
     //================|Stepik 2_2_2|================
     ~list()
     {
@@ -192,6 +290,14 @@ public:
         std::cout << "OUT: " << size() << ": ";
         for (node<Type>* ref = m_head; ref; ref = ref->next){
             std::cout << ref->value << " ";
+        }
+        std::cout << std::endl;
+    }
+
+    void out_it(){
+        std::cout << "OUT_IT: " << size() << ": ";
+        for(list_iterator<Type> it = begin(); it != end(); it++){
+            std::cout << *it << " ";
         }
         std::cout << std::endl;
     }
