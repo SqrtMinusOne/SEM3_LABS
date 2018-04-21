@@ -54,6 +54,15 @@ int main()
     cout << *emptyit << endl;
     cout << emptyit.operator ->() << endl;
     ls3.out_it();
+    cout << "===|Insert test|===" << endl;
+    ls3.insert(ls3.begin(), 100);
+    ls3.insert(ls3.end(), 200);
+    ls3.insert(++(++(ls3.begin())), 300);
+    ls3.out();
+    cout << "===|Erase test|===" << endl;
+    ls3.erase(++(++(ls3.begin())));
+    ls3.erase(ls3.begin());
+    ls3.out();
     cout << "===|End|===" << endl;
     return 0;
 }

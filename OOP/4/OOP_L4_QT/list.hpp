@@ -131,6 +131,44 @@ public:
     {
         Debug("Initializing empty list");
     }
+    //================|Stepik 2_2_4|================
+    iterator insert(iterator pos, const Type& value)
+    {
+        Debug("Insert operator");
+        if (pos == begin()){
+            push_front(value);
+            return begin();
+        }
+        if (pos == end()){
+            push_back(value);
+            return iterator(m_tail);
+        }
+        node<Type>* new_node = new node<Type>(value, pos.m_node, pos.m_node->prev);
+        new_node->prev->next = new_node;
+        new_node->next->prev = new_node;
+        return iterator(new_node);
+    }
+
+    iterator erase(iterator pos)
+    {
+        Debug("Erase operator");
+        if (!pos.m_node)
+            return iterator();
+        if (pos == begin()){
+            pop_front();
+            return begin();
+        }
+        if (pos == iterator(m_tail)){
+            pop_back();
+            return end();
+        }
+        pos.m_node->next->prev = pos.m_node->prev;
+        pos.m_node->prev->next = pos.m_node->next;
+        list_iterator<Type> for_return(pos.m_node->next);
+        delete pos.m_node;
+        return for_return;
+    }
+
     //================|Stepik 2_2_3|================
     list::iterator begin()
     {
