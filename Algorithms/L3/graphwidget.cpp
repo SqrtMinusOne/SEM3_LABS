@@ -115,8 +115,11 @@ void GraphWidget::wheelEvent(QWheelEvent *event)
 {
     scaleView(pow((double)2, -event->delta() / 240.0));
 }
-//! [5]
+
 //#endif
+
+//! [5]
+
 
 //! [6]
 void GraphWidget::drawBackground(QPainter *painter, const QRectF &rect)
