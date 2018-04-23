@@ -32,6 +32,12 @@ QPushButton:pressed
    <layout class="QHBoxLayout" name="horizontalLayout">
     <item>
      <widget class="QSplitter" name="MainSplitter">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+        <horstretch>2</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
       <property name="orientation">
        <enum>Qt::Horizontal</enum>
       </property>
@@ -330,6 +336,12 @@ background: qlineargradient(spread:reflect, x1:0.506, y1:0.506136, x2:0.505682, 
        </layout>
       </widget>
       <widget class="QWidget" name="rightSide" native="true">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+         <horstretch>5</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <layout class="QVBoxLayout" name="graphLayout" stretch="0,0">
         <item>
          <widget class="QLabel" name="label_3">
