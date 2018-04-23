@@ -42,6 +42,12 @@ QPushButton:pressed
        <enum>Qt::Horizontal</enum>
       </property>
       <widget class="QWidget" name="leftSide" native="true">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+         <horstretch>2</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <layout class="QVBoxLayout" name="LeftLayout" stretch="2,1,0">
         <item>
          <layout class="QVBoxLayout" name="Matrlayout">
@@ -338,7 +344,7 @@ background: qlineargradient(spread:reflect, x1:0.506, y1:0.506136, x2:0.505682, 
       <widget class="QWidget" name="rightSide" native="true">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-         <horstretch>5</horstretch>
+         <horstretch>2</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>

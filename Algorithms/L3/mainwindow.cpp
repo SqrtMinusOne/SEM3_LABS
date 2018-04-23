@@ -24,8 +24,6 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->graphicsView->setViewport(gr1->widget);
     srand(time(nullptr));
     timer = nullptr;
-    ui->MainSplitter->setStretchFactor(0,2);
-    ui->MainSplitter->setStretchFactor(1,5);
 }
 
 MainWindow::~MainWindow()
