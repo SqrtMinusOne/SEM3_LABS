@@ -32,4 +32,14 @@
 *.app
 
 #Build
+*Debug*
 *build*
+*.txt
+*.txt
+OOP/1/.vs/stepik_1_1_4(4)/v14/.suo
+*.ipch
+*.db
+*.opendb
+
+#QT
+*user.*
