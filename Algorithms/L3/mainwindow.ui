@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1099</width>
-    <height>641</height>
+    <height>713</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -29,238 +29,254 @@ QPushButton:pressed
 }</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="2,5">
+   <layout class="QHBoxLayout" name="horizontalLayout">
     <item>
-     <widget class="QWidget" name="leftWidget" native="true">
-      <layout class="QVBoxLayout" name="LeftLayout" stretch="2,1,0">
-       <item>
-        <layout class="QVBoxLayout" name="Matrlayout">
-         <item>
-          <widget class="QLabel" name="label">
-           <property name="text">
-            <string>Матрица инцидентности</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QTextEdit" name="incEdit">
-           <property name="font">
-            <font>
-             <family>Courier New</family>
-            </font>
-           </property>
-           <property name="horizontalScrollBarPolicy">
-            <enum>Qt::ScrollBarAsNeeded</enum>
-           </property>
-           <property name="lineWrapMode">
-            <enum>QTextEdit::NoWrap</enum>
-           </property>
-           <property name="readOnly">
-            <bool>true</bool>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <widget class="QGroupBox" name="resultGroup">
-         <property name="title">
-          <string>Итоги работы</string>
-         </property>
-         <layout class="QVBoxLayout" name="resultLayout">
+     <widget class="QSplitter" name="MainSplitter">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+        <horstretch>2</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <widget class="QWidget" name="leftSide" native="true">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+         <horstretch>2</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <layout class="QVBoxLayout" name="LeftLayout" stretch="2,1,0">
+        <item>
+         <layout class="QVBoxLayout" name="Matrlayout">
           <item>
-           <widget class="QLabel" name="label_4">
+           <widget class="QLabel" name="label">
             <property name="text">
-             <string>Результат</string>
+             <string>Матрица инцидентности</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QTableWidget" name="resTableWidget">
-            <property name="minimumSize">
-             <size>
-              <width>0</width>
-              <height>83</height>
-             </size>
+           <widget class="QTextEdit" name="incEdit">
+            <property name="font">
+             <font>
+              <family>Courier New</family>
+             </font>
             </property>
-            <property name="baseSize">
-             <size>
-              <width>0</width>
-              <height>0</height>
-             </size>
+            <property name="horizontalScrollBarPolicy">
+             <enum>Qt::ScrollBarAsNeeded</enum>
             </property>
-            <property name="verticalScrollBarPolicy">
-             <enum>Qt::ScrollBarAlwaysOff</enum>
+            <property name="lineWrapMode">
+             <enum>QTextEdit::NoWrap</enum>
             </property>
-            <property name="autoScroll">
-             <bool>false</bool>
+            <property name="readOnly">
+             <bool>true</bool>
             </property>
-            <property name="rowCount">
-             <number>2</number>
-            </property>
-            <attribute name="horizontalHeaderVisible">
-             <bool>false</bool>
-            </attribute>
-            <attribute name="verticalHeaderVisible">
-             <bool>false</bool>
-            </attribute>
-            <row/>
-            <row/>
            </widget>
           </item>
          </layout>
-        </widget>
-       </item>
-       <item>
-        <layout class="QHBoxLayout" name="ControlLayout" stretch="1,1">
-         <property name="sizeConstraint">
-          <enum>QLayout::SetDefaultConstraint</enum>
-         </property>
-         <item>
-          <widget class="QGroupBox" name="LeftControlGroup">
-           <property name="title">
-            <string>Редактирование графа</string>
-           </property>
-           <layout class="QVBoxLayout" name="verticalLayout">
-            <property name="spacing">
-             <number>6</number>
-            </property>
-            <property name="leftMargin">
-             <number>3</number>
-            </property>
-            <property name="topMargin">
-             <number>1</number>
-            </property>
-            <property name="rightMargin">
-             <number>3</number>
-            </property>
-            <property name="bottomMargin">
-             <number>2</number>
-            </property>
-            <item>
-             <widget class="QLineEdit" name="NodeNameEdit">
-              <property name="placeholderText">
-               <string>Введите имя элемента</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <layout class="QHBoxLayout" name="AddDelLayout">
-              <property name="spacing">
-               <number>6</number>
-              </property>
-              <property name="sizeConstraint">
-               <enum>QLayout::SetNoConstraint</enum>
-              </property>
-              <item>
-               <widget class="QPushButton" name="addNodeButton">
-                <property name="styleSheet">
-                 <string notr="true"/>
-                </property>
-                <property name="text">
-                 <string>Добавить</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QPushButton" name="deleteNodeButton">
-                <property name="text">
-                 <string>Удалить</string>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </item>
-            <item>
-             <widget class="QPushButton" name="desButton">
-              <property name="text">
-               <string>Дезориентировать</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QPushButton" name="AddEdge">
-              <property name="text">
-               <string>Добавить связь</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QPushButton" name="DeleteEdgeButton">
-              <property name="text">
-               <string>Удалить связь</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QPushButton" name="ClearButton">
-              <property name="text">
-               <string>Очистить</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QPushButton" name="matrButton">
-              <property name="text">
-               <string>Построить матрицу</string>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </widget>
-         </item>
-         <item>
-          <layout class="QVBoxLayout" name="RightContolLayoyt" stretch="0,0">
+        </item>
+        <item>
+         <widget class="QGroupBox" name="resultGroup">
+          <property name="title">
+           <string>Итоги работы</string>
+          </property>
+          <layout class="QVBoxLayout" name="resultLayout">
            <item>
-            <widget class="QGroupBox" name="ImageControlGroup">
-             <property name="title">
-              <string>Отображение</string>
+            <widget class="QLabel" name="label_4">
+             <property name="text">
+              <string>Результат</string>
              </property>
-             <layout class="QVBoxLayout" name="verticalLayout_2">
-              <item>
-               <widget class="QCheckBox" name="weighBox">
-                <property name="text">
-                 <string>Взвешенный граф</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QCheckBox" name="gravityBox">
-                <property name="text">
-                 <string>Гравитация</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QPushButton" name="colorButton">
-                <property name="text">
-                 <string>Случайные цвета</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QPushButton" name="shuffleButton">
-                <property name="text">
-                 <string>Перетасовать</string>
-                </property>
-               </widget>
-              </item>
-             </layout>
             </widget>
            </item>
            <item>
-            <widget class="QGroupBox" name="AlgContolBox">
-             <property name="title">
-              <string>Алгоритм</string>
+            <widget class="QTableWidget" name="resTableWidget">
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>83</height>
+              </size>
              </property>
-             <layout class="QVBoxLayout" name="verticalLayout_3">
-              <property name="sizeConstraint">
-               <enum>QLayout::SetDefaultConstraint</enum>
+             <property name="baseSize">
+              <size>
+               <width>0</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="verticalScrollBarPolicy">
+              <enum>Qt::ScrollBarAlwaysOff</enum>
+             </property>
+             <property name="autoScroll">
+              <bool>false</bool>
+             </property>
+             <property name="rowCount">
+              <number>2</number>
+             </property>
+             <attribute name="horizontalHeaderVisible">
+              <bool>false</bool>
+             </attribute>
+             <attribute name="verticalHeaderVisible">
+              <bool>false</bool>
+             </attribute>
+             <row/>
+             <row/>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="ControlLayout" stretch="1,1">
+          <property name="sizeConstraint">
+           <enum>QLayout::SetDefaultConstraint</enum>
+          </property>
+          <item>
+           <widget class="QGroupBox" name="LeftControlGroup">
+            <property name="title">
+             <string>Редактирование графа</string>
+            </property>
+            <layout class="QVBoxLayout" name="verticalLayout">
+             <property name="spacing">
+              <number>6</number>
+             </property>
+             <property name="leftMargin">
+              <number>3</number>
+             </property>
+             <property name="topMargin">
+              <number>1</number>
+             </property>
+             <property name="rightMargin">
+              <number>3</number>
+             </property>
+             <property name="bottomMargin">
+              <number>2</number>
+             </property>
+             <item>
+              <widget class="QLineEdit" name="NodeNameEdit">
+               <property name="placeholderText">
+                <string>Введите имя элемента</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <layout class="QHBoxLayout" name="AddDelLayout">
+               <property name="spacing">
+                <number>6</number>
+               </property>
+               <property name="sizeConstraint">
+                <enum>QLayout::SetNoConstraint</enum>
+               </property>
+               <item>
+                <widget class="QPushButton" name="addNodeButton">
+                 <property name="styleSheet">
+                  <string notr="true"/>
+                 </property>
+                 <property name="text">
+                  <string>Добавить</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QPushButton" name="deleteNodeButton">
+                 <property name="text">
+                  <string>Удалить</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+             <item>
+              <widget class="QPushButton" name="desButton">
+               <property name="text">
+                <string>Дезориентировать</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="AddEdge">
+               <property name="text">
+                <string>Добавить связь</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="DeleteEdgeButton">
+               <property name="text">
+                <string>Удалить связь</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="ClearButton">
+               <property name="text">
+                <string>Очистить</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="matrButton">
+               <property name="text">
+                <string>Построить матрицу</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item>
+           <layout class="QVBoxLayout" name="RightContolLayoyt" stretch="0,0">
+            <item>
+             <widget class="QGroupBox" name="ImageControlGroup">
+              <property name="title">
+               <string>Отображение</string>
               </property>
-              <item>
-               <widget class="QPushButton" name="pushButton">
-                <property name="styleSheet">
-                 <string notr="true">QPushButton
+              <layout class="QVBoxLayout" name="verticalLayout_2">
+               <item>
+                <widget class="QCheckBox" name="weighBox">
+                 <property name="text">
+                  <string>Взвешенный граф</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QCheckBox" name="gravityBox">
+                 <property name="text">
+                  <string>Гравитация</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QPushButton" name="colorButton">
+                 <property name="text">
+                  <string>Случайные цвета</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QPushButton" name="shuffleButton">
+                 <property name="text">
+                  <string>Перетасовать</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+            </item>
+            <item>
+             <widget class="QGroupBox" name="AlgContolBox">
+              <property name="title">
+               <string>Алгоритм</string>
+              </property>
+              <layout class="QVBoxLayout" name="verticalLayout_3">
+               <property name="sizeConstraint">
+                <enum>QLayout::SetDefaultConstraint</enum>
+               </property>
+               <item>
+                <widget class="QPushButton" name="pushButton">
+                 <property name="styleSheet">
+                  <string notr="true">QPushButton
 {
 background: qlineargradient(spread:reflect, x1:0.506, y1:0.506136, x2:0.505682, y2:1, stop:0 rgba(255, 157, 97, 255), stop:1 rgba(255, 255, 255, 255));
 }
@@ -269,77 +285,89 @@ QPushButton:pressed
 background: qlineargradient(spread:reflect, x1:0.506, y1:0.506136, x2:0.505682, y2:1, stop:0 rgba(255, 85, 0, 255), stop:1 rgba(255, 157, 97, 255));
 }
 </string>
-                </property>
-                <property name="text">
-                 <string>Пуск</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QPushButton" name="clrMarksButton">
-                <property name="text">
-                 <string>Сброс</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QLabel" name="label_6">
-                <property name="text">
-                 <string>Скорость</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QSlider" name="speedSlider">
-                <property name="maximum">
-                 <number>1000</number>
-                </property>
-                <property name="orientation">
-                 <enum>Qt::Horizontal</enum>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QCheckBox" name="stepBox">
-                <property name="text">
-                 <string>Пошагово</string>
-                </property>
-                <property name="checked">
-                 <bool>false</bool>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QCheckBox" name="checkBox">
-                <property name="text">
-                 <string>Метки по итерациям</string>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </widget>
-           </item>
-          </layout>
-         </item>
-        </layout>
-       </item>
-      </layout>
-     </widget>
-    </item>
-    <item>
-     <widget class="QWidget" name="rightWidget" native="true">
-      <layout class="QVBoxLayout" name="rightLayout" stretch="0,0">
-       <item>
-        <widget class="QLabel" name="label_3">
-         <property name="text">
-          <string>Граф</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QGraphicsView" name="graphicsView"/>
-       </item>
-      </layout>
+                 </property>
+                 <property name="text">
+                  <string>Пуск</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QPushButton" name="clrMarksButton">
+                 <property name="text">
+                  <string>Сброс</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLabel" name="label_6">
+                 <property name="text">
+                  <string>Скорость</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QSlider" name="speedSlider">
+                 <property name="maximum">
+                  <number>1000</number>
+                 </property>
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QCheckBox" name="stepBox">
+                 <property name="text">
+                  <string>Пошагово</string>
+                 </property>
+                 <property name="checked">
+                  <bool>false</bool>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QCheckBox" name="checkBox">
+                 <property name="text">
+                  <string>Метки по итерациям</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="rightSide" native="true">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+         <horstretch>2</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <layout class="QVBoxLayout" name="graphLayout" stretch="0,0">
+        <item>
+         <widget class="QLabel" name="label_3">
+          <property name="text">
+           <string>Граф</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QGraphicsView" name="graphicsView">
+          <property name="sizeAdjustPolicy">
+           <enum>QAbstractScrollArea::AdjustIgnored</enum>
+          </property>
+          <property name="resizeAnchor">
+           <enum>QGraphicsView::AnchorViewCenter</enum>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
      </widget>
     </item>
    </layout>
