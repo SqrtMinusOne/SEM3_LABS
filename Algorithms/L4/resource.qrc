@@ -1,0 +1,13 @@
+<RCC>
+    <qresource prefix="/">
+        <file alias="index.htm">doc/index.htm</file>
+        <file>doc/graph.htm</file>
+        <file>doc/form.htm</file>
+        <file>doc/form.png</file>
+        <file>doc/gredit.png</file>
+        <file>doc/context.htm</file>
+        <file>doc/alg.htm</file>
+        <file>doc/control.htm</file>
+        <file>doc/files.htm</file>
+    </qresource>
+</RCC>
