@@ -160,7 +160,7 @@ void Graph::SaveFile(QString fileName, bool pos)
             files << el->node->scenePos().x() << " " << el->node->scenePos().y() << " ";
         }
         while ((ls = it(el))!=nullptr){
-            files << ls->name << " ";
+            files << ls->node->name << " ";
             if (weights){
                 files << ls->weight << " ";
             }
