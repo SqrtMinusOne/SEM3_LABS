@@ -23,12 +23,6 @@ MainWindow::MainWindow(QWidget *parent) :
     gr1->widget = new GraphWidget(0, gr1, this);
     ui->graphicsView->setViewport(gr1->widget);
     srand(time(nullptr));
-    QSplitter* splt = new QSplitter(Qt::Horizontal, this);
-    splt->addWidget(ui->leftWidget);
-    splt->addWidget(ui->rightWidget);
-    splt->setStretchFactor(0, 2);
-    splt->setStretchFactor(1, 5);
-    this->setCentralWidget(splt);
 }
 
 MainWindow::~MainWindow()

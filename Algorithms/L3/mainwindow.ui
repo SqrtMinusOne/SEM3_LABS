@@ -344,7 +344,7 @@ background: qlineargradient(spread:reflect, x1:0.506, y1:0.506136, x2:0.505682, 
       <widget class="QWidget" name="rightSide" native="true">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-         <horstretch>2</horstretch>
+         <horstretch>5</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
