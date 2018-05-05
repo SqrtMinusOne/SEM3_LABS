@@ -2,17 +2,25 @@
 #include "kmp.h"
 #include "gtest/gtest.h"
 
-TEST(PrefixTests1, PositiveNos) { 
-    ASSERT_TRUE((vector<int> {0, 0, 0, 0}) == prefix("abcd"));
-    ASSERT_TRUE((vector<int> {0, 0, 1, 2}) == prefix("abab"));
-}
- 
-TEST(PrefixTests2, PositiveNos) {
-    ASSERT_TRUE((vector<int> {0, 0, 0, 0, 1, 2, 0, 0, 1, 2, 3, 4, 5, 6, 0, 1}) == prefix("abcdabscabcdabia"));
-}
+typedef struct PrefixTestType{
+    char* input;
+    vector<int> output;
+}PrefixTestType;
 
-TEST(KMPTests, PositiveNos) {
-    ASSERT_TRUE((vector<int> {0, 2}) == kmp("ab", "abab"));
+PrefixTestType PrefixTest1 = {"abab", vector<int> {0, 0, 1, 2}};
+
+class PrefixTest : public ::testing::TestWithParam<PrefixTestType>{
+    public:
+        virtual void SetUp() { }
+        virtual void TearDown() { }
+
+};
+
+INSTANTIATE_TEST_CASE_P(PrefixTestInstantiation, PrefixTest, ::testing::Values(PrefixTest1));
+
+TEST_P(PrefixTest, PrefixTestTrue)
+{
+    ASSERT_TRUE(prefix(GetParam().input) == GetParam().output);
 }
 
 int main(int argc, char *argv[])
