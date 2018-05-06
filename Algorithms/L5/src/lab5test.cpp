@@ -23,6 +23,9 @@ PrefixTestType PrefixTest4 = {"abcd", vector<int> {0, 0, 0, 0}};
 KMPTestType KMPTest1 = {"ab", "abab", vector<int> {0, 2}};
 KMPTestType KMPTest2 = {"ab", "cdef", vector<int> {}};
 
+KMPTestType KMPShiftTest={"abcdef", "defabcdefabc", vector<int> {3}};
+KMPTestType KMPShiftTest2={"abababab", "babababababababa", vector<int> {1, 3, 5, 7}};
+
 
 class PrefixTest : public ::testing::TestWithParam<PrefixTestType>{
     public:
@@ -41,6 +44,8 @@ INSTANTIATE_TEST_CASE_P(PrefixTestInstantiation, PrefixTest, ::testing::Values(P
     PrefixTest2, PrefixTest3, PrefixTest4));
 
 INSTANTIATE_TEST_CASE_P(KMPTestInstantiation, KMPTest, ::testing::Values(KMPTest1, KMPTest2));
+
+INSTANTIATE_TEST_CASE_P(KMPShiftTestInstantiation, KMPTest, ::testing::Values(KMPShiftTest, KMPShiftTest2));
 
 TEST_P(PrefixTest, PrefixTestTrue)
 {
