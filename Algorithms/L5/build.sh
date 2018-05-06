@@ -1,6 +1,6 @@
 #!/bin/bash
 cd ./build
-cmake .. -Dtests=ON
+cmake .. -Dtests=ON -Dmain=ON -Dshift=ON
 
 if [ ! -f "$Makefile" ]; then
     echo "===============CMake OK==============="
