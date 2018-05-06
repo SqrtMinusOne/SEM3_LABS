@@ -6,7 +6,7 @@ vector<int> kmp(string P, string T){
     int j=0;
     vector<int> p = prefix(P);
     for (size_t i=0; i<T.size(); i++){
-        while ((j > 0) && T[i] != P[j])
+        while ((j > 0) && (T[i] != P[j]))
             j = p[j-1];
         if (T[i] == P[j])
             j++;
