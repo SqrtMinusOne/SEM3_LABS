@@ -50,9 +50,25 @@ public:
             (*(count_ptr))++;
     }
 
+    template <class Y>
+    shared_ptr(const shared_ptr<Y> & other): object(other.get()), count_ptr(other.get_count()){
+        Debug("Copy constructor with template", 1);
+        if (get()!=0)
+            (*(count_ptr))++;
+    }
+
+
     shared_ptr& operator=(const shared_ptr & other)
     {
-        shared_ptr<T>(other).swap(*this);
+        Debug("Assignment operator", 1);
+        shared_ptr(other).swap(*this);
+        return *this;
+    }
+
+    template <class Y>
+    shared_ptr& operator=(const shared_ptr<Y> & other){
+        Debug("Assignment operator with template", 1);
+        shared_ptr(other).swap(*this);
         return *this;
     }
 
@@ -66,9 +82,13 @@ public:
         return object;
     }
 
-    long use_count() const
+    count_type use_count() const
     {
         return *count_ptr;
+    }
+
+    count_type* get_count() const{
+        return count_ptr;
     }
 
     T& operator*() const
@@ -98,4 +118,12 @@ private:
     T* object;
     count_type* count_ptr;
 };
+
+template <class U, class Y>
+bool operator==( const shared_ptr<U>& a, const shared_ptr<Y>& b ) noexcept
+{
+    return a.get() == b.get();
+}
+
+
 } // namespace stepik
