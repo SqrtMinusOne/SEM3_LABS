@@ -1,4 +1,12 @@
-#include "debug.hpp"
+
+#define DEBUG
+void Debug(const char* str, int a = 0){
+#ifdef DEBUG
+    for (int i=0; i<=a; i++)
+        std::cout << "#";
+    std::cout << " " << str << std::endl;
+#endif
+}
 
 namespace stepik
 {
@@ -9,15 +17,14 @@ public:
     typedef long unsigned int count_type;
     explicit shared_ptr(T *ptr = 0)
     {
-        debug = new Debug(true, 1);
-        debug->out("Constructor");
+        Debug("Copy constructor", 1);
         if (ptr == 0){
-            debug->out("No object", 1);
+            Debug("No object", 2);
             object = nullptr;
             count_ptr = new count_type(0);
         }
         else{
-            debug->out("Object exists", 1);
+            Debug("Object exists", 2);
             object = ptr;
             count_ptr = new count_type(1);
         }
@@ -25,27 +32,28 @@ public:
 
     ~shared_ptr()
     {
-        debug->out("Destructor");
+        Debug("Destructor", 1);
         if (object!=0){
-            debug->out("Count--", 1);
+            Debug("Count--", 2);
             (*(count_ptr))--;
         }
         if (use_count() == 0){
-            debug->out("Delete", 2);
+            Debug("Delete", 3);
             delete object;
         }
     }
 
     shared_ptr(const shared_ptr & other): object(other.object), count_ptr(other.count_ptr)
     {
-        debug->out("Copy constructor");
+        Debug("Copy constructor", 1);
         if (get()!=0)
             (*(count_ptr))++;
     }
 
     shared_ptr& operator=(const shared_ptr & other)
     {
-        // implement this
+        shared_ptr<T>(other).swap(*this);
+        return *this;
     }
 
     explicit operator bool() const
@@ -55,7 +63,6 @@ public:
 
     T* get() const
     {
-        debug->out("Get operator");
         return object;
     }
 
@@ -76,19 +83,19 @@ public:
 
     void swap(shared_ptr& x) noexcept
     {
-        debug->out("Swap");
+        Debug("Swap", 1);
         std::swap(x.object, object);
         std::swap(x.count_ptr, count_ptr);
     }
 
     void reset(T *ptr = 0)
     {
-        // implement this
+        Debug("Reset", 1);
+        shared_ptr<T>(ptr).swap(*this);
     }
 
 private:
     T* object;
     count_type* count_ptr;
-    Debug* debug;
 };
 } // namespace stepik
