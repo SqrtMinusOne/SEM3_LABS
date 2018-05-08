@@ -1,7 +1,7 @@
 #include "prefix.h"
 
 using namespace std;
-vector<int> prefix (string S) {
+vector<int> prefix (const string & S) {
     int n = S.length();
     vector<int> p(n);
     for (int i=1; i<n; i++) {

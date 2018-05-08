@@ -5,6 +5,6 @@
 #include <iostream>
 using namespace std;
 
-vector<int> prefix (string S);
+vector<int> prefix (const string & S);
 
 #endif
