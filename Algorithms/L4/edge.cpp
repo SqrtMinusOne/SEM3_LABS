@@ -3,6 +3,7 @@
 
 #include <qmath.h>
 #include <QPainter>
+#include <QDebug>
 
 //! [0]
 Edge::Edge(Node *sourceNode, Node *destNode, List* lst)
@@ -56,6 +57,26 @@ void Edge::adjust()
         sourcePoint = destPoint = line.p1();
     }
 }
+
+void Edge::AddAnimation(int pos)
+{
+    QColor col = Qt::black;
+    if (list->mark!=0){
+        double hue = (list->mark - 1);
+        hue = hue*360;
+        hue = hue/(graph->gr->max_iter);
+        col.setHsv(hue, 255, 255);
+    }
+    QGraphicsEllipseItem* a = this->scene()->addEllipse(0, 0, 10, 10);
+    a->setParentItem(this);
+    a->setPos(sourcePoint);
+    a->setPen(QPen(col, 0));
+    a->setBrush(QBrush(col));
+    a->update();
+    MovingElliplse str;
+    str.Ellipse = a; str.position = pos;
+    Anim.push_back(str);
+}
 //! [2]
 
 //! [3]
@@ -66,7 +87,7 @@ QRectF Edge::boundingRect() const
 
     qreal penWidth = 1;
     if (list->node->node->graph->gr->weights)
-        penWidth = (log10(abs(this->list->weight)) + 1)*16;
+        penWidth = (log10(abs(this->list->weight)) + 1)*32;
     qreal extra = (penWidth + arrowSize) / 2.0;
 
     return QRectF(sourcePoint, QSizeF(destPoint.x() - sourcePoint.x(),
@@ -116,21 +137,42 @@ void Edge::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
         QPointF centerPoint = (sourcePoint + destPoint)/2;
         painter->drawText(centerPoint, temp);
     }
-    // Draw the arrows
     double angle = std::atan2(-line.dy(), line.dx());
-/*
-   QPointF sourceArrowP1 = sourcePoint + QPointF(sin(angle + M_PI / 3) * arrowSize,
-                                                  cos(angle + M_PI / 3) * arrowSize);
-   QPointF sourceArrowP2 = sourcePoint + QPointF(sin(angle + M_PI - M_PI / 3) * arrowSize,
-                                                  cos(angle + M_PI - M_PI / 3) * arrowSize);
-  */QPointF destArrowP1 = destPoint + QPointF(sin(angle - M_PI / 3) * arrowSize,
+
+    QPointF destArrowP1 = destPoint + QPointF(sin(angle - M_PI / 3) * arrowSize,
                                               cos(angle - M_PI / 3) * arrowSize);
     QPointF destArrowP2 = destPoint + QPointF(sin(angle - M_PI + M_PI / 3) * arrowSize,
                                               cos(angle - M_PI + M_PI / 3) * arrowSize);
-
     painter->setBrush(col);
-  //  painter->drawPolygon(QPolygonF() << line.p1() << sourceArrowP1 << sourceArrowP2);
     painter->drawPolygon(QPolygonF() << line.p2() << destArrowP1 << destArrowP2);
+   // ProcessAnimation();
+}
+
+void Edge::ProcessAnimation()
+{
+    for (int e = 0; e < Anim.size(); e++){
+        if (Anim[e].position == 100)
+            Anim[e].position = 0;
+        Anim[e].position++;
+        qreal coef = 1 - (qreal)(Anim[e].position)/100;
+        int xs = sourcePoint.x() - 5;
+        int ys = sourcePoint.y() - 5;
+        int xd = destPoint.x() - 5;
+        int yd = destPoint.y() - 5;
+        qreal newx = xs*coef + xd * (1-coef);
+        qreal newy = ys*coef + yd * (1-coef);
+        Anim[e].Ellipse->setX(newx);
+        Anim[e].Ellipse->setY(newy);
+        Anim[e].Ellipse->update();
+    }
+}
+
+void Edge::RemoveAnimation()
+{
+    for (int e = 0; e < Anim.size(); e++){
+        delete Anim[e].Ellipse;
+    }
+    Anim.clear();
 }
 
 //! [6]

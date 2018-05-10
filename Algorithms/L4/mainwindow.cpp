@@ -251,6 +251,7 @@ void MainWindow::on_clrMarksButton_clicked() //Сброс алгоритма
 {
     gr1->FordFalkersonReset();
     gr1->ClearMarks();
+    gr1->widget->RemoveAnimation();
     ui->resEdit->clear();
     if (timer){
         timer->stop();
@@ -283,11 +284,6 @@ void MainWindow::on_save_pos_action_triggered()
 {
     QString fileName = QFileDialog::getSaveFileName(this, "Открыть файл");
     gr1->SaveFile(fileName, 1);
-}
-
-void MainWindow::on_checkBox_stateChanged(int arg1)
-{
-    gr1->itermarks = arg1;
 }
 
 void MainWindow::on_about_action_triggered()

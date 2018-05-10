@@ -52,10 +52,17 @@
 #define EDGE_H
 
 #include <QGraphicsItem>
+#include <QGraphicsEllipseItem>
+
 #include  "graph.h"
 
 class Node;
 class List;
+
+typedef struct MovingElliplse{
+    QGraphicsEllipseItem* Ellipse;
+    int position = 0;
+}MovingElliplse;
 
 //! [0]
 class Edge : public QGraphicsItem
@@ -66,15 +73,18 @@ public:
     Node *sourceNode() const;
     Node *destNode() const;
     void adjust();
-
+    void AddAnimation(int pos);
     enum { Type = UserType + 2 };
     int type() const override { return Type; }
     int weight_temp;
+    void ProcessAnimation();
+    void RemoveAnimation();
 protected:
     QRectF boundingRect() const override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
 
 private:
+    QList<MovingElliplse> Anim;
     Node *source, *dest;
     List* list;
     GraphWidget* graph;

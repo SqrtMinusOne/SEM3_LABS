@@ -295,13 +295,6 @@ background: qlineargradient(spread:reflect, x1:0.506, y1:0.506136, x2:0.505682, 
                  </property>
                 </widget>
                </item>
-               <item>
-                <widget class="QCheckBox" name="checkBox">
-                 <property name="text">
-                  <string>Метки по итерациям</string>
-                 </property>
-                </widget>
-               </item>
               </layout>
              </widget>
             </item>

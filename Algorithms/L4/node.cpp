@@ -6,6 +6,7 @@
 #include <memory>
 #include <QGraphicsScene>
 #include <QGraphicsSceneMouseEvent>
+
 #include <QPainter>
 #include <QStyleOption>
 #include <QColorDialog>

@@ -72,13 +72,12 @@ private slots:
 
     void on_save_pos_action_triggered();
 
-    void on_checkBox_stateChanged(int arg1);
-
     void on_about_action_triggered();
 
     void on_help_action_triggered();
 
     void FordFalkRes();
+
 private:
     Graph* gr1;
     Ui::MainWindow *ui;

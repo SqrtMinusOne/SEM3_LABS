@@ -74,6 +74,7 @@ public:
     void itemMoved();
     MainWindow* mw;
     Graph* gr;
+    QTimer* AnimationTimer;
 public slots:
     void shuffle();
     void zoomIn();
@@ -82,6 +83,8 @@ public slots:
     void RandomColors();
     void keyPressEvent(QKeyEvent *event) override;
     void updateEdges();
+    void Animation();
+    void RemoveAnimation();
 protected:  
     void timerEvent(QTimerEvent *event) override;
     void wheelEvent(QWheelEvent *event) override;

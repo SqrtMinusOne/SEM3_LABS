@@ -29,6 +29,9 @@ GraphWidget::GraphWidget(QWidget *parent, Graph *graph, MainWindow* main)
     setTransformationAnchor(AnchorUnderMouse);
     scale(qreal(0.8), qreal(0.8));
     setMinimumSize(400, 400);
+    AnimationTimer = new QTimer(this);
+    AnimationTimer->start(10);
+    connect(AnimationTimer, SIGNAL(timeout()), this, SLOT(Animation()));
 //! [0]
 
 //! [1]
@@ -77,6 +80,22 @@ void GraphWidget::updateEdges()
     foreach (QGraphicsItem *item, scene()->items()) {
         if (Edge *edge = qgraphicsitem_cast<Edge*>(item))
             edge->update();
+    }
+}
+
+void GraphWidget::Animation()
+{
+    foreach (QGraphicsItem *item, scene()->items()) {
+        if (Edge *edge = qgraphicsitem_cast<Edge*>(item))
+            edge->ProcessAnimation();
+    }
+}
+
+void GraphWidget::RemoveAnimation()
+{
+    foreach (QGraphicsItem *item, scene()->items()) {
+        if (Edge *edge = qgraphicsitem_cast<Edge*>(item))
+            edge->RemoveAnimation();
     }
 }
 

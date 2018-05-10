@@ -19,6 +19,11 @@ void Graph::Clear()
     marked = nullptr;
     source = nullptr;
     sink = nullptr;
+    path.way.clear();
+    path.way_el.clear();
+    pos = nullptr;
+    lpos = nullptr;
+    linpos = 0;
     stupidnames = 0;
 }
 
@@ -662,6 +667,7 @@ void Graph::RestorePath(Elem* el)
 {
     SAVEITS;
     List* ls;
+    int pos = rand() % 100;
     path.way_el.push_front(el);
     if (el!=source){
         linpos = 0;
@@ -669,6 +675,7 @@ void Graph::RestorePath(Elem* el)
             if (ls->mark2){
                 path.way.push_front(ls);
                 ls->mark = it_num;
+                ls->edge->AddAnimation(pos);
                 ls->edge->update();
                 RestorePath(FindElem(ls));
                 RESTOREITS;
