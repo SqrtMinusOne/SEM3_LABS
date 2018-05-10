@@ -105,7 +105,7 @@ void Edge::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
     weight_temp = 1;
     if (graph->gr->weights){
         //Draw text
-        QString temp = QString::number(list->weight - list->flow);
+        QString temp = QString::number(list->weight - list->flow) + "/" + QString::number(list->weight);
         weight_temp = list->weight - list->flow;
         if (weight_temp == 0)
             weight_temp++;

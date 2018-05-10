@@ -17,6 +17,8 @@ void Graph::Clear()
     Clear(gr);
     gr = nullptr;
     marked = nullptr;
+    source = nullptr;
+    sink = nullptr;
     stupidnames = 0;
 }
 
@@ -235,6 +237,24 @@ Elem *Graph::FindElem(char *name)
     return el;
 }
 
+Elem *Graph::FindElem(List *ls)
+{
+    SAVEITS;
+    Elem* el;
+    List* ls2;
+    bool res = 0;
+    while ((el = it())!=nullptr){
+        while ((ls2 = it(el))!=nullptr){
+            if (ls == ls2){
+                RESTOREITS;
+                return el;
+            }
+        }
+    }
+    RESTOREITS;
+    return el;
+}
+
 void Graph::AddEdge(Elem *el1, Elem *el2, int weight)
 {
     SAVEITS;
@@ -385,6 +405,10 @@ void Graph::RenameElem(char *oldname, char *newname)
     Elem* el = FindElem(oldname);
     if ((!FindElem(newname)) && strlen(newname)!=0){
         strcpy_s(el->name, newname);
+        List* ls;
+        while ((ls = itin(el))!=nullptr){
+            strcpy_s(ls->name, newname);
+        }
     }
 }
 
@@ -608,39 +632,59 @@ void Graph::ClearMarks()
 
 }
 
-Elem *Graph::FindPath(Elem *el)
+Elem *Graph::FindPath()
+{
+    SAVEITS;
+    int n = CountElems();
+    QQueue<Elem*> queue;
+    queue.enqueue(source);
+    source->searched = 1;
+    List* ls;
+    while(!queue.isEmpty()){
+        Elem* el2 = queue.dequeue();
+        if (el2 == sink){
+            RESTOREITS;
+            return el2;
+        }
+        while (ls = it(el2)){
+            if ((!ls->node->searched) && ((ls->weight - ls->flow) != 0)){
+                ls->node->searched = 1;
+                ls->mark2 = 1;
+                queue.enqueue(ls->node);
+            }
+        }
+    }
+    RESTOREITS;
+    return nullptr;
+}
+
+void Graph::RestorePath(Elem* el)
 {
     SAVEITS;
     List* ls;
-    if (el->searched){
-        RESTOREITS;
-        return nullptr;
-    }
-    Elem* temp;
-    el->searched = 1;
-    path.way_el.push_back(el);
-    if (el == sink){
-        RESTOREITS;
-        return el;
-    }
-    while ((ls = it(el))!=nullptr){
-        if ((!ls->node->searched) && (ls->weight - ls->flow > 0)){
-            path.way.push_back(ls);
-            ls->mark = it_num;
-            ls->edge->update();
-            temp = FindPath(ls->node);
-            if (temp == sink){
+    path.way_el.push_front(el);
+    if (el!=source){
+        linpos = 0;
+        while (ls = itin(el)){
+            if (ls->mark2){
+                path.way.push_front(ls);
+                ls->mark = it_num;
+                ls->edge->update();
+                RestorePath(FindElem(ls));
                 RESTOREITS;
-                return temp;
+                return;
             }
-            path.way.pop_back();
-            ls->mark = 0;
-            ls->edge->update();
         }
     }
-    path.way_el.pop_back();
+    else{
+        Elem* el2;
+        while ((el2 = it())!=nullptr){
+            while ((ls = it(el2))!=nullptr){
+                ls->mark2 = 0;
+            }
+        }
+    }
     RESTOREITS;
-    return nullptr;
 }
 
 void Graph::ResetFindPath()
@@ -674,7 +718,8 @@ int Graph::FordFalkerson()
         return 1;
     it_num++;
     ResetFindPath();
-    FindPath(source);
+    FindPath();
+    RestorePath(sink);
     SetMinPath();
     if (path.way.size() == 0)
         return 1;
@@ -703,7 +748,7 @@ void Graph::FordFalkersonInit()
         box.exec();
         return;
     }
-    max_iter = 10;
+    max_iter = 15;
 }
 
 void Graph::FordFalkersonReset()

@@ -36,6 +36,7 @@ typedef struct List{
     List() = default;
     char name[Numb];
     int mark = 0;
+    int mark2 = 0;
     int flow = 0;
     int weight = 1;
     Elem* node = nullptr; //Сам элемент
@@ -79,6 +80,7 @@ public:
     void Desorientate(); //Снять ориентацию графа
 
     Elem* FindElem(char* name); //Найти элемент
+    Elem* FindElem(List* ls);
     int CountChildren(Elem* el, bool marked = 1); //Сколько детей
     int CountElems(); //Сколько элементов
 
@@ -92,7 +94,8 @@ public:
     void Unmark(List* ls, Elem* el = nullptr);
     void ClearMarks(); //Очистка меток ребер на графе
 
-    Elem* FindPath(Elem* el);
+    Elem* FindPath();
+    void RestorePath(Elem *el);
     void ResetFindPath();
     void SetMinPath();
 
