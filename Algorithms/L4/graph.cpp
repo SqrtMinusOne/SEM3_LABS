@@ -640,54 +640,53 @@ void Graph::ClearMarks()
 Elem *Graph::FindPath()
 {
     SAVEITS;
-    int n = CountElems();
-    QQueue<Elem*> queue;
-    queue.enqueue(source);
-    source->searched = 1;
+    QQueue<Elem*> queue; //Очередь для поиска
+    queue.enqueue(source); //Загрузка стока в очередь
+    source->searched = 1; //Пометка
     List* ls;
-    while(!queue.isEmpty()){
-        Elem* el2 = queue.dequeue();
+    while(!queue.isEmpty()){ //Цикл, пока очередь не пуста
+        Elem* el2 = queue.dequeue(); //Взять один элемент
         if (el2 == sink){
             RESTOREITS;
-            return el2;
+            return el2 ;//Путь найден, конец
         }
-        while (ls = it(el2)){
+        while (ls = it(el2)){ //Итерация по всем ребрам
             if ((!ls->node->searched) && ((ls->weight - ls->flow) != 0)){
-                ls->node->searched = 1;
-                ls->mark2 = 1;
+                ls->node->searched = 1; //Добавление и пометка всех
+                ls->mark2 = 1; //Непомеченных соседей
                 queue.enqueue(ls->node);
             }
         }
     }
     RESTOREITS;
-    return nullptr;
+    return nullptr; //Путь не найден
 }
 
 void Graph::RestorePath(Elem* el)
 {
     SAVEITS;
     List* ls;
-    int pos = rand() % 100;
-    path.way_el.push_front(el);
-    if (el!=source){
-        linpos = 0;
-        while (ls = itin(el)){
-            if (ls->mark2){
-                path.way.push_front(ls);
-                ls->mark = it_num;
-                ls->edge->AddAnimation(pos);
-                ls->edge->update();
-                RestorePath(FindElem(ls));
+    int pos = rand() % 100; //Настройка анимации для пути
+    path.way_el.push_front(el); //Записать текущий элемент в конец пути
+    if (el!=source){ //Если это не исток
+        linpos = 0; //Сброк итератора через входящие ребра
+        while (ls = itin(el)){ //Итератор через входящие ребра
+            if (ls->mark2){ //Если ребро помечено, значит через него был поиск
+                path.way.push_front(ls); //Записать в путь
+                ls->mark = it_num; //Пометить
+                ls->edge->AddAnimation(pos); //Установка анимации
+                ls->edge->update(); //Обновление
+                RestorePath(FindElem(ls)); //Рекурсия для следующего элемента
                 RESTOREITS;
                 return;
             }
         }
     }
-    else{
+    else{ //Исток найден
         Elem* el2;
-        while ((el2 = it())!=nullptr){
+        while ((el2 = it())!=nullptr){ //Итерация через все ребра
             while ((ls = it(el2))!=nullptr){
-                ls->mark2 = 0;
+                ls->mark2 = 0; //Сброс пометок
             }
         }
     }
@@ -720,18 +719,18 @@ void Graph::SetMinPath()
 int Graph::FordFalkerson()
 {
     if (max_iter == 0)
-        FordFalkersonInit();
+        FordFalkersonInit(); //Запуск инициализации, если надо
     if (max_iter == 0)
-        return 1;
+        return 1; //Если не инициализировалось
     it_num++;
-    ResetFindPath();
-    FindPath();
-    RestorePath(sink);
-    SetMinPath();
-    if (path.way.size() == 0)
-        return 1;
+    ResetFindPath(); //Сброс поиска в ширину
+    Elem* res = FindPath(); //Поиск в ширину
+    if (res == nullptr)
+        return 1; //Если путь не найден
+    RestorePath(sink); //Восстановление пути
+    SetMinPath(); //Установка минимального потока
     int i = 0;
-    for (auto it : path.way){
+    for (auto it : path.way){ //Итерация по всем ребрам пути
         it->flow = it->flow + path.min_flow;
         Elem* temp = path.way_el.at(i++);
         List* templist = GetEdge(it->node, temp);

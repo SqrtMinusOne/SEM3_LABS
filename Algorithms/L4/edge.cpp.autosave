@@ -77,6 +77,8 @@ void Edge::AddAnimation(int pos)
     str.Ellipse = a; str.position = pos;
     Anim.push_back(str);
 }
+
+
 //! [2]
 
 //! [3]
