@@ -11,6 +11,7 @@ typedef struct KMPTestType{
     const char* P;
     const char* T;
     vector<int> res;
+    unsigned int multiplier;
 }KMPTestType;
 
 PrefixTestType PrefixTest1 = {"abab", vector<int> {0, 0, 1, 2}};
@@ -20,11 +21,11 @@ PrefixTestType PrefixTest3 = {"abcdabcabcdabcdab",
     vector<int> {0, 0, 0, 0, 1, 2, 3, 1, 2, 3, 4, 5, 6, 7, 4, 5, 6}};
 PrefixTestType PrefixTest4 = {"abcd", vector<int> {0, 0, 0, 0}};
 
-KMPTestType KMPTest1 = {"ab", "abab", vector<int> {0, 2}};
-KMPTestType KMPTest2 = {"ab", "cdef", vector<int> {}};
+KMPTestType KMPTest1 = {"ab", "abab", vector<int> {0, 2}, 1};
+KMPTestType KMPTest2 = {"ab", "cdef", vector<int> {}, 1};
 
-KMPTestType KMPShiftTest={"abcdef", "defabcdefabc", vector<int> {3}};
-KMPTestType KMPShiftTest2={"abababab", "babababababababa", vector<int> {1, 3, 5, 7}};
+KMPTestType KMPShiftTest={"abcdef", "defabc", vector<int> {3}, 2};
+KMPTestType KMPShiftTest2={"abababab", "babababa", vector<int> {1, 3, 5, 7}, 2};
 
 
 class PrefixTest : public ::testing::TestWithParam<PrefixTestType>{
@@ -40,10 +41,18 @@ class KMPTest : public ::testing::TestWithParam<KMPTestType>{
         virtual void TearDown() { }
 };
 
+class NaiveTest : public ::testing::TestWithParam<KMPTestType>{
+    public:
+        virtual void SetUp() { }
+        virtual void TearDown() { }
+};
+
 INSTANTIATE_TEST_CASE_P(PrefixTestInstantiation, PrefixTest, ::testing::Values(PrefixTest1, 
     PrefixTest2, PrefixTest3, PrefixTest4));
 
 INSTANTIATE_TEST_CASE_P(KMPTestInstantiation, KMPTest, ::testing::Values(KMPTest1, KMPTest2));
+
+INSTANTIATE_TEST_CASE_P(NaiveTestInstantiation, NaiveTest, ::testing::Values(KMPTest1, KMPTest2));
 
 INSTANTIATE_TEST_CASE_P(KMPShiftTestInstantiation, KMPTest, ::testing::Values(KMPShiftTest, KMPShiftTest2));
 
@@ -53,8 +62,13 @@ TEST_P(PrefixTest, PrefixTestTrue)
 }
 
 TEST_P(KMPTest, KMPTestTrue){
-    ASSERT_TRUE(kmp(GetParam().P, GetParam().T) == GetParam().res);
+    ASSERT_TRUE(kmp(GetParam().P, GetParam().T, GetParam().multiplier) == GetParam().res);
 }
+
+TEST_P(NaiveTest, NaiveTestTrue){
+    ASSERT_TRUE(naive(GetParam().P, GetParam().T) == GetParam().res);
+}
+
 
 int main(int argc, char *argv[])
 {

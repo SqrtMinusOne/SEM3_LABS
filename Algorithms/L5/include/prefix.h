@@ -5,6 +5,8 @@
 #include <iostream>
 using namespace std;
 
-vector<int> prefix (string S);
+void INC(int* x);
+bool CMP(const char& a, const char& b, int* counter);
+vector<int> prefix (const string & S, int* counter = nullptr);
 
 #endif
