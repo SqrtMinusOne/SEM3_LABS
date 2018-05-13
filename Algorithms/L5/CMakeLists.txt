@@ -1,6 +1,6 @@
-cmake_minimum_required(VERSION 3.1)
+cmake_minimum_required(VERSION 2.8)
 project(lab5)
-set (CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_FLAGS "-Wall -std=c++11")
 
 find_package(GTest REQUIRED)
 include_directories(include ${GTEST_INCLUDE_DIRS})
