@@ -2,8 +2,6 @@
 #define BOHR_H
 #include <vector>
 #include <string>
-#include <stack>
-#include <iostream>
 
 using namespace std;
 
@@ -19,9 +17,8 @@ typedef struct Node{
     Node();
 }Node;
 
-char SYM(const char ch);
+int SYM(char ch);
 void addString(string s, int patternNumber, Node* root);
-void out(Node* n);
 Node* getSuffLink(Node* v, Node* root);
 Node* getLink(Node* v, char c, Node* root);
 Node* getUp(Node* v, Node* root);
