@@ -2,6 +2,8 @@
 
 #define K 26
 
+using namespace std;
+
 Node::Node(){
     son.resize(K);
     son.assign(K, nullptr);
@@ -11,23 +13,46 @@ Node::Node(){
     suffLink = nullptr;
     up = nullptr;
     isLeaf = false;
+    charToParent = 0;
 }
 
-int SYM(char ch){
-    return ch - 'a';
+char SYM(const char ch){
+    return tolower(ch) - 'a';
 
+}
+
+void out(Node* n){
+    stack<Node*> q;
+    q.push(n);
+    while (!q.empty()){
+        Node* cur = q.top();
+        q.pop();
+        if (cur->charToParent!=0)
+            cout << cur->charToParent;
+        if (!cur->leafPatternNumber.empty())
+            cout << "!";
+        cout << " ";
+        if (cur->isLeaf){
+            cout << endl;
+        }
+        else for (int i = K-1; i >= 0; i--){
+            if (cur->son[i]!=nullptr)
+                q.push(cur->son[i]);
+        }
+    }
 }
 
 void addString(string s, int patternNumber, Node* root){
     Node* cur = root;
     for (size_t i = 0; i < s.length(); i++){
         char ch = s[i];
-        int c = SYM(ch);
+        char c = SYM(ch);
         if (cur->son[c] == nullptr){
             cur->son[c] = new Node;
             cur->son[c]->parent = cur;
             cur->son[c]->charToParent = ch;
         }
+        cur->isLeaf = false;
         cur = cur->son[c];
     }
     cur->isLeaf = true;
@@ -45,7 +70,7 @@ Node* getSuffLink(Node* v, Node* root){
 }
 
 Node* getLink(Node* v, char c, Node* root){
-    int nc = SYM(c);
+    char nc = SYM(c);
     if (v->go[nc] == nullptr){
         if (v->son[nc])
             v->go[nc] = v->son[nc];
@@ -59,12 +84,12 @@ Node* getLink(Node* v, char c, Node* root){
 
 Node* getUp(Node* v, Node* root){
     if (v->up == nullptr){
-        if (getSuffLink(v)->isLeaf)
+        if (getSuffLink(v, root)->isLeaf)
             v->up = getSuffLink(v, root);
         else if (getSuffLink(v, root) == root)
-            v->up == root;
+            v->up = root;
         else
-            v->up = getUp(getSuffLink(v, root));
+            v->up = getUp(getSuffLink(v, root), root);
     }
     return v->up;
 }
