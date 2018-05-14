@@ -42,7 +42,7 @@ void out(Node* n){
     }
 }
 
-void addString(string s, int patternNumber, Node* root){
+void addString(const string & s, int patternNumber, Node* root){
     Node* cur = root;
     for (size_t i = 0; i < s.length(); i++){
         char ch = s[i];

@@ -20,7 +20,8 @@ typedef struct Node{
 }Node;
 
 char SYM(const char ch);
-void addString(string s, int patternNumber, Node* root);
+
+void addString(const string & s, int patternNumber, Node* root);
 void out(Node* n);
 Node* getSuffLink(Node* v, Node* root);
 Node* getLink(Node* v, char c, Node* root);
