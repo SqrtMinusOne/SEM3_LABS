@@ -2,19 +2,7 @@
 //#include "gtest/gtesh.h"
 #include <iostream>
 
-void out(Node* n){
-    if (n == nullptr)
-        return;
-    cout << n->charToParent;
-    if (n->leafPatternNumber.size()!=0)
-        cout << "!";
-    cout << " ";
-    for (int i = 0; i < 26; i++){
-        out(n->son[i]);
-    }
-    if (n->isLeaf)
-        cout << endl;
-}
+
 
 int main()
 {
@@ -26,6 +14,8 @@ int main()
     addString("he", 1, root);
     addString("hers", 2, root);
     addString("she", 3, root);
+    Node* e = root->son[SYM('s')]->son[SYM('h')]->son[SYM('e')];
+    getSuffLink(e, root);
     out(root);
     return 0;
 }
