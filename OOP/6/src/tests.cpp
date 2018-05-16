@@ -1,7 +1,9 @@
 #include "color.h"
-//#include "shape.h"
 #include "point.h"
 #include "vector.hpp"
+#include "shape.hpp"
+#include "circle.hpp"
+#include "pentagon.hpp"
 #include "gtest/gtest.h"
 
 TEST(PointTest, PointTest1){
@@ -16,6 +18,49 @@ TEST(PointTest, PointTest1){
     ASSERT_TRUE(p1 == Point(4,6));
     p1 = p1 / 2;
     ASSERT_TRUE(p1 == Point(2,3));
+    p1.SetR(p1.GetR());
+    p1.SetPhi(p1.GetPhi());
+    ASSERT_TRUE(p1 == Point(2,3));
+}
+
+TEST(ShapeTest, ShapeTest1){
+    Shape* ptr = new Shape();
+    ASSERT_TRUE(ptr->getCenter() == Point(0,0));
+    ASSERT_EQ(ptr->square(), 0);
+    ptr->move(Point(20, 20));
+    ASSERT_TRUE(ptr->getCenter() == Point(20, 20));
+    ASSERT_TRUE(ptr->getColor() ==  Black);
+    delete ptr;
+}
+
+TEST(CircleTest, CircleTest1){
+    Circle* circ = new Circle(Pzero, 20);
+    ASSERT_EQ(circ->getRadius(), 20);
+    ASSERT_TRUE(circ->onCircle(Point(20, 0)));
+    ASSERT_TRUE(circ->onCircle(Point(20*sqrt(2)/2, 20*sqrt(2)/2)));
+    circ->setRadius(50.5);
+    ASSERT_EQ(circ->getRadius(), 50.5);
+    ASSERT_EQ(circ->square(), M_PI * 50.5 * 50.5);
+    delete circ;
+}
+
+TEST(CircleTest, CirclePolymorphTest){
+    Shape* shp = new Circle(Pzero, 10);
+    ASSERT_EQ(shp->square(), M_PI * 10 * 10);
+    shp->resize(2);
+    ASSERT_EQ(shp->square(), M_PI * 20 * 20);
+    delete shp;
+}
+
+TEST(PentagonTest, PentagonTest1){
+    vector<Point> pvec = {Point(0,0), Point(2,2), Point(4,2), Point(6,0), Point(3, -4)};
+    Pentagon* pnt = new Pentagon(pvec);
+    ASSERT_TRUE(pnt->getCenter() == Point(3,0));
+    ASSERT_EQ(pnt->square(), 20);
+    pnt->resize(2);
+    vector<Point> pts = pnt->points();
+    ASSERT_EQ(pnt->square(), 80);
+    pnt->square();
 }
 
 int main(int argc, char *argv[])

@@ -1,10 +1,13 @@
+#ifndef VECTOR_HPP
+#define VECTOR_HPP
+
 #include <iostream>
 #include <assert.h>
 #include <algorithm> // std::copy, std::rotate
 #include <cstddef> // size_t
 #include <iterator>
 
-#define TEST
+//#define TEST
 
 #ifdef TEST
 using std::cout;
@@ -88,7 +91,7 @@ namespace stepik
             Debug("Moving constructor");
             swap(*this, other);
         }
-        
+
         ~vector()
         {
             Debug("Destroying");
@@ -293,3 +296,5 @@ namespace stepik
         iterator m_last;
     };
 }// namespace stepik
+
+#endif

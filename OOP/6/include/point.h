@@ -2,6 +2,7 @@
 #define POINT
 
 #include <iostream>
+#include <cmath>
 
 using namespace std;
 class Point {
@@ -23,8 +24,12 @@ public:
 	//Get, Set
 	double GetX() const { return x; }
 	double GetY() const { return y; }
+	double GetR() const { return sqrt(x*x + y*y); }
+	double GetPhi() const;
 	void SetX(double xs) { x = xs; }
 	void SetY(double ys) { y = ys; }
+	double SetR(double R);
+	double SetPhi(double Phi);
 private:
 	double x;
 	double y;
@@ -33,4 +38,6 @@ private:
 bool operator==(const Point & a, const Point & b);
 Point operator+(const Point & p1, const Point & p2);
 Point operator-(const Point & p1, const Point & p2);
+
+const Point Pzero(0,0);
 #endif // POINT
