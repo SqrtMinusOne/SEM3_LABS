@@ -33,9 +33,7 @@
 
 #Build
 *Debug*
-*build*
-*.txt
-*.txt
+*build/*
 OOP/1/.vs/stepik_1_1_4(4)/v14/.suo
 *.ipch
 *.db
@@ -46,3 +44,9 @@ OOP/1/.vs/stepik_1_1_4(4)/v14/.suo
 *.autosave
 *.user
 *.user
+=======
+*user*
+
+#Archives
+*.zip
+*.tar*
