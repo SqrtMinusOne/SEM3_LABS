@@ -4,6 +4,7 @@
 #include "shape.hpp"
 #include "circle.hpp"
 #include "pentagon.hpp"
+#include "regular_pentagon.hpp"
 #include "gtest/gtest.h"
 
 TEST(PointTest, PointTest1){
@@ -61,6 +62,15 @@ TEST(PentagonTest, PentagonTest1){
     vector<Point> pts = pnt->points();
     ASSERT_EQ(pnt->square(), 80);
     pnt->square();
+    delete pnt;
+}
+
+TEST(RegularPentagonTest, RegularPentagonTest1){
+    RegularPentagon* rpnt = new RegularPentagon(Pzero, 20);
+    ASSERT_EQ(rpnt->square(), 951.0565162951535);
+    Shape* shp = rpnt;
+    ASSERT_EQ(rpnt->square(), 951.0565162951535);
+    delete rpnt;
 }
 
 int main(int argc, char *argv[])

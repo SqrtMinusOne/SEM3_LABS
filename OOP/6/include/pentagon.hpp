@@ -8,10 +8,14 @@ using std::vector;
 
 class Pentagon : public Shape{
 public:
-    Pentagon(vector<Point> points) : pts(points) {
+    Pentagon() : Shape(){
+        for (int i = 0; i < 5; i++)
+            pts.push_back(Point(0,0));
+    }
+    Pentagon(vector<Point> points) : Shape(), pts(points) {
         adjustPoints();
     }
-    Pentagon(Point p1, Point p2, Point p3, Point p4, Point p5) : pts{p1, p2, p3, p4, p5}{
+    Pentagon(Point p1, Point p2, Point p3, Point p4, Point p5) : Shape(), pts{p1, p2, p3, p4, p5}{
         adjustPoints();
     }
     vector<Point> points(){
@@ -25,10 +29,15 @@ public:
         return res;
     }
     Point getPoint(int n){
-        if ((n >= 0) && (n < 5))
-            Point p = res[n];
-            p.SetR(it.GetR() * mult);
-            p.SetPhi(it.GetPhi() + angle);
+        if ((n >= 0) && (n < 5)){
+            Point p = pts[n];
+            p.SetR(pts[n].GetR() * mult);
+            p.SetPhi(pts[n].GetPhi() + angle);
+            return p;
+        }
+        else{
+            throw std::out_of_range("Out of range");
+        }
     }
     double square(){
         double a=0; double b=0; double xp=pts[0].GetX()*mult; double yp=pts[0].GetY()*mult;
@@ -50,7 +59,7 @@ public:
         return os;
     }
 
-private:
+protected:
     Point calculateCenter(){
         Point cnt;
         for (auto it : pts){

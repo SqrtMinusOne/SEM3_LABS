@@ -5,7 +5,7 @@ set(CMAKE_CXX_FLAGS "-std=c++11 -ggdb")
 find_package(GTest REQUIRED)
 include_directories(include ${GTEST_INCLUDE_DIRS})
 
-set (FIGURES src/point.cpp src/shape.cpp src/color.cpp include/shape.hpp include/circle.hpp)
+set (FIGURES src/point.cpp src/shape.cpp src/color.cpp include/shape.hpp include/circle.hpp include/regular_pentagon.hpp)
 set (AUX include/vector.hpp)
 set (SOURCE src/main.cpp)
 set (TESTSOURCE src/tests.cpp)
