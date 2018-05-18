@@ -24,6 +24,7 @@ public:
             Point p = it;
             p.SetR(it.GetR() * mult);
             p.SetPhi(it.GetPhi() + angle);
+            p = p + center;
             res.push_back(p);
         }
         return res;
@@ -33,6 +34,7 @@ public:
             Point p = pts[n];
             p.SetR(pts[n].GetR() * mult);
             p.SetPhi(pts[n].GetPhi() + angle);
+            p = p + center;
             return p;
         }
         else{

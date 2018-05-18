@@ -58,8 +58,10 @@ TEST(PentagonTest, PentagonTest1){
     Pentagon* pnt = new Pentagon(pvec);
     ASSERT_TRUE(pnt->getCenter() == Point(3,0));
     ASSERT_EQ(pnt->square(), 20);
-    pnt->resize(2);
     vector<Point> pts = pnt->points();
+    ASSERT_EQ(pts, pvec);
+    pnt->resize(2);
+
     ASSERT_EQ(pnt->square(), 80);
     pnt->square();
     delete pnt;
