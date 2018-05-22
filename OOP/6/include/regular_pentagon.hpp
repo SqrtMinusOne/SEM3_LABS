@@ -4,25 +4,24 @@
 #include "point.h"
 #include "pentagon.hpp"
 
-class RegularPentagon : public Pentagon
+class RegularPentagon : public PentagonRandom
 {
 public:
-    RegularPentagon(Point cnt = Pzero, Point p = Pzero) : Pentagon(){
+    RegularPentagon(Point cnt = Pzero, Point p = Pzero) : PentagonRandom(){
         center = cnt;
         p = p - cnt;
         pts.clear();
-        double ang = 0;
-        for (int i = 0; i < 5; i++, ang+=(2*M_PI/5)){
-            Point temp = p;
-            temp.SetPhi(ang);
-            pts[i] = temp;
-        }
+        makePoints(p);
     }
-    RegularPentagon(Point cnt, double rad) : Pentagon()
+    RegularPentagon(Point cnt, double rad) : PentagonRandom()
     {
         center = cnt;
         Point p;
         p.SetR(rad);
+        makePoints(p);
+    }
+private:
+    void makePoints(Point p){
         double ang = 0;
         for (int i = 0; i < 5; i++, ang+=(2*M_PI/5)){
             Point temp = p;

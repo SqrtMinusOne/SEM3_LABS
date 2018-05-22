@@ -12,7 +12,6 @@
 #ifdef TEST
 using std::cout;
 using std::endl;
-using namespace std;
 #endif //TEST
 
 using namespace std;

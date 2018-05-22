@@ -1,7 +1,5 @@
 #include "point.h"
 
-#define M_PI 3.14159265358979323846
-
 void swap(Point & first, Point & second)
 {
 	swap(first.x, second.x);
@@ -83,4 +81,16 @@ double Point::SetPhi(double Phi){
 	double R = GetR();
 	x = R * cos(Phi);
 	y = R * sin(Phi);
+}
+
+void Point::AdjustR(double mult){
+	if (mult!=1){
+		SetR(GetR()*mult);
+	}
+}
+
+void Point::AdjustPhi(double angle){
+	if (angle!=0){
+		SetPhi(GetPhi() + angle);
+	}
 }

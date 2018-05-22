@@ -1,5 +1,5 @@
 
-#define DEBUG
+//#define DEBUG
 void Debug(const char* str, int a = 0){
 #ifdef DEBUG
     for (int i=0; i<=a; i++)

@@ -61,7 +61,6 @@ TEST(PentagonTest, PentagonTest1){
     vector<Point> pts = pnt->points();
     ASSERT_EQ(pts, pvec);
     pnt->resize(2);
-
     ASSERT_EQ(pnt->square(), 80);
     pnt->square();
     delete pnt;

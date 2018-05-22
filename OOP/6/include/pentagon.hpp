@@ -3,27 +3,23 @@
 
 #include "point.h"
 #include <vector>
+#include <stdexcept>
 
 using std::vector;
 
-class Pentagon : public Shape{
+class PentagonRandom : public Shape{
 public:
-    Pentagon() : Shape(){
+    PentagonRandom() : Shape(){
         for (int i = 0; i < 5; i++)
             pts.push_back(Point(0,0));
     }
-    Pentagon(vector<Point> points) : Shape(), pts(points) {
-        adjustPoints();
-    }
-    Pentagon(Point p1, Point p2, Point p3, Point p4, Point p5) : Shape(), pts{p1, p2, p3, p4, p5}{
-        adjustPoints();
-    }
+
     vector<Point> points(){
         vector<Point> res;
         for (auto it : pts){
             Point p = it;
-            p.SetR(it.GetR() * mult);
-            p.SetPhi(it.GetPhi() + angle);
+            p.AdjustR(mult);
+            p.AdjustPhi(angle);
             p = p + center;
             res.push_back(p);
         }
@@ -32,8 +28,8 @@ public:
     Point getPoint(int n){
         if ((n >= 0) && (n < 5)){
             Point p = pts[n];
-            p.SetR(pts[n].GetR() * mult);
-            p.SetPhi(pts[n].GetPhi() + angle);
+            p.AdjustR(mult);
+            p.AdjustPhi(angle);
             p = p + center;
             return p;
         }
@@ -53,7 +49,7 @@ public:
         b = b + yp * pts[0].GetX()*mult;
         return abs((a-b)/2);
     }
-    friend ostream& operator<<(ostream& os, const Pentagon& dt){
+    friend ostream& operator<<(ostream& os, const PentagonRandom& dt){
         os << "C: " << dt.center;
         for (auto it : dt.pts){
             os << " P " << it;
@@ -79,4 +75,17 @@ protected:
     vector<Point> pts;
 };
 
+class Pentagon : public PentagonRandom{
+public:
+    Pentagon() : PentagonRandom()
+    {}
+    Pentagon(vector<Point> points) : PentagonRandom() {
+        pts = points;
+        adjustPoints();
+    }
+    Pentagon(Point p1, Point p2, Point p3, Point p4, Point p5) : PentagonRandom(){
+        pts = {p1, p2, p3, p4, p5};
+        adjustPoints();
+    }
+};
 #endif

@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <cmath>
+#include <cstdlib>
 
 using namespace std;
 class Point {
@@ -30,6 +31,8 @@ public:
 	void SetY(double ys) { y = ys; }
 	double SetR(double R);
 	double SetPhi(double Phi);
+	void AdjustR(double mult);
+	void AdjustPhi(double angle);
 private:
 	double x;
 	double y;
