@@ -87,5 +87,21 @@ public:
         pts = {p1, p2, p3, p4, p5};
         adjustPoints();
     }
+    Pentagon(int min, int max) : PentagonRandom() {
+        center = Point().Rand(min, max);
+        int rd = (max - min) / 10;
+        double PhiDeg = 0;
+        pts.clear();
+        for (int i = 0; i < 5; i++){
+            PhiDeg = 72*i + rand() % 72;
+            double PhiRad = PhiDeg/180*M_PI;
+            Point p;
+            p.SetR(rand()%rd + rd/2);
+            p.SetPhi(PhiRad);
+            p = p + center;
+            pts.push_back(p);
+        }
+        adjustPoints();
+    }
 };
 #endif

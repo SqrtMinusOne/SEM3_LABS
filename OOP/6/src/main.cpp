@@ -11,26 +11,11 @@
 #include "shared_ptr.hpp"
 #include "vector.hpp"
 
-#define N 3
+#include "alg.hpp"
+
+#define N 1000
 
 using namespace std;
-
-Pentagon* psRandRect(int min, int max){
-    Point cnt = Point().Rand(min, max);
-    int rd = (max - min) / 10;
-    double PhiDeg = 0;
-    vector<Point> pts;
-    for (int i = 0; i < 5; i++){
-        PhiDeg = 72*i + rand() % 72;
-        double PhiRad = PhiDeg/180*M_PI;
-        Point p;
-        p.SetR(rand()%rd + rd/2);
-        p.SetPhi(PhiRad);
-        pts.push_back(p);
-    }
-    Pentagon* res = new Pentagon(pts);
-    return res;
-}
 
 int main(){
     stepik::vector<stepik::shared_ptr<Shape>> vect(N);
@@ -42,21 +27,17 @@ int main(){
         switch (choice){
             case 0: shp = new Circle(Point().Rand(0, 1000), rand()%100); break;
             case 1: shp = new RegularPentagon(Point().Rand(0, 1000), rand()%100); break;
-            case 2: shp = psRandRect(0, 1000); break;
+            case 2: shp = new Pentagon(0, 1000); break;
         }
         stepik::shared_ptr<Shape> ptr(shp);
-        vect.push_back(ptr);
+        vect[i] = ptr;
     }
-    double sq = 0;
-    stepik::shared_ptr<Shape> * max;
     Shape* toReplace = new Circle(Point(500, 500), 500);
-    for (int i = 0; i < N; i++){
-        if (vect[i]->square() > sq){
-            sq = vect[i]->square();
-            cout << sq << endl;
-            max = &vect[i];
-        }
-    }
-    max->reset(toReplace);
-
+    stepik::shared_ptr<Shape> toReplacePtr(toReplace);
+    size_t max = getMaxSq(vect);
+    printMaxSq(vect);
+    double sq = vect[max]->square();
+    replaceSq(vect, toReplacePtr, sq - 1);
+    cout << "---" << endl;
+    printMaxSq(vect);
 }

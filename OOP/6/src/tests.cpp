@@ -1,10 +1,15 @@
 #include "color.h"
 #include "point.h"
-#include "vector.hpp"
 #include "shape.hpp"
 #include "circle.hpp"
 #include "pentagon.hpp"
 #include "regular_pentagon.hpp"
+
+#include "vector.hpp"
+#include "shared_ptr.hpp"
+
+#include "alg.hpp"
+
 #include "gtest/gtest.h"
 
 TEST(PointTest, PointTest1){
@@ -72,6 +77,27 @@ TEST(RegularPentagonTest, RegularPentagonTest1){
     Shape* shp = rpnt;
     ASSERT_EQ(rpnt->square(), 951.0565162951535);
     delete rpnt;
+}
+
+TEST(AlgTest, AlgTest1){
+    vect_type vect;
+    vect.push_back(stepik::shared_ptr<Shape>(new Circle(Pzero, 3)));
+    vect.push_back(stepik::shared_ptr<Shape>(new RegularPentagon(Pzero, 9)));
+    vect.push_back(stepik::shared_ptr<Shape>(new Circle(Pzero, 6)));
+    vect.push_back(stepik::shared_ptr<Shape>(new RegularPentagon(Pzero, 10)));
+    vect.push_back(stepik::shared_ptr<Shape>(new Circle(Pzero, 10)));
+    ASSERT_EQ(getMaxSq(vect), 4);
+}
+
+TEST (AlgTest, AlgTest2){
+    vect_type vect;
+    vect.push_back(stepik::shared_ptr<Shape>(new Circle(Pzero, 20)));
+    vect.push_back(stepik::shared_ptr<Shape>(new RegularPentagon(Pzero, 20)));
+    vect.push_back(stepik::shared_ptr<Shape>(new Circle(Pzero, 4)));
+    vect.push_back(stepik::shared_ptr<Shape>(new RegularPentagon(Pzero, 7)));
+    vect.push_back(stepik::shared_ptr<Shape>(new Circle(Pzero, 6)));
+    replaceSq(vect, stepik::shared_ptr<Shape>(new Circle(Pzero, 1)), 100);
+    ASSERT_EQ(getMaxSq(vect), 2);
 }
 
 int main(int argc, char *argv[])

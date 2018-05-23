@@ -1,3 +1,6 @@
+#ifndef SHARED_PTR_HPP
+#define SHARED_PTR_HPP
+
 
 //#define DEBUG
 void Debug(const char* str, int a = 0){
@@ -84,7 +87,8 @@ public:
 
     count_type use_count() const
     {
-        return *count_ptr;
+        if (count_ptr)
+            return *count_ptr;
     }
 
     count_type* get_count() const{
@@ -127,3 +131,5 @@ bool operator==( const shared_ptr<U>& a, const shared_ptr<Y>& b ) noexcept
 
 
 } // namespace stepik
+
+#endif
