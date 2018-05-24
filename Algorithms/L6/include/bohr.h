@@ -19,9 +19,9 @@ typedef struct Node{
     Node();
 }Node;
 
-char SYM(const char ch);
+char SYM(const char ch, const char jok = 0);
 
-void addString(const string & s, int patternNumber, Node* root);
+void addString(const string & s, int patternNumber, Node* root, const char jok = 0);
 void out(Node* n);
 Node* getSuffLink(Node* v, Node* root);
 Node* getLink(Node* v, char c, Node* root);

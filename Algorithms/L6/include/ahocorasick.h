@@ -19,6 +19,6 @@ void convertStepik(ACres & res, vector<size_t> & len);
 
 void processText(const string & T, Node* root, ACres & res);
 
-ACres doAhoCorasick(const string & T, const vector<string> & P);
+ACres doAhoCorasick(const string & T, const vector<string> & P, const char joker = 0);
 
 #endif

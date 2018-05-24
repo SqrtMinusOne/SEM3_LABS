@@ -1,6 +1,6 @@
 #include "bohr.h"
 
-#define K 26
+#define K 27
 
 using namespace std;
 
@@ -16,9 +16,13 @@ Node::Node(){
     charToParent = 0;
 }
 
-char SYM(const char ch){
+char SYM(const char ch, const char jok){
+    static char joker = jok;
+    if ((joker!=jok) && (jok!=0) && (jok!=32))
+        joker = jok;
+    if (((ch == joker) || (jok == 32)) && (joker!=0))
+        return 26;
     return tolower(ch) - 'a';
-
 }
 
 void out(Node* n){
@@ -42,11 +46,11 @@ void out(Node* n){
     }
 }
 
-void addString(const string & s, int patternNumber, Node* root){
+void addString(const string & s, int patternNumber, Node* root, const char jok){
     Node* cur = root;
     for (size_t i = 0; i < s.length(); i++){
         char ch = s[i];
-        char c = SYM(ch);
+        char c = SYM(ch, jok);
         if (cur->son[c] == nullptr){
             cur->son[c] = new Node;
             cur->son[c]->parent = cur;
@@ -71,11 +75,16 @@ Node* getSuffLink(Node* v, Node* root){
 
 Node* getLink(Node* v, char c, Node* root){
     char nc = SYM(c);
+    char jok = SYM(0, 32);
     if (v->go[nc] == nullptr){
         if (v->son[nc])
             v->go[nc] = v->son[nc];
         else if (v == root)
             v->go[nc] = root;
+        else if (v->son[jok]){
+            v->go[jok] = v->son[jok];
+            return v->go[jok];
+        }
         else
             v->go[nc] = getLink(getSuffLink(v, root), c, root);
     }
@@ -84,7 +93,7 @@ Node* getLink(Node* v, char c, Node* root){
 
 Node* getUp(Node* v, Node* root){
     if (v->up == nullptr){
-        if (getSuffLink(v, root)->isLeaf)
+        if (getSuffLink(v, root)->leafPatternNumber.size())
             v->up = getSuffLink(v, root);
         else if (getSuffLink(v, root) == root)
             v->up = root;
