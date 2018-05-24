@@ -79,12 +79,12 @@ Node* getLink(Node* v, char c, Node* root){
     if (v->go[nc] == nullptr){
         if (v->son[nc])
             v->go[nc] = v->son[nc];
-        else if (v == root)
-            v->go[nc] = root;
         else if (v->son[jok]){
             v->go[jok] = v->son[jok];
             return v->go[jok];
         }
+        else if (v == root)
+            v->go[nc] = root;
         else
             v->go[nc] = getLink(getSuffLink(v, root), c, root);
     }
