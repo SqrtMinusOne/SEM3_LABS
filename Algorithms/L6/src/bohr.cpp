@@ -1,14 +1,15 @@
 #include "bohr.h"
 
 #define K 27
+#define JOK_CONST 32
 
 using namespace std;
 
 Node::Node(){
     son.resize(K);
-    son.assign(K, nullptr);
+    son.assign(K, Node_list(0));
     go.resize(K);
-    go.assign(K, nullptr);
+    go.assign(K, Node_list(0));
     parent = nullptr;
     suffLink = nullptr;
     up = nullptr;
@@ -16,48 +17,59 @@ Node::Node(){
     charToParent = 0;
 }
 
-char SYM(const char ch, const char jok){
-    static char joker = jok;
-    if ((joker!=jok) && (jok!=0) && (jok!=32))
-        joker = jok;
-    if (((ch == joker) || (jok == 32)) && (joker!=0))
-        return 26;
-    return tolower(ch) - 'a';
-}
-
-void out(Node* n){
-    stack<Node*> q;
-    q.push(n);
-    while (!q.empty()){
-        Node* cur = q.top();
-        q.pop();
-        if (cur->charToParent!=0)
-            cout << cur->charToParent;
-        if (!cur->leafPatternNumber.empty())
-            cout << "!";
-        cout << " ";
-        if (cur->isLeaf){
-            cout << endl;
-        }
-        else for (int i = K-1; i >= 0; i--){
-            if (cur->son[i]!=nullptr)
-                q.push(cur->son[i]);
-        }
+Node* isSon(vector<Node_list> & vec, const char_t ch){
+    char_t n = SYM(ch);
+    for (auto it : vec[n]){
+        if (it.ch == ch)
+          return it.link;
     }
+    return nullptr;
 }
 
-void addString(const string & s, int patternNumber, Node* root, const char jok){
+Node* addLink(Node* v, vector<Node_list> & vec, const char_t ch){
+    char_t n = SYM(ch);
+    vec[n].push_back({v, ch}); 
+    return v;   
+}
+
+Node* addSon(Node* v, vector<Node_list> & vec, const char_t ch){
+    //char_t n = SYM(ch);
+    Node* node = new Node;
+    node->parent = v;
+    node->charToParent = ch;
+    addLink(node, vec, ch);
+    return node;
+}
+
+char_t SYM(const char_t ch, const char_t jok){
+    static char_t joker = jok;
+    if ((joker!=jok) && (jok!=0) && (jok!=JOK_CONST))
+        joker = jok;
+    if ((ch == 0) && (jok == JOK_CONST))
+        return joker;
+    else if (((ch == joker) || (jok == JOK_CONST)) && (joker!=0))
+        return K - 1;
+    return ch % (K - 1);
+}
+
+void addString(const string & s, int patternNumber, Node* root, const char_t jok){
     Node* cur = root;
+    SYM(0, jok);
     for (size_t i = 0; i < s.length(); i++){
-        char ch = s[i];
-        char c = SYM(ch, jok);
+        char_t ch = s[i];
+        Node* son = isSon(cur->son, ch);
+        if (!son){
+            son = addSon(cur, cur->son, ch);
+        }
+        /* char_t c = SYM(ch, jok);
         if (cur->son[c] == nullptr){
             cur->son[c] = new Node;
             cur->son[c]->parent = cur;
             cur->son[c]->charToParent = ch;
-        }
+        } */
         cur->isLeaf = false;
-        cur = cur->son[c];
+        //cur = cur->son[c];
+        cur = son;
     }
     cur->isLeaf = true;
     cur->leafPatternNumber.push_back(patternNumber);
@@ -73,22 +85,29 @@ Node* getSuffLink(Node* v, Node* root){
     return v->suffLink;
 }
 
-Node* getLink(Node* v, char c, Node* root){
-    char nc = SYM(c);
-    char jok = SYM(0, 32);
-    if (v->go[nc] == nullptr){
-        if (v->son[nc])
-            v->go[nc] = v->son[nc];
-        else if (v->son[jok]){
-            v->go[jok] = v->son[jok];
-            return v->go[jok];
+Node* getLink(Node* v, char_t c, Node* root){
+  //  char_t nc = SYM(c);
+    char_t jok = SYM(0, JOK_CONST);
+    Node* goLink = isSon(v->go, c);
+    Node* son;
+  //  if (v->go[nc] == nullptr){
+    if (goLink == nullptr){   
+        if ((son = isSon(v->son, c))!=nullptr){
+            //v->go[nc] = v->son[nc];
+            goLink = addLink(son, v->go, c);
+        }
+        else if ((son = isSon(v->son, jok))!=nullptr){
+            //v->go[jok] = v->son[jok];
+            goLink = addLink(son, v->go, jok); 
+            //return v->go[jok];
+            return goLink;
         }
         else if (v == root)
-            v->go[nc] = root;
+            goLink = addLink(root, v->go, c);
         else
-            v->go[nc] = getLink(getSuffLink(v, root), c, root);
+            goLink = addLink(getLink(getSuffLink(v, root), c, root), v->go, c);
     }
-    return v->go[nc];
+    return goLink;
 }
 
 Node* getUp(Node* v, Node* root){
