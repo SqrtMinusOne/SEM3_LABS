@@ -61,14 +61,7 @@ void addString(const string & s, int patternNumber, Node* root, const char_t jok
         if (!son){
             son = addSon(cur, cur->son, ch);
         }
-        /* char_t c = SYM(ch, jok);
-        if (cur->son[c] == nullptr){
-            cur->son[c] = new Node;
-            cur->son[c]->parent = cur;
-            cur->son[c]->charToParent = ch;
-        } */
         cur->isLeaf = false;
-        //cur = cur->son[c];
         cur = son;
     }
     cur->isLeaf = true;
@@ -86,20 +79,15 @@ Node* getSuffLink(Node* v, Node* root){
 }
 
 Node* getLink(Node* v, char_t c, Node* root){
-  //  char_t nc = SYM(c);
     char_t jok = SYM(0, JOK_CONST);
     Node* goLink = isSon(v->go, c);
     Node* son;
-  //  if (v->go[nc] == nullptr){
     if (goLink == nullptr){   
         if ((son = isSon(v->son, c))!=nullptr){
-            //v->go[nc] = v->son[nc];
             goLink = addLink(son, v->go, c);
         }
         else if ((son = isSon(v->son, jok))!=nullptr){
-            //v->go[jok] = v->son[jok];
             goLink = addLink(son, v->go, jok); 
-            //return v->go[jok];
             return goLink;
         }
         else if (v == root)

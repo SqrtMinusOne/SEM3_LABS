@@ -27,7 +27,7 @@ typedef struct Node{
     Node* suffLink;
     Node* up; //Compressed suffix link
     bool isLeaf;
-    vector<int> leafPatternNumber; //test
+    vector<int> leafPatternNumber;
     Node();
 }Node;
 
