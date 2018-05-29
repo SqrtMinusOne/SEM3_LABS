@@ -38,17 +38,18 @@ void convertStepik(ACres & res, vector<size_t> & len){
     }
 }
 
-ACres doAhoCorasick(const string & T, const vector<string> & P){
+ACres doAhoCorasick(const string & T, const vector<string> & P,  const char joker){
     ACres res;
     Node* bohr = new Node;
     size_t size = P.size();
     vector <size_t> len(size);
     int i = 0;
     for (auto it : P){
-        addString(it, i, bohr);
+        addString(it, i, bohr, joker);
         len[i++] = it.length();
     }
     processText(T, bohr, res);
     convertStepik(res, len);
+
     return res;
 }
