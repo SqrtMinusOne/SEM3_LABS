@@ -15,8 +15,16 @@ void Color::Enter(){
     cin >> r >> g >> b;
 }
 
+Color& Color::operator= (const Color & c){
+    r = c.R(); g = c.G(); b = c.B();
+}
+
 ostream & operator<<(ostream& os, Color& col)
 {
 	os << "R: " << col.R() << "; G: " << col.G() << "; B:" << col.B();
 	return os;
+}
+
+bool operator==(const Color & a, const Color & b){
+    return ((a.R()==b.R()) && (a.G()==b.G()) && (a.B()==b.B()));
 }

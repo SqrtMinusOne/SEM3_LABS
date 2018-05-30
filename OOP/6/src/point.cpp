@@ -61,3 +61,36 @@ Point & Point::operator*(double i)
 bool operator==(const Point & a, const Point & b){
 	return ((a.GetX() == b.GetX()) && (a.GetY() == b.GetY()));
 }
+
+double Point::GetPhi() const{
+	if ((x == 0) && (y > 0)) return M_PI/2;
+	if ((x == 0) && (y < 0)) return 3*M_PI/2;
+	if ((x > 0) && (y >= 0)) return atan(y/x);
+	if ((x > 0) && (y < 0)) return atan(y/x) + 2*M_PI;
+	if (x < 0) return atan(y/x) + M_PI;
+	return 0;
+}
+
+double Point::SetR(double R){
+	double Phi = GetPhi();
+	x = R * cos(Phi);
+	y = R * sin(Phi);
+}
+
+double Point::SetPhi(double Phi){
+	double R = GetR();
+	x = R * cos(Phi);
+	y = R * sin(Phi);
+}
+
+void Point::AdjustR(double mult){
+	if (mult!=1){
+		SetR(GetR()*mult);
+	}
+}
+
+void Point::AdjustPhi(double angle){
+	if (angle!=0){
+		SetPhi(GetPhi() + angle);
+	}
+}
