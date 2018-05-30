@@ -1,4 +1,5 @@
 #include "color.h"
+
 #include "point.h"
 #include "shape.hpp"
 #include "circle.hpp"

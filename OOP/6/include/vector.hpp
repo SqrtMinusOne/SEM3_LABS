@@ -7,7 +7,6 @@
 #include <cstddef> // size_t
 #include <iterator>
 
-//#define TEST
 
 #ifdef TEST
 using std::cout;
@@ -90,7 +89,6 @@ namespace stepik
             Debug("Moving constructor");
             swap(*this, other);
         }
-
         ~vector()
         {
             Debug("Destroying");
@@ -295,5 +293,4 @@ namespace stepik
         iterator m_last;
     };
 }// namespace stepik
-
 #endif

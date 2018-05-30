@@ -24,8 +24,8 @@ private:
     int r, g, b;
 };
 
-bool operator==(const Color & a, const Color & b);
 
+bool operator==(const Color & a, const Color & b);
 const Color Black(255, 255, 255);
 const Color White(0, 0, 0);
 const Color Red(255, 0, 0);

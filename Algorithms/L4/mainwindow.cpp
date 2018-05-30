@@ -43,7 +43,9 @@ int MainWindow::get_speed()
 
 void MainWindow::One_Step() //Один шаг алгоритма
 {
+    static int max_flow = 0;
     int end = gr1->FordFalkerson();
+    max_flow += gr1->path.min_flow;
         if (end){
             if (timer){
                 timer->stop();
@@ -53,6 +55,12 @@ void MainWindow::One_Step() //Один шаг алгоритма
             QMessageBox box;
             box.setText("Конец");
             box.exec();
+            QString str;
+            QTextStream strm(&str);
+            strm << "Maximum flow: " << max_flow;
+            box.setText(str);
+            box.exec();
+            max_flow = 0;
             return;
         }
     FordFalkRes();
